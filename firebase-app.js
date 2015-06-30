@@ -18,4 +18,5 @@ new FirebaseServer(5111, 'local.firebaseio.com',
       "name" : "Tyler James"
     }
   }
-});
+}
+);
