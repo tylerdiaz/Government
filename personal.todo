@@ -1,0 +1,108 @@
+Things to do:
+ [ ] Have a "browser focused" mode where the action is sent to Firebase to keep the "tick" going. (player_active: bool)
+ [x] Move event stream to custom styling @done (15-06-29 19:06)
+   [ ] Add 1s animation for new events
+ [ ] Create building design
+ [ ] Wireframe expand and explore tab
+ [ ] Create basic firebase example to start basing data off and affecting changes
+ [ ] Design dynamic map/building placement
+ [ ] Think of data structure for event graphs
+ [ ] Design event "investigate" panel
+ [ ] Design assign unit panel
+ [x] Authentication @done (15-06-28 15:55)
+ [ ] Research js object diffing for policy changes
+ [ ] Add design for tab notifications
+ [ ] Progress bars for buildings, land prepping, unit level, teaching progress,
+ [ ] Starting storyline
+   [ ] Escaped evil tribe
+   [ ] x2 building slots
+   [ ] 3 resources to start: Timber, Meals, Glowstones. Teach the player how to juggle these and how to make tradeoffs. Add stone to add new spearmen.
+   [ ] x1 scout (jupiter), x1 builder, x1 spearman, x1 villager (takes 2 bunnies to learn a trade)
+     [ ] Scouts: Explore for more land (potential building space), find villagers, random encounters with wildlife, uncommonly find basic blueprints, find cattered resources.
+     [ ] Builder: Completes building projects.
+     [ ] Villagers: Harvest rice, cut trees for timber, harvest basic resources.
+   [ ] Over the course of a bunny, add 2 new villagers and one drunk.
+   [ ] After 1 tiger, "begginers charm" has faded. The only way to attract new villagers is to be proactive about it.
+   [ ] After 1 bunny, another nearby village bumps into another village.
+
+---- ✄ -----------------------
+NOTES
+
+Logs vs Actionable Events vs Storylines ?
+Groups of people work together to do things. Should there be "UnitParties" ?
+"Overtime working" gets things done at x1.5 speed, but minus 1%/morrow/on-duty unit.
+Survival based - Can you build a village that survives longer than {x time frame}?
+
+DATA STRUCTURE
+{
+  name: "Karaden",
+  type: "village",
+  population: 3,
+  morale: 10.3,
+  timestamp: 93932,
+  resources: [
+    { resource: 'glowstones', amount: 1200, description: 'what a description would go here......' },
+    { resource: 'timber', amount: 25, description: 'what a description would go here......' },
+    { resource: 'rice', amount: 90, description: 'what a description would go here......' },
+    { resource: 'meat', amount: 100, description: 'what a description would go here......' },
+  ],
+  units: [
+    {
+     id: 103901,
+     name: "Walter",
+     title: "builder",
+     profession: "builder",
+     current_hp: 10,
+     max_hp: 10,
+     lvl: 2,
+     current_exp: 32,
+     max_exp: 150,
+     states: {},
+     on_duty: true,
+     duty_description: 'On Blacksmith#1',
+     costs: [
+       {
+         resource_type: 'meal',
+         resource_amount: 2,
+         frequency: 'morrow',
+         on_duty_contingency: false,
+       },
+       {
+         resource_type: 'glowstones',
+         resource_amount: 4,
+         frequency: 'morrow',
+         on_duty_contingency: true,
+       },
+     ],
+     perks: [
+       {
+         resource_type: 'construction',
+         resource_amount: 3,
+         frequency: 'moon',
+         on_duty_contingency: true,
+       },
+     ],
+    },
+    {}
+  ],
+  events: [
+    {},
+    {}
+  ],
+  buildings: [
+    {},
+    {}
+  ],
+  chances: [
+    {},
+    {}
+  ],
+  technologies: [
+    {},
+    {}
+  ],
+  relationships: [
+    {},
+    {}
+  ]
+}

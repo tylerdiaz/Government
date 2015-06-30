@@ -1,0 +1,331 @@
+// Place your apps css here
+body {
+  font-family: 'Montserrat', "Helvetica";
+  background:#2a170a url(/images/bg.jpg)repeat-x center top;
+  border-top:5px solid #322011;
+  color:#eee;
+}
+h5 {
+  font-size:13px;
+  margin:10px 15px 0;
+  text-transform: uppercase;
+}
+.container {
+  width: 893px
+}
+hr { border-color:rgba(255, 255, 255, .15); }
+input.form-control, textarea.form-control { border:1px solid #624C33; }
+input.form-control { padding:0 10px; }
+.header {
+  // background:#fff;
+  overflow:hidden;
+}
+#logo {
+  // background:#666;
+  margin: -3px 20px 0 0;
+  float:left;
+  font-weight: bold;
+  img {
+    vertical-align: text-top;
+    margin-top:-3px;
+  }
+  .subtle {
+    opacity:0.4;
+  }
+  a {
+    font-size:16px;
+    color:#fff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+}
+.navigation {
+  overflow:hidden;
+  // background:#999;
+  float:right;
+  color:#D6BC9A;
+  li {
+    float:left;
+    margin:5px 0px 0;
+    padding:0 6px;
+    border-right:1px solid #8B6C48;
+    border-left:2px solid #432C18;
+    &:last-child { border-right:none }
+    &:first-child { border-left:none }
+  }
+}
+
+.landing-auth {
+  position: relative;
+  height:450px;
+  .auth-container, #image-bg {
+    position: absolute;
+  }
+  #image-bg {
+    left:-35px;
+    top:-80px;
+  }
+  .auth-container {
+    height:320px;
+    width:340px;
+    margin:50px 250px;
+    background:rgba(0, 0, 0, 0.6);
+    padding:15px 30px;
+    border-radius:6px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 1);
+    .notifier {
+      text-align: center;
+      height:13px;
+      margin-top:-15px;
+      font-size:12px;
+      &.error-text {
+        color:#FEA1A5;
+      }
+    }
+    h5 {
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom:20px;
+      font-size: 13px;
+      text-transform: uppercase;
+      font-family: Georgia;
+      opacity: 0.8;
+    }
+  }
+}
+
+.gameplay-container {
+  background:rgba(0, 0, 0, 0.3);
+  min-height:500px;
+  .overview {
+    height:220px;
+    background:rgba(0, 0, 0, 0.4);
+    overflow:hidden;
+    position:relative;
+    &.daytime {
+      color:#0A3E51;
+      text-shadow:-1px 0 1px rgba(255, 255, 255, 0.7);
+      background: #88e0fe; /* Old browsers */
+      background: -moz-linear-gradient(top,  #88e0fe 0%, #b2eafc 60%, #ccf2fe 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#88e0fe), color-stop(60%,#b2eafc), color-stop(100%,#ccf2fe)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  #88e0fe 0%,#b2eafc 60%,#ccf2fe 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top,  #88e0fe 0%,#b2eafc 60%,#ccf2fe 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top,  #88e0fe 0%,#b2eafc 60%,#ccf2fe 100%); /* IE10+ */
+      background: linear-gradient(to bottom,  #88e0fe 0%,#b2eafc 60%,#ccf2fe 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#88e0fe', endColorstr='#ccf2fe',GradientType=0 ); /* IE6-9 */
+    }
+    &.evening {
+      color:#514200;
+      background: #fef0b4; /* Old browsers */
+      background: -moz-linear-gradient(top,  #fef0b4 0%, #fffef7 100%); /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fef0b4), color-stop(100%,#fffef7)); /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top,  #fef0b4 0%,#fffef7 100%); /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top,  #fef0b4 0%,#fffef7 100%); /* Opera 11.10+ */
+      background: -ms-linear-gradient(top,  #fef0b4 0%,#fffef7 100%); /* IE10+ */
+      background: linear-gradient(to bottom,  #fef0b4 0%,#fffef7 100%); /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fef0b4', endColorstr='#fffef7',GradientType=0 ); /* IE6-9 */
+    }
+    #user_map {
+      position:absolute;
+      top:-140px;
+      left:-230px;
+      -webkit-animation-duration: 60s;
+      animation-duration: 60s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+      -webkit-animation-timing-function: ease-in-out;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count:infinite;
+      -webkit-animation-iteration-count:infinite;
+      -webkit-animation-name: slowReveal;
+      animation-name: slowReveal;
+    }
+    .date_stats {
+      position:absolute;
+      bottom:5px;
+      left:10px;
+      font-size:17px;
+      text-shadow:0 0 3px #fff;
+      font-family: georgia;
+    }
+    ul.stats_list {
+      margin-top:5px;
+      li {
+        .badge {
+          text-shadow:none;
+          border-radius:3px;
+          font-size:12px;
+          margin-top:3px;
+        }
+        span.label {
+          font-size:12px;
+          text-transform: uppercase;
+        }
+        list-style: disc;
+        margin-left:15px;
+      }
+    }
+    .overview_stats {
+      position:relative;
+      top:10px;
+      left:500px;
+      width:350px;
+      .village_name {
+        margin:0;
+        font-size:19px
+      }
+    }
+  }
+}
+
+ul.game_tabs {
+  overflow: hidden;
+  margin:0;
+  li {
+    float:left;
+    a {
+      display:block;
+      width:282px;
+      text-align:center;
+      background:rgba(0, 0, 0, 0.4);
+      padding:22px 0;
+      font-size:16px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      &:hover {
+        background:rgba(0, 0, 0, 0.2);
+        text-decoration: underline;
+      }
+    }
+    &:last-child {
+      a {
+        width:284px;
+      }
+    }
+
+    &.active {
+      a {
+        background: none;
+        box-shadow:inset 0 4px 0 0 rgba(255, 255, 255, 0.1);
+        color:#ccc;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+@-webkit-keyframes slowReveal {
+  20% { top:-110px; left:-220px; }
+  35% { top:-210px; left:-190px; }
+  45% { top:-210px; left:-240px; }
+  60% { top:-140px; left:-230px; }
+}
+@keyframes slowReveal {
+  20% { top:-110px; left:-220px; }
+  35% { top:-210px; left:-190px; }
+  45% { top:-210px; left:-240px; }
+  60% { top:-140px; left:-230px; }
+}
+table.resource_table {
+  font-size:13px;
+  margin:10px;
+  color:#CEB5AA;
+  width:98%;
+  box-sizing: border-box;
+  thead {
+    margin:0;
+    line-height:1;
+    border-color:#54371F;
+  }
+  th, td { padding:5px 8px }
+  tbody tr:nth-child(odd) {
+     background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.unit_card {
+  overflow: hidden;
+  width:265px;
+  min-height:125px;
+  float:left;
+  background:rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin:5px;
+  padding:10px;
+  &.useless_unit { box-shadow:inset 0 0 0 4px rgba(255, 0, 0, 0.2); }
+  &.idle_unit { box-shadow:inset 0 0 0 4px rgba(255, 200, 0, 0.2); }
+  &.active_unit { box-shadow:inset 0 0 0 4px rgba(0, 180, 200, 0.2); }
+
+  .unit_tiny_card {
+    float:left;
+    width:66px;
+    text-align: center;
+    .unit_level {
+      font-size:10px;
+    }
+  }
+  .unit_info {
+    float:left;
+    width:179px;
+    font-size:11px;
+    line-height:1.35;
+    .unit_name { font-size:13px; line-height:1.8; }
+    .unit_injured {
+      background:#C23F2B;
+      color:#fff;
+      text-align:center;
+      border-radius:2px;
+      margin:0 0 2px 0;
+      &.unit_recovering { background:#32A200; }
+    }
+    span.negative_cost { color:#EB8F87; }
+    span.positive_cost { color:#93DB42; }
+  }
+}
+
+.tiny-alert {
+  &.notice {
+    background:#666205;
+    font-size:12px;
+    padding:5px;
+    margin:0 5px 10px;
+    border-radius:3px;
+    border:1px solid #BBB50D;
+    text-align: center;
+  }
+}
+
+ul.event_stream {
+  display: block;
+  overflow-y: scroll;
+  height: 420px;
+  background:rgba(0, 0, 0, 0.1);
+  border:1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  li {
+    padding:5px;
+    display: block;
+    overflow: hidden;
+    min-height:85px;
+    border-bottom:2px solid rgba(0, 0, 0, 0.5);
+    .event_image { float:left; width: 66px; height:66px; margin-right:10px; }
+    .event_information {
+      float:left;
+      width: 523px;
+      .title {
+        font-size: 16px;
+        line-height: 2;
+        margin:0;
+      }
+      p { margin:0; font-size:14px;
+      }
+    }
+  }
+}
+
+.footer {
+  text-align: center;
+  font-size:12px;
+  opacity:0.6;
+  padding:25px 10px 30px;
+}
