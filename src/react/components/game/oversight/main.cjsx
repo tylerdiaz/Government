@@ -4,8 +4,11 @@ OversightTab = React.createClass
       <div className="row" style={margin: 0}>
         <div className="col s3">
           {
-            if @props.data.clan.policies
-              <PolicyConfiguration initialPolicies={@props.data.clan.policies} />
+            if @props.data.clan.proposed_policies && @props.data.clan.current_policies
+              <PolicyConfiguration
+                currentPolicies={@props.data.clan.current_policies}
+                intialProposedPolicies={@props.data.clan.proposed_policies}
+              />
           }
         </div>
         <div className="col s9">
@@ -55,10 +58,9 @@ OptionSwitch = React.createClass
 PolicyConfiguration = React.createClass
   mixins: [React.addons.LinkedStateMixin]
   getInitialState: ->
-    @props.initialPolicies
-  # componentDidUpdate: (prevProps, prevState) ->
-  #   if JSON.stringify(@props.initialPolicies) != JSON.stringify(@state)
-  #     console.log 'oh we got some changes in here.'
+    @props.intialProposedPolicies
+  componentDidUpdate: (prevProps, prevState) ->
+    Global.firebaseRef.child("clans/#{Global.userId}/proposed_policies").set(@state)
   changeResearch: (event) ->
     @setState({ researchFocus: event.target.value })
   render: ->
@@ -98,12 +100,11 @@ PolicyConfiguration = React.createClass
           </form>
           <br />
           {
-            if JSON.stringify(@props.initialPolicies) != JSON.stringify(@state)
+            if JSON.stringify(@props.currentPolicies) != JSON.stringify(@state)
               <div className="tiny-alert notice">
                 Policy changes will come into effect at the next 1<sup>st</sup> morrow.
               </div>
           }
-
         </li>
       </ul>
     </div>
