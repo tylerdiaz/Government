@@ -20,6 +20,14 @@ var gulp = require('gulp'),
 gulp.task('default', function () {
   gulp.watch(['./src/sass/**/*.scss', './src/**/*.css'], ['stylesheet']);
   gulp.watch('./src/react/**/*.cjsx', ['javascript:react']);
+  gulp.watch('./game-server.js.coffee', ['game-server']);
+});
+
+// Javascript stuff
+gulp.task('game-server', function() {
+  gulp.src('./game-server.js.coffee')
+      .pipe(coffeex({ bare: true }).on('error', gutil.log))
+      .pipe(gulp.dest('./'))
 });
 
 // Javascript stuff
