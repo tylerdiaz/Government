@@ -77,6 +77,12 @@ gulp.task('images', function() {
   notify({ message: 'Images task complete' })
 });
 
+// Fonts
+gulp.task('fonts', function() {
+  gulp.src('./src/fonts/**/*').pipe(gulp.dest('dist/fonts'));
+  notify({ message: 'Fonts transfered' })
+});
+
 gulp.task('sprites', function() {
   [1,2,3,4,5].map(function(multiplier) {
     gulp.src("./src/images/sprites/**/*.png")
