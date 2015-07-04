@@ -13,22 +13,6 @@ Landing = React.createClass
       <Authentication />
     </div>
 
-CommunityTab = React.createClass
-  render: ->
-    <div>
-      <div className="clearfix" style={margin: 10, overflow: "hidden"}>
-        { @props.data.units.map (object, i) -> <UnitCard obj={object} key={i} /> }
-      </div>
-      <hr />
-      <h5>Buildings</h5>
-    </div>
-
-ExploreTab = React.createClass
-  render: ->
-    <div>
-      Explore explore!!
-    </div>
-
 Index = React.createClass
   getInitialState: ->
     clan: {}

@@ -1,61 +1,12 @@
 OversightTab = React.createClass
-  getInitialState: ->
-    { wages: 1 }
-  changeWages: (event) ->
-    @setState({ wages: event.target.value })
   render: ->
     <div>
       <div className="row" style={margin: 0}>
         <div className="col s3">
-          <h5>Policy Config</h5>
-          <div className="tiny-alert notice">
-            The policy changes will come into effect at the next 1<sup>st</sup> morrow.
-          </div>
-          <ul style={margin: "5px 15px", fontSize: "12px"}>
-            <li>Wages ({@state.wages}x):
-              <input type="range" value={@state.wages} min="0.5" max="5" step="0.5" onChange={@changeWages} />
-              Overtime working:
-              <div style={padding: '3px 0px 0'}>
-                <div className="switch">
-                  <label>
-                    Off
-                    <input type="checkbox" />
-                    <span className="lever"></span>
-                    On
-                  </label>
-              </div>
-              </div>
-              <br />
-              Religion:
-              <div style={padding: '3px 0px 0'}>
-              <div className="switch">
-                <label>
-                  Off
-                  <input type="checkbox" />
-                  <span className="lever"></span>
-                  On
-                </label>
-              </div>
-              </div>
-              <br />
-              Focus research on...<br />
-              <form>
-              <p>
-                <input className="with-gap" name="group1" type="radio" id="test1" />
-                <label htmlFor="test1">Medicine</label>
-              </p>
-              <p>
-                <input className="with-gap" name="group1" type="radio" id="test2" defaultChecked />
-                <label htmlFor="test2">Combat</label>
-              </p>
-              <p>
-                <input className="with-gap" name="group1" type="radio" id="test3" />
-                <label htmlFor="test3">Expansion</label>
-              </p>
-              </form>
-              <br />
-            </li>
-          </ul>
+          {
+            if @props.data.clan.policies
+              <PolicyConfiguration initialPolicies={@props.data.clan.policies} />
+          }
         </div>
         <div className="col s9">
           <h5>Event Stream</h5>
@@ -89,3 +40,70 @@ OversightTab = React.createClass
       <br />
     </div>
 
+OptionSwitch = React.createClass
+  render: ->
+    <div className="switch">
+      <label>
+        Off
+        <input type="checkbox" checkedLink={@props.linkedValue} />
+        <span className="lever"></span>
+        On
+      </label>
+    </div>
+
+
+PolicyConfiguration = React.createClass
+  mixins: [React.addons.LinkedStateMixin]
+  getInitialState: ->
+    @props.initialPolicies
+  # componentDidUpdate: (prevProps, prevState) ->
+  #   if JSON.stringify(@props.initialPolicies) != JSON.stringify(@state)
+  #     console.log 'oh we got some changes in here.'
+  changeResearch: (event) ->
+    @setState({ researchFocus: event.target.value })
+  render: ->
+    <div>
+      <h5>Policy Config</h5>
+      <ul style={margin: "5px 15px", fontSize: "12px"}>
+        <li>Wages ({@state.wages}x):
+          <input type="range" min="0.5" max="5" step="0.5" valueLink={@linkState('wages')} />
+
+          Overtime working:
+          <div style={padding: '3px 0px 0'}>
+            <OptionSwitch linkedValue={@linkState('overtime')} />
+          </div>
+          <br />
+          Religion:
+          <div style={padding: '3px 0px 0'}>
+            <OptionSwitch linkedValue={@linkState('religion')} />
+          </div>
+          <br />
+          Focus research on...<br />
+          <form>
+          {
+            ['medicine', 'combat', 'expansion'].map (obj, i) =>
+              <p>
+                <input
+                  className="with-gap"
+                  name="research-focus"
+                  value={obj}
+                  type="radio"
+                  id={obj+"-research"}
+                  onChange={@changeResearch}
+                  defaultChecked={@state.researchFocus == obj}
+                />
+                <label htmlFor={obj+"-research"}>{obj.capitalize()}</label>
+              </p>
+          }
+          </form>
+          <br />
+          {
+            if JSON.stringify(@props.initialPolicies) != JSON.stringify(@state)
+              <div className="tiny-alert notice">
+                Policy changes will come into effect at the next 1<sup>st</sup> morrow.
+              </div>
+          }
+
+        </li>
+      </ul>
+    </div>
