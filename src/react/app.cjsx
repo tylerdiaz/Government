@@ -89,7 +89,14 @@ Index = React.createClass
           <WorldTab label="Expand & Explore" hash="explore" current={@props.route} />
         </ul>
         <div>
-          <WorldTabChild data={@state} />
+        {
+          if @state.clan.timestamp
+            <WorldTabChild data={@state} />
+          else
+            <div style={textAlign: "center", fontSize: 24, padding: 50, opacity: 0.6}>
+              Fetching every detail, just for you...
+            </div>
+        }
         </div>
       </div>
     </div>
