@@ -14,11 +14,11 @@ var firebaseData = {
         tick_counter: 0,
       },
       resources: [
-        { resource: 'glowstones', amount: 1200, description: 'what a description would go here......' },
+        { resource: 'glowstones', amount: 2, description: 'what a description would go here......' },
         { resource: 'timber', amount: 25, description: 'what a description would go here......' },
         { resource: 'rice', amount: 90, description: 'what a description would go here......' },
         { resource: 'meat', amount: 100, description: 'what a description would go here......' },
-        { resource: 'meal', amount: 100, description: 'something to feed people with...' },
+        { resource: 'meal', amount: 20, description: 'something to feed people with...' },
       ],
       current_policies: {
         wages: "1.5",
@@ -34,9 +34,9 @@ var firebaseData = {
       },
       units: [
         {
-          id: 103901,
+          id: 103902,
           is_recovering: false,
-          name: "Jack",
+          name: "Mark",
           title: "builder",
           profession: "builder",
           img: "/images/sprites/units/builder.png",
@@ -65,85 +65,19 @@ var firebaseData = {
           perks: [
             {
               resource_type: 'construction',
-              resource_amount: 3,
-              frequency: 'moon',
-              on_duty_contingency: true,
-            },
-          ],
-        },
-        {
-          id: 103902,
-          is_recovering: false,
-          name: "Walter",
-          title: "builder",
-          profession: "builder",
-          img: "/images/sprites/units/builder.png",
-          current_hp: 10,
-          max_hp: 10,
-          lvl: 2,
-          current_exp: 32,
-          max_exp: 150,
-          states: {},
-          on_duty: true,
-          duty_description: 'On Blacksmith#1',
-          costs: [
-            {
-              resource_type: 'meal',
-              resource_amount: 60,
-              frequency: 'rabbit',
-              on_duty_contingency: false,
-            },
-            {
-              resource_type: 'glowstones',
               resource_value: 3,
               frequency: 'morrow',
               on_duty_contingency: true,
-            },
-          ],
-          perks: [
-            {
-              resource_type: 'construction',
-              resource_amount: 3,
-              frequency: 'moon',
-              on_duty_contingency: true,
-            },
-          ],
-        },
-        {
-          id: 103902,
-          is_recovering: false,
-          name: "Mark",
-          title: "builder",
-          profession: "builder",
-          img: "/images/sprites/units/builder.png",
-          current_hp: 10,
-          max_hp: 10,
-          lvl: 2,
-          current_exp: 32,
-          max_exp: 150,
-          states: {},
-          on_duty: true,
-          duty_description: 'On Blacksmith#1',
-          costs: [
-            {
-              resource_type: 'meal',
-              resource_amount: 60,
-              frequency: 'rabbit',
-              on_duty_contingency: false,
+              target: 'duty_assignment', // player,duty_assignment
+              target_effect: 'additive'
             },
             {
-              resource_type: 'glowstones',
+              resource_type: 'attribute',
               resource_value: 3,
               frequency: 'morrow',
               on_duty_contingency: true,
-            },
-          ],
-          perks: [
-            {
-              resource_type: 'construction',
-              resource_amount: 3,
-              frequency: 'moon',
-              on_duty_contingency: true,
+              target: 'duty_assignment', // player,duty_assignment
+              target_effect: 'additive'
             },
           ],
         },
