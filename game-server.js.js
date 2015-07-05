@@ -179,7 +179,7 @@ UnitTick = (function() {
       if (cost.frequency === 'bunny' && this.isNewRabbit === false) {
         continue;
       }
-      total_unit_costs[cost.resource_type] = cost.resource_type === 'glowstones' ? parseInt(cost.resource_amount * parseFloat(this.wage_ratio)) : cost.resource_amount;
+      total_unit_costs[cost.resource_type] = cost.resource_type === 'glowstones' ? parseInt(cost.resource_value * parseFloat(this.wage_ratio)) : cost.resource_value;
     }
     return total_unit_costs;
   };

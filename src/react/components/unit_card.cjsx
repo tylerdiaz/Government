@@ -12,11 +12,11 @@
 #   on_duty: true,
 #   duty_description: 'On Blacksmith#1',
 #   costs: [
-#     { resource_type: 'meal', resource_amount: 2, frequency: 'morrow' },
-#     { resource_type: 'glowstones', resource_amount: 3, frequency: 'moon' },
+#     { resource_type: 'meal', resource_value: 2, frequency: 'morrow' },
+#     { resource_type: 'glowstones', resource_value: 3, frequency: 'moon' },
 #   ],
 #   perks: [
-#     { resource_type: 'construction', resource_amount: 0 },
+#     { resource_type: 'construction', resource_value: 0 },
 #   ],
 # },
 
@@ -100,7 +100,7 @@ UnitCard = React.createClass
           @props.obj.costs.map (obj, i) =>
             <UnitCostRow
               isCost={true}
-              amount={obj.resource_amount}
+              amount={obj.resource_value}
               resource={obj.resource_type}
               frequency={obj.frequency}
               key={i}
@@ -110,7 +110,7 @@ UnitCard = React.createClass
           @props.obj.perks.map (obj, i) =>
             <UnitCostRow
               isCost={false}
-              amount={obj.resource_amount}
+              amount={obj.resource_value}
               resource={obj.resource_type}
               frequency={obj.frequency}
               key={i}

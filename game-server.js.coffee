@@ -112,8 +112,8 @@ class UnitTick
 
       total_unit_costs[cost.resource_type] =
         if cost.resource_type == 'glowstones'
-          parseInt(cost.resource_amount * parseFloat(@wage_ratio))
+          parseInt(cost.resource_value * parseFloat(@wage_ratio))
         else
-          cost.resource_amount
+          cost.resource_value
 
     total_unit_costs

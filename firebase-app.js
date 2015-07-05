@@ -51,13 +51,13 @@ var firebaseData = {
           costs: [
             {
               resource_type: 'meal',
-              resource_amount: 60,
+              resource_value: 60,
               frequency: 'bunny',
               on_duty_contingency: false,
             },
             {
               resource_type: 'glowstones',
-              resource_amount: 4,
+              resource_value: 4,
               frequency: 'morrow',
               on_duty_contingency: true,
             },
@@ -95,7 +95,7 @@ var firebaseData = {
             },
             {
               resource_type: 'glowstones',
-              resource_amount: 4,
+              resource_value: 3,
               frequency: 'morrow',
               on_duty_contingency: true,
             },
@@ -133,7 +133,7 @@ var firebaseData = {
             },
             {
               resource_type: 'glowstones',
-              resource_amount: 4,
+              resource_value: 3,
               frequency: 'morrow',
               on_duty_contingency: true,
             },
