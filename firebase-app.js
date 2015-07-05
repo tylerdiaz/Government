@@ -52,7 +52,7 @@ var firebaseData = {
             {
               resource_type: 'meal',
               resource_amount: 60,
-              frequency: 'rabbit',
+              frequency: 'bunny',
               on_duty_contingency: false,
             },
             {

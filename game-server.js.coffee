@@ -108,7 +108,7 @@ class UnitTick
     total_unit_costs = {}
     for cost in @unit['costs']
       continue if cost.on_duty_contingency is true && @unit.on_duty is false
-      continue if cost.frequency is 'rabbit' && @isNewRabbit is false
+      continue if cost.frequency is 'bunny' && @isNewRabbit is false
 
       total_unit_costs[cost.resource_type] =
         if cost.resource_type == 'glowstones'

@@ -176,7 +176,7 @@ UnitTick = (function() {
       if (cost.on_duty_contingency === true && this.unit.on_duty === false) {
         continue;
       }
-      if (cost.frequency === 'rabbit' && this.isNewRabbit === false) {
+      if (cost.frequency === 'bunny' && this.isNewRabbit === false) {
         continue;
       }
       total_unit_costs[cost.resource_type] = cost.resource_type === 'glowstones' ? parseInt(cost.resource_amount * parseFloat(this.wage_ratio)) : cost.resource_amount;
