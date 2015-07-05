@@ -10,7 +10,7 @@ CalendarDateType = React.createClass
 
 CalendarFormatter = React.createClass
   elephant_duration: 659 # minus one offset
-  lion_duration: 109 # minus one offset
+  lion_duration: 119 # minus one offset
   rabbit_duration: 30 # minus one offset
   propTypes: {
     morrows: React.PropTypes.number,
