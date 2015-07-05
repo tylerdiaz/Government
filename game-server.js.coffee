@@ -36,7 +36,8 @@ class GameTicker
       @clan_data.current_policies = @clan_data.proposed_policies
 
     if @isNewMorrow(@clan_data.state_data.tick_counter)
-      @tickUnitCosts(@isNewRabbit(@clan_data.timestamp))
+      @tickUnits(@isNewRabbit(@clan_data.timestamp))
+      @tickUnitProduction(@isNewRabbit(@clan_data.timestamp))
 
   isNewRabbit: (timestamp) ->
     (timestamp % Global.morrows_per_rabbit) == 0
@@ -50,39 +51,69 @@ class GameTicker
     else
       timestamp
 
-  tickUnitCosts: (isNewRabbit) ->
+  tickUnits: (isNewRabbit) ->
     total_costs = {}
+    resource_calculator = new ResourceCalculator(@clan_data.resources)
 
-    for unit in @clan_data.units
-      total_unit_costs = {}
-      for cost in unit['costs']
-        continue if cost.on_duty_contingency is true && unit.on_duty is false
-        continue if cost.frequency is 'rabbit' && isNewRabbit is false
-
-        resource = _.findWhere(@clan_data.resources, { resource: cost.resource_type })
-        if resource && resource.amount >= cost.resource_amount
-          total_unit_costs[cost.resource_type] = cost.resource_amount
-          # ...
-        else
-          total_unit_costs = false
-          # if you can't afford to pay the unit, make them unemployed
-          # if you can't afford to feed them, start a decay counter to run away/starvation
-          console.log 'unit cannot be afforded'
+    for unit, unitIndex in @clan_data.units
+      unitTick = new UnitTick(unit, @clan_data.current_policies.wages, isNewRabbit)
+      total_unit_costs = unitTick.costs()
 
       if total_unit_costs
-        total_costs = Object.keys(total_unit_costs).reduce((memo, key) ->
-          memo[key] = total_unit_costs[key] + (memo[key] || 0)
-          memo
-        , total_costs)
+        if resource_calculator.canAfford(total_unit_costs)
+          resource_calculator.deplete(total_unit_costs)
+        else
+          if unitTick.isOnDuty()
+            unitTick.decommission()
+          else
+            unitTick.starvationPenalty()
 
-    console.log "Total costs are: "+JSON.stringify(total_costs)
-
-        # {
-        #   resource_type: 'meal',
-        #   resource_amount: 2,
-        #   frequency: 'morrow',
-        #   on_duty_contingency: false,
-        # },
+      @clan_data.units[unitIndex] = unitTick.unit
+      @clan_data.resources = resource_calculator.resources
 
   calculateBuildingCosts: (buildings) ->
-    console.log 'test'
+    console.log 'building'
+
+  tickUnitProduction: (isNewRabbit) ->
+    console.log 'tickunit'
+
+class ResourceCalculator
+  constructor: (@resources) ->
+  canAfford: (prices) ->
+    result = true
+    for resource_type, cost of prices
+      break if result is false
+      resource = _.findWhere(@resources, { resource: resource_type })
+      result = false unless resource && resource.amount >= cost
+
+    result
+
+  deplete: (prices) ->
+    return false unless @canAfford(prices)
+    # this resource data structure makes things like this
+    # super inefficient. Probably needs refactoring.
+    for r, key in @resources
+      continue unless prices[r.resource]
+      @resources[key] = (@resources[key] - prices[r.resource])
+
+class UnitTick
+  constructor: (@unit, @wage_ratio, @isNewRabbit) ->
+  isOnDuty: ->
+    @unit.on_duty
+  decommission: ->
+    @unit.on_duty = false
+  starvationPenalty: ->
+    @unit.current_hp = (@unit.current_hp - 4)
+  costs: ->
+    total_unit_costs = {}
+    for cost in @unit['costs']
+      continue if cost.on_duty_contingency is true && @unit.on_duty is false
+      continue if cost.frequency is 'rabbit' && @isNewRabbit is false
+
+      total_unit_costs[cost.resource_type] =
+        if cost.resource_type == 'glowstones'
+          parseInt(cost.resource_amount * parseFloat(@wage_ratio))
+        else
+          cost.resource_amount
+
+    total_unit_costs

@@ -1,4 +1,4 @@
-var Firebase, GameState, GameTicker, Global, _;
+var Firebase, GameState, GameTicker, Global, ResourceCalculator, UnitTick, _;
 
 Firebase = require('firebase');
 
@@ -44,7 +44,8 @@ GameTicker = (function() {
       this.clan_data.current_policies = this.clan_data.proposed_policies;
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
-      this.tickUnitCosts(this.isNewRabbit(this.clan_data.timestamp));
+      this.tickUnits(this.isNewRabbit(this.clan_data.timestamp));
+      this.tickUnitProduction(this.isNewRabbit(this.clan_data.timestamp));
     }
   }
 
@@ -64,46 +65,125 @@ GameTicker = (function() {
     }
   };
 
-  GameTicker.prototype.tickUnitCosts = function(isNewRabbit) {
-    var cost, resource, total_costs, total_unit_costs, unit, _i, _j, _len, _len1, _ref, _ref1;
+  GameTicker.prototype.tickUnits = function(isNewRabbit) {
+    var resource_calculator, total_costs, total_unit_costs, unit, unitIndex, unitTick, _i, _len, _ref, _results;
     total_costs = {};
+    resource_calculator = new ResourceCalculator(this.clan_data.resources);
     _ref = this.clan_data.units;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      unit = _ref[_i];
-      total_unit_costs = {};
-      _ref1 = unit['costs'];
-      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-        cost = _ref1[_j];
-        if (cost.on_duty_contingency === true && unit.on_duty === false) {
-          continue;
-        }
-        if (cost.frequency === 'rabbit' && isNewRabbit === false) {
-          continue;
-        }
-        resource = _.findWhere(this.clan_data.resources, {
-          resource: cost.resource_type
-        });
-        if (resource && resource.amount >= cost.resource_amount) {
-          total_unit_costs[cost.resource_type] = cost.resource_amount;
-        } else {
-          total_unit_costs = false;
-          console.log('unit cannot be afforded');
-        }
-      }
+    _results = [];
+    for (unitIndex = _i = 0, _len = _ref.length; _i < _len; unitIndex = ++_i) {
+      unit = _ref[unitIndex];
+      unitTick = new UnitTick(unit, this.clan_data.current_policies.wages, isNewRabbit);
+      total_unit_costs = unitTick.costs();
       if (total_unit_costs) {
-        total_costs = Object.keys(total_unit_costs).reduce(function(memo, key) {
-          memo[key] = total_unit_costs[key] + (memo[key] || 0);
-          return memo;
-        }, total_costs);
+        if (resource_calculator.canAfford(total_unit_costs)) {
+          resource_calculator.deplete(total_unit_costs);
+        } else {
+          if (unitTick.isOnDuty()) {
+            unitTick.decommission();
+          } else {
+            unitTick.starvationPenalty();
+          }
+        }
       }
+      this.clan_data.units[unitIndex] = unitTick.unit;
+      _results.push(this.clan_data.resources = resource_calculator.resources);
     }
-    return console.log("Total costs are: " + JSON.stringify(total_costs));
+    return _results;
   };
 
   GameTicker.prototype.calculateBuildingCosts = function(buildings) {
-    return console.log('test');
+    return console.log('building');
+  };
+
+  GameTicker.prototype.tickUnitProduction = function(isNewRabbit) {
+    return console.log('tickunit');
   };
 
   return GameTicker;
+
+})();
+
+ResourceCalculator = (function() {
+  function ResourceCalculator(resources) {
+    this.resources = resources;
+  }
+
+  ResourceCalculator.prototype.canAfford = function(prices) {
+    var cost, resource, resource_type, result;
+    result = true;
+    for (resource_type in prices) {
+      cost = prices[resource_type];
+      if (result === false) {
+        break;
+      }
+      resource = _.findWhere(this.resources, {
+        resource: resource_type
+      });
+      if (!(resource && resource.amount >= cost)) {
+        result = false;
+      }
+    }
+    return result;
+  };
+
+  ResourceCalculator.prototype.deplete = function(prices) {
+    var key, r, _i, _len, _ref, _results;
+    if (!this.canAfford(prices)) {
+      return false;
+    }
+    _ref = this.resources;
+    _results = [];
+    for (key = _i = 0, _len = _ref.length; _i < _len; key = ++_i) {
+      r = _ref[key];
+      if (!prices[r.resource]) {
+        continue;
+      }
+      _results.push(this.resources[key] = this.resources[key] - prices[r.resource]);
+    }
+    return _results;
+  };
+
+  return ResourceCalculator;
+
+})();
+
+UnitTick = (function() {
+  function UnitTick(unit, wage_ratio, isNewRabbit) {
+    this.unit = unit;
+    this.wage_ratio = wage_ratio;
+    this.isNewRabbit = isNewRabbit;
+  }
+
+  UnitTick.prototype.isOnDuty = function() {
+    return this.unit.on_duty;
+  };
+
+  UnitTick.prototype.decommission = function() {
+    return this.unit.on_duty = false;
+  };
+
+  UnitTick.prototype.starvationPenalty = function() {
+    return this.unit.current_hp = this.unit.current_hp - 4;
+  };
+
+  UnitTick.prototype.costs = function() {
+    var cost, total_unit_costs, _i, _len, _ref;
+    total_unit_costs = {};
+    _ref = this.unit['costs'];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      cost = _ref[_i];
+      if (cost.on_duty_contingency === true && this.unit.on_duty === false) {
+        continue;
+      }
+      if (cost.frequency === 'rabbit' && this.isNewRabbit === false) {
+        continue;
+      }
+      total_unit_costs[cost.resource_type] = cost.resource_type === 'glowstones' ? parseInt(cost.resource_amount * parseFloat(this.wage_ratio)) : cost.resource_amount;
+    }
+    return total_unit_costs;
+  };
+
+  return UnitTick;
 
 })();
