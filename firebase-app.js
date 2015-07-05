@@ -35,6 +35,7 @@ var firebaseData = {
       units: [
         {
           id: 103901,
+          is_recovering: false,
           name: "Jack",
           title: "builder",
           profession: "builder",
@@ -72,6 +73,7 @@ var firebaseData = {
         },
         {
           id: 103902,
+          is_recovering: false,
           name: "Walter",
           title: "builder",
           profession: "builder",
@@ -109,6 +111,7 @@ var firebaseData = {
         },
         {
           id: 103902,
+          is_recovering: false,
           name: "Mark",
           title: "builder",
           profession: "builder",

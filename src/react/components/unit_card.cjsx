@@ -80,14 +80,21 @@ UnitCard = React.createClass
   getDefaultProps: ->
     # placeholder
   render: ->
-    <div className="unit_card active_unit">
+    classes = React.addons.classSet({
+      unit_card: true,
+      active_unit: @props.obj.on_duty
+      idle_unit: !@props.obj.on_duty
+      useless_unit: false
+    })
+
+    <div className={classes}>
       <div className="unit_tiny_card">
         <img src={@props.obj.img} width="66" height="66" className="unit_image" /><br />
         <span className="unit_level">LVL. {@props.obj.lvl}</span>
       </div>
       <div className="unit_info">
         <span className="unit_name">{@props.obj.name} the {@props.obj.title}</span> <br />
-        <InjuredBar hp={@props.obj.current_hp} max_hp={@props.obj.max_hp} isHealing={true} />
+        <InjuredBar hp={@props.obj.current_hp} max_hp={@props.obj.max_hp} isHealing={@props.obj.is_recovering} />
         <DutyStatus obj={@props.obj} />
         {
           @props.obj.costs.map (obj, i) =>
