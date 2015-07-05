@@ -31,7 +31,7 @@ OversightTab = React.createClass
       <h5>Table of Resources</h5>
       <ResourceTable number_row="Quantity" title_row="Resource" text_row="Description">
         {
-          @props.data.resources.map (obj, i) ->
+          @props.data.clan.resources.map (obj, i) ->
             <ResourceRow
               resource={obj.resource}
               amount={obj.amount}

@@ -16,51 +16,6 @@ Landing = React.createClass
 Index = React.createClass
   getInitialState: ->
     clan: {}
-    resources: [
-      { resource: 'glowstones', amount: 1200, description: 'what a description would go here......' },
-      { resource: 'timber', amount: 25, description: 'what a description would go here......' },
-      { resource: 'rice', amount: 90, description: 'what a description would go here......' },
-      { resource: 'meat', amount: 100, description: 'what a description would go here......' },
-    ],
-    units: [
-      {
-        id: 103901,
-        name: "Walter",
-        title: "builder",
-        profession: "builder",
-        img: "/images/sprites/units/builder.png",
-        current_hp: 10,
-        max_hp: 10,
-        lvl: 2,
-        current_exp: 32,
-        max_exp: 150,
-        states: {},
-        on_duty: true,
-        duty_description: 'On Blacksmith#1',
-        costs: [
-          {
-            resource_type: 'meal',
-            resource_amount: 2,
-            frequency: 'morrow',
-            on_duty_contingency: false,
-          },
-          {
-            resource_type: 'glowstones',
-            resource_amount: 4,
-            frequency: 'morrow',
-            on_duty_contingency: true,
-          },
-        ],
-        perks: [
-          {
-            resource_type: 'construction',
-            resource_amount: 3,
-            frequency: 'moon',
-            on_duty_contingency: true,
-          },
-        ],
-      },
-    ]
 
   componentWillMount: ->
     Global.firebaseRef.child("clans/#{Global.userId}").on 'value', (snapshot) =>
