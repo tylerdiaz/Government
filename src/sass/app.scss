@@ -252,9 +252,9 @@ table.resource_table {
   border-radius: 4px;
   margin:5px;
   padding:10px;
-  &.useless_unit { box-shadow:inset 0 0 0 4px rgba(255, 0, 0, 0.2); }
   &.idle_unit { box-shadow:inset 0 0 0 4px rgba(255, 200, 0, 0.2); }
   &.active_unit { box-shadow:inset 0 0 0 4px rgba(0, 180, 200, 0.2); }
+  &.useless_unit { box-shadow:inset 0 0 0 4px rgba(255, 0, 0, 0.2); }
 
   .unit_tiny_card {
     float:left;
