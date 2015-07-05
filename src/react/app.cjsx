@@ -45,7 +45,7 @@ Index = React.createClass
         </ul>
         <div>
         {
-          if @state.clan.timestamp
+          if @state.clan.name
             <WorldTabChild data={@state} />
           else
             <div style={textAlign: "center", fontSize: 24, padding: 50, opacity: 0.6}>
