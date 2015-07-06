@@ -1,5 +1,48 @@
 var FirebaseServer = require('firebase-server');
 
+function unit_json(name, profession){
+  return {
+    id: Math.floor((Math.random() * 10000) + 1000),
+    name: name,
+    title: profession,
+    profession: "builder",
+    img: profession+".png",
+    current_hp: 10,
+    max_hp: 10,
+    is_recovering: false,
+    lvl: 2,
+    current_exp: 32,
+    max_exp: 150,
+    states: {},
+    on_duty: true,
+    duty_description: 'On Blacksmith#1',
+    costs: [
+      {
+        resource_type: 'meal',
+        resource_value: 60,
+        frequency: 'bunny',
+        on_duty_contingency: false,
+      },
+      {
+        resource_type: 'glowstones',
+        resource_value: 4,
+        frequency: 'morrow',
+        on_duty_contingency: true,
+      },
+    ],
+    perks: [
+      {
+        resource_type: 'construction',
+        resource_value: 3,
+        frequency: 'morrow',
+        on_duty_contingency: true,
+        target: 'duty_assignment', // player,duty_assignment
+        target_effect: 'additive'
+      }
+    ],
+  }
+}
+
 var firebaseData = {
   clans: {
     "simplelogin:1": {
@@ -14,11 +57,11 @@ var firebaseData = {
         tick_counter: 0,
       },
       resources: [
-        { resource: 'glowstones', amount: 2, description: 'what a description would go here......' },
+        { resource: 'glowstones', amount: 2000, description: 'what a description would go here......' },
         { resource: 'timber', amount: 25, description: 'what a description would go here......' },
         { resource: 'rice', amount: 90, description: 'what a description would go here......' },
         { resource: 'meat', amount: 100, description: 'what a description would go here......' },
-        { resource: 'meal', amount: 20, description: 'something to feed people with...' },
+        { resource: 'meal', amount: 200, description: 'something to feed people with...' },
       ],
       current_policies: {
         wages: "1.5",
@@ -33,46 +76,10 @@ var firebaseData = {
         researchFocus: 'combat'
       },
       units: [
-        {
-          id: 103902,
-          is_recovering: false,
-          name: "Mark",
-          title: "builder",
-          profession: "builder",
-          img: "/images/sprites/units/builder.png",
-          current_hp: 10,
-          max_hp: 10,
-          lvl: 2,
-          current_exp: 32,
-          max_exp: 150,
-          states: {},
-          on_duty: true,
-          duty_description: 'On Blacksmith#1',
-          costs: [
-            {
-              resource_type: 'meal',
-              resource_value: 60,
-              frequency: 'bunny',
-              on_duty_contingency: false,
-            },
-            {
-              resource_type: 'glowstones',
-              resource_value: 4,
-              frequency: 'morrow',
-              on_duty_contingency: true,
-            },
-          ],
-          perks: [
-            {
-              resource_type: 'construction',
-              resource_value: 3,
-              frequency: 'morrow',
-              on_duty_contingency: true,
-              target: 'duty_assignment', // player,duty_assignment
-              target_effect: 'additive'
-            }
-          ],
-        },
+        unit_json("Mark", "builder"),
+        unit_json("Max", "villager"),
+        unit_json("Jupiter", "jupiter"),
+        unit_json("Com", "drunkard"),
       ],
     },
   },
