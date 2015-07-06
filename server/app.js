@@ -1,6 +1,47 @@
 var CONFIG;
 
 CONFIG = {
+  resource_descriptions: {
+    glowstones: 'Main currency used',
+    meal: 'Meals are used to feed your population',
+    meat: 'Second half a part of a well-rounded meal',
+    rice: 'First half a part of a well-rounded meal',
+    timber: 'Used to create wooden buildings'
+  },
+  calendar: {
+    morrows_per_rabbit: 30,
+    morrows_per_lion: 119,
+    morrows_per_elephant: 659
+  },
+  formulas: [
+    {
+      value: {
+        meal: 1
+      },
+      cost: {
+        rice: 1,
+        meat: 1
+      },
+      greedy: true
+    }
+  ]
+};
+
+var CONFIG;
+
+CONFIG = {
+  resource_descriptions: {
+    glowstones: 'Main currency used',
+    meal: 'Meals are used to feed your population',
+    meat: 'Second half a part of a well-rounded meal',
+    rice: 'First half a part of a well-rounded meal',
+    timber: 'Used to create wooden buildings'
+  },
+  calendar: {
+    morrows_per_rabbit: 30,
+    morrows_per_lion: 119,
+    morrows_per_elephant: 659
+  },
   formulas: [
     {
       value: {
@@ -34,7 +75,7 @@ GameTick = (function() {
   }
 
   GameTick.prototype.isNewRabbit = function(timestamp) {
-    return (timestamp % Global.morrows_per_rabbit) === 0;
+    return (timestamp % CONFIG.calendar.morrows_per_rabbit) === 0;
   };
 
   GameTick.prototype.isNewMorrow = function(tickCount) {
@@ -167,8 +208,7 @@ _ = require('underscore');
 Global = {
   firebaseRef: new Firebase("ws://local.firebaseio.com:5111"),
   tickRate: 200,
-  ticks_per_morrow: 10,
-  morrows_per_rabbit: 30
+  ticks_per_morrow: 10
 };
 
 GameState = {

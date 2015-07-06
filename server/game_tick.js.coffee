@@ -14,7 +14,7 @@ class GameTick
     @clan_data.resources = @resource_calc.resources
 
   isNewRabbit: (timestamp) ->
-    (timestamp % Global.morrows_per_rabbit) == 0
+    (timestamp % CONFIG.calendar.morrows_per_rabbit) == 0
 
   isNewMorrow: (tickCount) ->
     tickCount % Global.ticks_per_morrow == 0

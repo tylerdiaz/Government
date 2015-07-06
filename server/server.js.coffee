@@ -5,7 +5,6 @@ Global =
   firebaseRef: new Firebase("ws://local.firebaseio.com:5111")
   tickRate: 200
   ticks_per_morrow: 10
-  morrows_per_rabbit: 30
 
 GameState =
   mainCycle: null

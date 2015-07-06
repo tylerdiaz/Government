@@ -25,9 +25,10 @@ gulp.task('default', function () {
 
 // Javascript stuff
 gulp.task('game-server', function() {
-  gulp.src('./server/**/*.coffee')
+  gulp.src(['./server/**/*.coffee', , './config.coffee'])
       .pipe(gulpif(/[.]coffee$/, coffeex({ bare: true }).on('error', gutil.log)))
       .pipe(order([
+        "config.js",
         "server/*.js",
         "server/server.js"
       ], { base: '.' }))
@@ -43,10 +44,11 @@ gulp.task('coffeex', function() {
 });
 
 gulp.task('javascript:react', function() {
-  gulp.src(['./src/js/*.js', './src/react/**/*.cjsx'])
-      .pipe(gulpif(/[.]cjsx$/, coffeex({ bare: true }).on('error', gutil.log)))
+  gulp.src(['./src/js/*.js', './src/react/**/*.cjsx', './config.coffee'])
+      .pipe(gulpif(/[.]cjsx|coffee$/, coffeex({ bare: true }).on('error', gutil.log)))
       .pipe(debug({title: 'JS:'}))
       .pipe(order([
+        "config.js",
         "src/js/*.js",
         "src/react/components/**/*.js",
         "src/js/react/*.js",

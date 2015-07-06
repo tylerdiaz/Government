@@ -9,9 +9,9 @@ CalendarDateType = React.createClass
     </span>
 
 CalendarFormatter = React.createClass
-  elephant_duration: CONFIG.morrows_per_elephant
-  lion_duration: CONFIG.lion_per_elephant
-  rabbit_duration: CONFIG.rabbit_per_elephant
+  elephant_duration: CONFIG.calendar.morrows_per_elephant
+  lion_duration: CONFIG.calendar.morrows_per_lion
+  rabbit_duration: CONFIG.calendar.morrows_per_rabbit
   propTypes: {
     morrows: React.PropTypes.number,
   },
