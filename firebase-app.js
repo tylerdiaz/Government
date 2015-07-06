@@ -70,15 +70,7 @@ var firebaseData = {
               on_duty_contingency: true,
               target: 'duty_assignment', // player,duty_assignment
               target_effect: 'additive'
-            },
-            {
-              resource_type: 'attribute',
-              resource_value: 3,
-              frequency: 'morrow',
-              on_duty_contingency: true,
-              target: 'duty_assignment', // player,duty_assignment
-              target_effect: 'additive'
-            },
+            }
           ],
         },
       ],
