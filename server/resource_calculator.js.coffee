@@ -10,28 +10,25 @@ class ResourceCalculator
   ]
   canAfford: (prices) ->
     result = true
-    for resource_key, cost of prices
+    for key, cost of prices
       break if result is false
-      result = false unless resource[resource_key] && resource[resource_key] >= cost
+      result = false unless @resources[key] && @resources[key] >= cost
 
     result
 
   deplete: (prices) ->
     return true if Object.keys(prices).length is 0
     return false unless @canAfford(prices)
-
-    for resource_key, cost of prices
-      @resources[resource_key] = @resources[resource_key] - cost
+    for key, cost of prices
+      @resources[key] = @resources[key] - cost
 
   grant: (grants) ->
     return true if Object.keys(grants).length is 0
-
-    for resource_key, cost of grants
-      @resources[resource_key] = (@resources[resource_key] || 0) + cost
+    for key, cost of grants
+      @resources[key] = (@resources[key] || 0) + cost
 
   runCombinations: ->
-    # for formula in @formulas
-      # if @canAfford(formula['cost']) && formula['greedy']
-        # while @canAfford(formula['cost'])
-        #   @deplete(formula['cost'])
-
+    for formula in @formulas
+      while @canAfford(formula['cost'])
+        @grant(formula['value']) if @deplete(formula['cost'])
+        break unless formula['greedy']
