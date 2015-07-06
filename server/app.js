@@ -121,9 +121,10 @@ GameTick = (function() {
 var ResourceCalculator;
 
 ResourceCalculator = (function() {
+  ResourceCalculator.prototype.formulas = CONFIG.formulas;
+
   function ResourceCalculator(resources) {
     this.resources = resources;
-    this.formulas = CONFIG.formulas;
   }
 
   ResourceCalculator.prototype.canAfford = function(prices) {

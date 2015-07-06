@@ -1,6 +1,6 @@
 class ResourceCalculator
+  formulas: CONFIG.formulas
   constructor: (@resources) ->
-    @formulas = CONFIG.formulas
   canAfford: (prices) ->
     result = true
     for key, cost of prices
