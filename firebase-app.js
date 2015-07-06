@@ -1,55 +1,44 @@
 var FirebaseServer = require('firebase-server');
+var _ = require('underscore');
 
-function unit_json(name, profession){
-  return {
-    id: Math.floor((Math.random() * 10000) + 1000),
-    name: name,
-    title: profession,
-    profession: "builder",
-    img: profession+".png",
-    current_hp: 10,
-    max_hp: 10,
-    is_recovering: false,
-    lvl: 2,
-    current_exp: 32,
-    max_exp: 150,
-    states: {},
-    on_duty: true,
-    duty_description: 'On Blacksmith#1',
-    costs: [
-      {
-        resource_type: 'meal',
-        resource_value: 60,
-        frequency: 'bunny',
-        on_duty_contingency: false,
-      },
-      {
-        resource_type: 'glowstones',
-        resource_value: 4,
-        frequency: 'morrow',
-        on_duty_contingency: true,
-      },
-    ],
-    perks: [
-      {
-        resource_type: 'construction',
-        resource_value: 3,
-        frequency: 'morrow',
-        on_duty_contingency: true,
-        target: 'duty_assignment', // player,duty_assignment
-        target_effect: 'additive'
-      }
-    ],
-  }
+var default_unit_json = {
+  id: Math.floor((Math.random() * 10000) + 1000),
+  name: 'No one',
+  title: 'villager',
+  profession: 'drunk',
+  img: 'units/drunkard.png',
+  current_hp: 12,
+  max_hp: 12,
+  is_recovering: false,
+  lvl: 1,
+  current_exp: 0,
+  max_exp: 50,
+  on_duty: false,
+  states: {},
+  duty_description: 'Off duty',
+  costs: [
+    {
+      resource_type: 'meal',
+      resource_value: 40,
+      frequency: 'bunny',
+      on_duty_contingency: false,
+    },
+    {
+      resource_type: 'glowstones',
+      resource_value: 2,
+      frequency: 'morrow',
+      on_duty_contingency: true,
+    },
+  ],
+  perks: [],
 }
 
 var firebaseData = {
   clans: {
     "simplelogin:1": {
       clan_size: "village",
-      morale: 70,
+      morale: 60,
       name: "Karolann",
-      population: 3,
       max_population: 5,
       timestamp: 0,
       state_data: {
@@ -57,29 +46,40 @@ var firebaseData = {
         tick_counter: 0,
       },
       resources: {
-        glowstones: 2000,
-        timber: 25,
-        rice: 90,
-        meat: 100,
-        meal: 200,
+        glowstones: 800,
+        meal: 160,
+        rice: 100,
+        meat: 20,
       },
       current_policies: {
-        wages: "1.5",
+        wages: "1",
         overtime: false,
-        religion: true,
-        researchFocus: 'combat'
+        religion: false,
+        scoutingFocus: 'food'
       },
       proposed_policies: {
-        wages: "1.5",
+        wages: "1",
         overtime: false,
-        religion: true,
-        researchFocus: 'combat'
+        religion: false,
+        scoutingFocus: 'food'
       },
       units: [
-        unit_json("Mark", "builder"),
-        unit_json("Max", "villager"),
-        unit_json("Jupiter", "jupiter"),
-        unit_json("Com", "drunkard"),
+        _.extend(default_unit_json, {
+          name: 'Jupiter',
+          title: 'Resourceful',
+          profession: 'scout',
+          img: 'units/jupiter.png',
+          perks: [
+            {
+              resource_type: 'scouting',
+              resource_value: null,
+              frequency: 'morrow',
+              on_duty_contingency: true,
+              target: 'player', // player,duty_assignment
+              target_effect: 'event' // additive,event
+            }
+          ],
+        })
       ],
     },
   },
