@@ -13,8 +13,8 @@ var gulp = require('gulp'),
     // jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     sass = require('gulp-sass'),
-    spawn = require("gulp-spawn"),
     server = require('gulp-server-livereload'),
+    imageResize = require('gulp-image-resize'),
     minifyCss = require('gulp-minify-css');
 
 gulp.task('default', function () {
@@ -99,16 +99,14 @@ gulp.task('fonts', function() {
 gulp.task('sprites', function() {
   [1,2,3,4,5].map(function(multiplier) {
     gulp.src("./src/images/sprites/**/*.png")
-        .pipe(spawn({
-          cmd: "convert",
-          args: [
-            "-",
-            "-interpolate", "Nearest",
-            "-filter", "point",
-            "-resize", multiplier+"00%",
-            "-",
-          ],
-        }))
+        .pipe(imageResize({
+           width: 22 * multiplier,
+           height: 22 * multiplier,
+           upscale: true,
+           imageMagick: true,
+           filter: 'Point'
+         }))
+        .pipe(wait(5000))
         .pipe(gulp.dest("./dist/images/sprites/"+multiplier+"x/"));
   })
   notify({ message: 'Sprites completed' })
