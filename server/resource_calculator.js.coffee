@@ -1,13 +1,6 @@
 class ResourceCalculator
   constructor: (@resources) ->
-  formulas: [
-    {
-      resource: 'meal',
-      value: 1,
-      cost: { rice: 1, meat: 1 },
-      greedy: true
-    },
-  ]
+    @formulas = CONFIG.formulas
   canAfford: (prices) ->
     result = true
     for key, cost of prices
