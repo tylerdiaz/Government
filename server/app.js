@@ -1,3 +1,20 @@
+var CONFIG;
+
+CONFIG = {
+  formulas: [
+    {
+      value: {
+        meal: 1
+      },
+      cost: {
+        rice: 1,
+        meat: 1
+      },
+      greedy: true
+    }
+  ]
+};
+
 var GameTick;
 
 GameTick = (function() {
@@ -11,8 +28,8 @@ GameTick = (function() {
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
       this.clan_data.units = this.tickUnits(this.clan_data.units, this.isNewRabbit(this.clan_data.timestamp));
+      this.resource_calc.runCombinations();
     }
-    this.resource_calc.runCombinations();
     this.clan_data.resources = this.resource_calc.resources;
   }
 
@@ -65,29 +82,18 @@ var ResourceCalculator;
 ResourceCalculator = (function() {
   function ResourceCalculator(resources) {
     this.resources = resources;
+    this.formulas = CONFIG.formulas;
   }
 
-  ResourceCalculator.prototype.formulas = [
-    {
-      resource: 'meal',
-      value: 1,
-      cost: {
-        rice: 1,
-        meat: 1
-      },
-      greedy: true
-    }
-  ];
-
   ResourceCalculator.prototype.canAfford = function(prices) {
-    var cost, resource_key, result;
+    var cost, key, result;
     result = true;
-    for (resource_key in prices) {
-      cost = prices[resource_key];
+    for (key in prices) {
+      cost = prices[key];
       if (result === false) {
         break;
       }
-      if (!(resource[resource_key] && resource[resource_key] >= cost)) {
+      if (!(this.resources[key] && this.resources[key] >= cost)) {
         result = false;
       }
     }
@@ -95,7 +101,7 @@ ResourceCalculator = (function() {
   };
 
   ResourceCalculator.prototype.deplete = function(prices) {
-    var cost, resource_key, _results;
+    var cost, key, _results;
     if (Object.keys(prices).length === 0) {
       return true;
     }
@@ -103,22 +109,22 @@ ResourceCalculator = (function() {
       return false;
     }
     _results = [];
-    for (resource_key in prices) {
-      cost = prices[resource_key];
-      _results.push(this.resources[resource_key] = this.resources[resource_key] - cost);
+    for (key in prices) {
+      cost = prices[key];
+      _results.push(this.resources[key] = this.resources[key] - cost);
     }
     return _results;
   };
 
   ResourceCalculator.prototype.grant = function(grants) {
-    var cost, resource_key, _results;
+    var cost, key, _results;
     if (Object.keys(grants).length === 0) {
       return true;
     }
     _results = [];
-    for (resource_key in grants) {
-      cost = grants[resource_key];
-      _results.push(this.resources[resource_key] = (this.resources[resource_key] || 0) + cost);
+    for (key in grants) {
+      cost = grants[key];
+      _results.push(this.resources[key] = (this.resources[key] || 0) + cost);
     }
     return _results;
   };
@@ -129,18 +135,21 @@ ResourceCalculator = (function() {
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       formula = _ref[_i];
-      if (this.canAfford(formula['cost']) && formula['greedy']) {
-        _results.push((function() {
-          var _results1;
-          _results1 = [];
-          while (this.canAfford(formula['cost'])) {
-            _results1.push(this.deplete(formula['cost']));
+      _results.push((function() {
+        var _results1;
+        _results1 = [];
+        while (this.canAfford(formula['cost'])) {
+          if (this.deplete(formula['cost'])) {
+            this.grant(formula['value']);
           }
-          return _results1;
-        }).call(this));
-      } else {
-        _results.push(void 0);
-      }
+          if (!formula['greedy']) {
+            break;
+          } else {
+            _results1.push(void 0);
+          }
+        }
+        return _results1;
+      }).call(this));
     }
     return _results;
   };
