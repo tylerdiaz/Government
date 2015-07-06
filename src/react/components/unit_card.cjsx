@@ -89,7 +89,7 @@ UnitCard = React.createClass
 
     <div className={classes}>
       <div className="unit_tiny_card">
-        <img src={"/images/sprites/3x/units/"+@props.obj.img} width="66" height="66" className="unit_image" /><br />
+        <img src={"/images/sprites/3x/#{@props.obj.img}"} width="66" height="66" className="unit_image" /><br />
         <span className="unit_level">LVL. {@props.obj.lvl}</span>
       </div>
       <div className="unit_info">
