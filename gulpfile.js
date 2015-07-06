@@ -20,7 +20,7 @@ var gulp = require('gulp'),
 gulp.task('default', function () {
   gulp.watch(['./src/sass/**/*.scss', './src/**/*.css'], ['stylesheet']);
   gulp.watch('./src/react/**/*.cjsx', ['javascript:react']);
-  gulp.watch('./server/*.{coffee,js}', ['game-server']);
+  gulp.watch('./server/*.coffee', ['game-server']);
 });
 
 // Javascript stuff
