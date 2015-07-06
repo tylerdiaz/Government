@@ -28,33 +28,34 @@ Index = React.createClass
         when 'explore' then ExploreTab
         else OversightTab
 
-    <div className="gameplay-container">
-      <Overview
-        initialMorrowCount={@state.clan.timestamp}
-        name={@state.clan.name}
-        clan_size={@state.clan.clan_size}
-        population={@state.clan.population}
-        max_population={@state.clan.max_population}
-        morale={@state.clan.morale}
-      />
-      <div className="sections">
-        <ul className="game_tabs">
-          <WorldTab label="Oversight" hash="oversight" current={@props.route} />
-          <WorldTab label="Community" hash="community" current={@props.route} />
-          <WorldTab label="Expand & Explore" hash="explore" current={@props.route} />
-        </ul>
-        <div>
-        {
-          if @state.clan.name
+    if @state.clan.name
+      <div className="gameplay-container">
+        <Overview
+          initialMorrowCount={@state.clan.timestamp}
+          name={@state.clan.name}
+          clan_size={@state.clan.clan_size}
+          population={@state.clan.units.length}
+          max_population={@state.clan.max_population}
+          morale={@state.clan.morale}
+        />
+        <div className="sections">
+          <ul className="game_tabs">
+            <WorldTab label="Oversight" hash="oversight" current={@props.route} />
+            <WorldTab label="Community" hash="community" current={@props.route} />
+            <WorldTab label="Expand & Explore" hash="explore" current={@props.route} />
+          </ul>
+          <div>
             <WorldTabChild data={@state} />
-          else
-            <div style={textAlign: "center", fontSize: 24, padding: 50, opacity: 0.6}>
-              Fetching every detail, just for you...
-            </div>
-        }
+          </div>
         </div>
       </div>
-    </div>
+    else
+      <div className="gameplay-container">
+        <div style={textAlign: "center", fontSize: 24, padding: 50, opacity: 0.8}>
+          <img src="/images/ajax.gif" /><br />
+          Fetching kingdom details...
+        </div>
+      </div>
 
 
 App = React.createClass
@@ -73,7 +74,6 @@ App = React.createClass
     if Global.userId
       Child = Index
         # switch (@state.route)
-        #   when 'signup' then SignUp
         #   when 'index' then Index
     else
       Child = Landing unless Global.userId
