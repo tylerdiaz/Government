@@ -19,7 +19,7 @@ OversightTab = React.createClass
                 <li>
                   <img src="https://s3.amazonaws.com/uifaces/faces/twitter/whale/128.jpg" alt="" className="event_image" />
                   <div className="event_information">
-                    <span className="title">"A rat's dream"</span>
+                    <span className="title">"A rat's dream" <span className="event_label">side-quest</span></span>
                     <p>A rat has been seen outside the buildings, some villagers reported fear of losing their meals. (<a href="#">investigate</a> &bull; <a href="#">dismiss</a>)</p>
                   </div>
                 </li>
@@ -61,8 +61,8 @@ PolicyConfiguration = React.createClass
     @props.intialProposedPolicies
   componentDidUpdate: (prevProps, prevState) ->
     Global.firebaseRef.child("clans/#{Global.userId}/proposed_policies").set(@state)
-  changeResearch: (event) ->
-    @setState({ researchFocus: event.target.value })
+  changeScouting: (event) ->
+    @setState({ scoutingFocus: event.target.value })
   render: ->
     <div>
       <h5>Policy Config</h5>
@@ -80,21 +80,21 @@ PolicyConfiguration = React.createClass
             <OptionSwitch linkedValue={@linkState('religion')} />
           </div>
           <br />
-          Focus research on...<br />
+          Focus scouting on...<br />
           <form>
           {
-            ['medicine', 'combat', 'expansion'].map (obj, i) =>
+            CONFIG.scouting_focus_options.map (obj, i) =>
               <p>
                 <input
                   className="with-gap"
-                  name="research-focus"
+                  name="scouting-focus"
                   value={obj}
                   type="radio"
-                  id={obj+"-research"}
-                  onChange={@changeResearch}
-                  defaultChecked={@state.researchFocus == obj}
+                  id={obj+"-scouting"}
+                  onChange={@changeScouting}
+                  defaultChecked={@state.scoutingFocus == obj}
                 />
-                <label htmlFor={obj+"-research"}>{obj.capitalize()}</label>
+                <label htmlFor={obj+"-scouting"}>{obj.capitalize()}</label>
               </p>
           }
           </form>

@@ -309,6 +309,15 @@ ul.event_stream {
     min-height:85px;
     border-bottom:2px solid rgba(0, 0, 0, 0.5);
     .event_image { float:left; width: 66px; height:66px; margin-right:10px; }
+    .event_label {
+      text-transform: uppercase;
+      background: #9B5C03;
+      font-size: 11px;
+      color:#fff;
+      padding:1px 3px;
+      border-radius: 3px;
+      margin-left:5px;
+    }
     .event_information {
       float:left;
       width: 523px;
