@@ -37,15 +37,13 @@ GameTick = (function() {
       unit = _ref[unitIndex];
       unit_tick = new UnitTick(unit, this.clan_data.current_policies.wages, isNewRabbit);
       unit_costs = unit_tick.costs();
-      if (unit_costs) {
-        if (resource_calculator.canAfford(unit_costs)) {
-          resource_calculator.deplete(unit_costs);
+      if (resource_calculator.canAfford(unit_costs)) {
+        resource_calculator.deplete(unit_costs);
+      } else {
+        if (unit_tick.isOnDuty()) {
+          unit_tick.decommission();
         } else {
-          if (unit_tick.isOnDuty()) {
-            unit_tick.decommission();
-          } else {
-            unit_tick.starvationPenalty();
-          }
+          unit_tick.starvationPenalty();
         }
       }
       this.clan_data.units[unitIndex] = unit_tick.unit;
