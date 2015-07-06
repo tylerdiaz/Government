@@ -20,13 +20,18 @@ var gulp = require('gulp'),
 gulp.task('default', function () {
   gulp.watch(['./src/sass/**/*.scss', './src/**/*.css'], ['stylesheet']);
   gulp.watch('./src/react/**/*.cjsx', ['javascript:react']);
-  gulp.watch('./server/game-server.js.coffee', ['game-server']);
+  gulp.watch('./server/*.{coffee,js}', ['game-server']);
 });
 
 // Javascript stuff
 gulp.task('game-server', function() {
-  gulp.src('./server/game-server.js.coffee')
-      .pipe(coffeex({ bare: true }).on('error', gutil.log))
+  gulp.src(['./server/*.js', './server/**/*.coffee'])
+      .pipe(gulpif(/[.]coffee$/, coffeex({ bare: true }).on('error', gutil.log)))
+      .pipe(order([
+        "server/*.js",
+        "server/server.js"
+      ], { base: '.' }))
+      .pipe(concat('app.js'))
       .pipe(gulp.dest('./server/'))
 });
 
