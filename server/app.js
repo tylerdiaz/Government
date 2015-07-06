@@ -1,12 +1,25 @@
 var CONFIG;
 
 CONFIG = {
+  scouting_focus_options: ['food', 'weapons', 'looting'],
   resource_descriptions: {
-    glowstones: 'Main currency used',
     meal: 'Meals are used to feed your population',
+    sophisticated_meal: 'Sophisticated meals are used to feed your population and increase morale',
     meat: 'Second half a part of a well-rounded meal',
-    rice: 'First half a part of a well-rounded meal',
-    timber: 'Used to create wooden buildings'
+    fish: 'Second half a part of a well-rounded meal',
+    rice: 'First half a part of a well-rounded meal. It\'s slow to work with.',
+    bread: 'First half a part of a well-rounded meal',
+    grapes: 'A sweet fruit that makes up part of a sophisticated meal',
+    cheese: 'Cheese made from the milk of goats that makes up part of a sophisticated meal',
+    hops: 'A bitter flower used to make beer',
+    yeast: 'Versatile ingredient for making delicious things',
+    beer: 'Alcholic beverage that increases morale. It takes some time to make.',
+    wine: 'Alcholic beverage that makes up part of a sophisticated meal. It takes some time to make.',
+    flour: 'Versatile ingredient for making things',
+    iron: 'Material used to create sturdy weapons and building features',
+    spear: 'A frail weapon used for combat',
+    timber: 'Used to create wooden buildings',
+    glowstones: 'Main currency used'
   },
   calendar: {
     morrows_per_rabbit: 30,
@@ -19,10 +32,64 @@ CONFIG = {
         meal: 1
       },
       cost: {
-        rice: 1,
+        bread: 1,
         meat: 1
       },
       greedy: true
+    }, {
+      value: {
+        meal: 1
+      },
+      cost: {
+        rice: 1,
+        fish: 1
+      },
+      greedy: false
+    }, {
+      value: {
+        meal: 1
+      },
+      cost: {
+        bread: 1,
+        fish: 1
+      },
+      greedy: true
+    }, {
+      value: {
+        meal: 1
+      },
+      cost: {
+        rice: 1,
+        meat: 1
+      },
+      greedy: false
+    }, {
+      value: {
+        sophisticated_meal: 1
+      },
+      cost: {
+        wine: 1,
+        cheese: 1,
+        grapes: 1
+      },
+      greedy: true
+    }, {
+      value: {
+        beer: 1
+      },
+      cost: {
+        hops: 1,
+        yeast: 1
+      },
+      greedy: false
+    }, {
+      value: {
+        wine: 1
+      },
+      cost: {
+        grapes: 5
+      },
+      greedy: false
     }
   ]
 };
@@ -40,7 +107,9 @@ GameTick = (function() {
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
       this.clan_data.units = this.tickUnits(this.clan_data.units, this.isNewRabbit(this.clan_data.timestamp));
-      this.resource_calc.runCombinations();
+    }
+    if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
+      this.resource_calc.runFormulas(CONFIG.formulas);
     }
     this.clan_data.resources = this.resource_calc.resources;
   }
@@ -92,8 +161,6 @@ GameTick = (function() {
 var ResourceCalculator;
 
 ResourceCalculator = (function() {
-  ResourceCalculator.prototype.formulas = CONFIG.formulas;
-
   function ResourceCalculator(resources) {
     this.resources = resources;
   }
@@ -142,16 +209,16 @@ ResourceCalculator = (function() {
     return _results;
   };
 
-  ResourceCalculator.prototype.runCombinations = function() {
-    var formula, _i, _len, _ref, _results;
-    _ref = this.formulas;
+  ResourceCalculator.prototype.runFormulas = function(formulas) {
+    var formula, _i, _len, _results;
     _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      formula = _ref[_i];
+    for (_i = 0, _len = formulas.length; _i < _len; _i++) {
+      formula = formulas[_i];
       _results.push((function() {
         var _results1;
         _results1 = [];
         while (this.canAfford(formula['cost'])) {
+          console.log('making ' + JSON.stringify(formula['value']));
           if (this.deplete(formula['cost'])) {
             this.grant(formula['value']);
           }

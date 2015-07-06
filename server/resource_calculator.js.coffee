@@ -1,5 +1,4 @@
 class ResourceCalculator
-  formulas: CONFIG.formulas
   constructor: (@resources) ->
   canAfford: (prices) ->
     result = true
@@ -20,8 +19,9 @@ class ResourceCalculator
     for key, cost of grants
       @resources[key] = (@resources[key] || 0) + cost
 
-  runCombinations: ->
-    for formula in @formulas
+  runFormulas: (formulas) ->
+    for formula in formulas
       while @canAfford(formula['cost'])
+        console.log 'making '+JSON.stringify(formula['value'])
         @grant(formula['value']) if @deplete(formula['cost'])
         break unless formula['greedy']

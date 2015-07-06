@@ -9,7 +9,12 @@ class GameTick
 
     if @isNewMorrow(@clan_data.state_data.tick_counter)
       @clan_data.units = @tickUnits(@clan_data.units, @isNewRabbit(@clan_data.timestamp))
-      @resource_calc.runCombinations()
+
+    # run building stuff here, which may add to formulas in real-time
+
+    if @isNewMorrow(@clan_data.state_data.tick_counter)
+      @resource_calc.runFormulas(CONFIG.formulas)
+
 
     @clan_data.resources = @resource_calc.resources
 
