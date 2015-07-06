@@ -119,7 +119,7 @@ Global = {
 };
 
 GameState = {
-  motherCycle: null,
+  mainCycle: null,
   activeClans: []
 };
 
@@ -129,7 +129,7 @@ Global.firebaseRef.child("clans").on("child_added", function(snapshot) {
   return GameState.activeClans.push(snapshot.key());
 });
 
-GameState.motherCycle = setInterval(function() {
+GameState.mainCycle = setInterval(function() {
   var clanKey, _i, _len, _ref, _results;
   _ref = GameState.activeClans;
   _results = [];

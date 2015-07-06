@@ -8,15 +8,14 @@ Global =
   morrows_per_rabbit: 30
 
 GameState =
-  motherCycle: null
+  mainCycle: null
   activeClans: []
 
-Global.firebaseRef.child("clans").on("child_added", (snapshot) ->
+Global.firebaseRef.child("clans").on "child_added", (snapshot) ->
   clan_data = snapshot.val()
-  GameState.activeClans.push(snapshot.key())
-)
+  GameState.activeClans.push snapshot.key()
 
-GameState.motherCycle = setInterval( ->
+GameState.mainCycle = setInterval( ->
   for clanKey in GameState.activeClans
     Global.firebaseRef.child("clans/#{clanKey}").once("value", (snapshot) ->
       Global.firebaseRef.child("clans/#{clanKey}").set(new GameTick(snapshot.val()).clan_data)
