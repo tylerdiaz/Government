@@ -25,7 +25,7 @@ gulp.task('default', function () {
 
 // Javascript stuff
 gulp.task('game-server', function() {
-  gulp.src(['./server/*.js', './server/**/*.coffee'])
+  gulp.src('./server/**/*.coffee')
       .pipe(gulpif(/[.]coffee$/, coffeex({ bare: true }).on('error', gutil.log)))
       .pipe(order([
         "server/*.js",
