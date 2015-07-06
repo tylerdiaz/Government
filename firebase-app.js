@@ -56,13 +56,13 @@ var firebaseData = {
         user_active: true,
         tick_counter: 0,
       },
-      resources: [
-        { resource: 'glowstones', amount: 2000, description: 'what a description would go here......' },
-        { resource: 'timber', amount: 25, description: 'what a description would go here......' },
-        { resource: 'rice', amount: 90, description: 'what a description would go here......' },
-        { resource: 'meat', amount: 100, description: 'what a description would go here......' },
-        { resource: 'meal', amount: 200, description: 'something to feed people with...' },
-      ],
+      resources: {
+        glowstones: 2000,
+        timber: 25,
+        rice: 90,
+        meat: 100,
+        meal: 200,
+      },
       current_policies: {
         wages: "1.5",
         overtime: false,

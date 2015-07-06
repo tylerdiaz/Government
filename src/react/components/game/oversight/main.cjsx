@@ -31,11 +31,11 @@ OversightTab = React.createClass
       <h5>Table of Resources</h5>
       <ResourceTable number_row="Quantity" title_row="Resource" text_row="Description">
         {
-          @props.data.clan.resources.map (obj, i) ->
+          Object.keys(@props.data.clan.resources).map (key, i) =>
             <ResourceRow
-              resource={obj.resource}
-              amount={obj.amount}
-              description={obj.description}
+              resource={key}
+              amount={@props.data.clan.resources[key]}
+              description={'description implementation pending...'}
               key={i}
             />
         }
