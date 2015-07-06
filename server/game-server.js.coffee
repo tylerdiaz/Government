@@ -37,7 +37,6 @@ class GameTicker
 
     if @isNewMorrow(@clan_data.state_data.tick_counter)
       @tickUnits(@isNewRabbit(@clan_data.timestamp))
-      @tickUnitProduction(@isNewRabbit(@clan_data.timestamp))
 
   isNewRabbit: (timestamp) ->
     (timestamp % Global.morrows_per_rabbit) == 0
@@ -52,30 +51,26 @@ class GameTicker
       timestamp
 
   tickUnits: (isNewRabbit) ->
-    total_costs = {}
     resource_calculator = new ResourceCalculator(@clan_data.resources)
 
     for unit, unitIndex in @clan_data.units
-      unitTick = new UnitTick(unit, @clan_data.current_policies.wages, isNewRabbit)
-      total_unit_costs = unitTick.costs()
-
-      if total_unit_costs
-        if resource_calculator.canAfford(total_unit_costs)
-          resource_calculator.deplete(total_unit_costs)
+      unit_tick = new UnitTick(unit, @clan_data.current_policies.wages, isNewRabbit)
+      unit_costs = unit_tick.costs()
+      if unit_costs
+        if resource_calculator.canAfford(unit_costs)
+          resource_calculator.deplete(unit_costs)
         else
-          if unitTick.isOnDuty()
-            unitTick.decommission()
+          if unit_tick.isOnDuty()
+            unit_tick.decommission()
           else
-            unitTick.starvationPenalty()
+            unit_tick.starvationPenalty()
 
-      @clan_data.units[unitIndex] = unitTick.unit
-      @clan_data.resources = resource_calculator.resources
+      @clan_data.units[unitIndex] = unit_tick.unit
+
+    @clan_data.resources = resource_calculator.resources
 
   calculateBuildingCosts: (buildings) ->
     console.log 'building'
-
-  tickUnitProduction: (isNewRabbit) ->
-    console.log 'tickunit'
 
 class ResourceCalculator
   constructor: (@resources) ->

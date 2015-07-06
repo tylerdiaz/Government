@@ -45,7 +45,6 @@ GameTicker = (function() {
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
       this.tickUnits(this.isNewRabbit(this.clan_data.timestamp));
-      this.tickUnitProduction(this.isNewRabbit(this.clan_data.timestamp));
     }
   }
 
@@ -66,38 +65,31 @@ GameTicker = (function() {
   };
 
   GameTicker.prototype.tickUnits = function(isNewRabbit) {
-    var resource_calculator, total_costs, total_unit_costs, unit, unitIndex, unitTick, _i, _len, _ref, _results;
-    total_costs = {};
+    var resource_calculator, unit, unitIndex, unit_costs, unit_tick, _i, _len, _ref;
     resource_calculator = new ResourceCalculator(this.clan_data.resources);
     _ref = this.clan_data.units;
-    _results = [];
     for (unitIndex = _i = 0, _len = _ref.length; _i < _len; unitIndex = ++_i) {
       unit = _ref[unitIndex];
-      unitTick = new UnitTick(unit, this.clan_data.current_policies.wages, isNewRabbit);
-      total_unit_costs = unitTick.costs();
-      if (total_unit_costs) {
-        if (resource_calculator.canAfford(total_unit_costs)) {
-          resource_calculator.deplete(total_unit_costs);
+      unit_tick = new UnitTick(unit, this.clan_data.current_policies.wages, isNewRabbit);
+      unit_costs = unit_tick.costs();
+      if (unit_costs) {
+        if (resource_calculator.canAfford(unit_costs)) {
+          resource_calculator.deplete(unit_costs);
         } else {
-          if (unitTick.isOnDuty()) {
-            unitTick.decommission();
+          if (unit_tick.isOnDuty()) {
+            unit_tick.decommission();
           } else {
-            unitTick.starvationPenalty();
+            unit_tick.starvationPenalty();
           }
         }
       }
-      this.clan_data.units[unitIndex] = unitTick.unit;
-      _results.push(this.clan_data.resources = resource_calculator.resources);
+      this.clan_data.units[unitIndex] = unit_tick.unit;
     }
-    return _results;
+    return this.clan_data.resources = resource_calculator.resources;
   };
 
   GameTicker.prototype.calculateBuildingCosts = function(buildings) {
     return console.log('building');
-  };
-
-  GameTicker.prototype.tickUnitProduction = function(isNewRabbit) {
-    return console.log('tickunit');
   };
 
   return GameTicker;
