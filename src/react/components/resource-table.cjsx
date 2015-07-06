@@ -22,7 +22,7 @@ ResourceRow = React.createClass
   render: ->
     <tr>
       <td>x{@props.amount.format()}</td>
-      <td>{@props.resource.capitalize()}</td>
+      <td>{@props.resource.humanize()}</td>
       <td>{@resource_descriptions[@props.resource] || 'No description for this resource'}</td>
     </tr>
 
