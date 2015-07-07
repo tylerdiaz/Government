@@ -1,7 +1,25 @@
-if navigator.onLine
-  firebaseUrl = ""
-else
-  firebaseUrl = "ws://local.firebaseio.com:5111"
+# if navigator.onLine
+#   firebaseUrl = ""
+# else
+firebaseUrl = "ws://local.firebaseio.com:5111"
+joinPaths = (id, paths, fn) ->
+  returnCount = 0
+  expectedCount = paths.length
+  mergedObject = {}
+
+  paths.forEach (p) ->
+    Global.firebaseRef.child(p + '/' + id).once 'value', (snap) ->
+      if p in CONFIG.denormalized_tables
+        mergedObject[p] = snap.val()
+      else
+        mergedObject = Object.merge(mergedObject, snap.val(), true)
+
+      fn(null, mergedObject) if (++returnCount is expectedCount)
+    ,
+      (error) ->
+        returnCount = expectedCount + 1 # abort counters
+        fn(error, null)
+
 
 Global =
   userId: store.get('user')
@@ -18,8 +36,8 @@ Index = React.createClass
     clan: {}
 
   componentWillMount: ->
-    Global.firebaseRef.child("clans/#{Global.userId}").on 'value', (snapshot) =>
-      @setState({ clan: snapshot.val() })
+    joinPaths Global.userId, CONFIG.denormalized_tables.include('clans'), (err, combined_value) =>
+      @setState({ clan: combined_value })
 
   render: ->
     WorldTabChild =
@@ -30,14 +48,7 @@ Index = React.createClass
 
     if @state.clan.name
       <div className="gameplay-container">
-        <Overview
-          initialMorrowCount={@state.clan.timestamp}
-          name={@state.clan.name}
-          clan_size={@state.clan.clan_size}
-          population={@state.clan.units.length}
-          max_population={@state.clan.max_population}
-          morale={@state.clan.morale}
-        />
+        <Overview />
         <div className="sections">
           <ul className="game_tabs">
             <WorldTab label="Oversight" hash="oversight" current={@props.route} />

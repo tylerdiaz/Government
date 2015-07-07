@@ -1,8 +1,13 @@
 CommunityTab = React.createClass
+  mixins: [ReactFireMixin],
+  getInitialState: ->
+    units: []
+  componentWillMount: ->
+    @bindAsArray(Global.firebaseRef.child("units/#{Global.userId}"), "units");
   render: ->
     <div>
       <div className="clearfix" style={margin: 10, overflow: "hidden"}>
-        { @props.data.clan.units.map (object, i) -> <UnitCard obj={object} key={i} /> }
+        { @state.units.map (object, i) -> <UnitCard obj={object} key={i} /> }
       </div>
       <hr />
       <h5>Buildings</h5>

@@ -9,14 +9,16 @@ CalendarDateType = React.createClass
     </span>
 
 CalendarFormatter = React.createClass
+  mixins: [ReactFireMixin],
   elephant_duration: CONFIG.calendar.morrows_per_elephant
   lion_duration: CONFIG.calendar.morrows_per_lion
   rabbit_duration: CONFIG.calendar.morrows_per_rabbit
-  propTypes: {
-    morrows: React.PropTypes.number,
-  },
+  getInitialState: ->
+    data: { user_active: true, tick_counter: 0, timestamp: 0 }
+  componentWillMount: ->
+    @bindAsObject(Global.firebaseRef.child("state_data/#{Global.userId}"), "data");
   render: ->
-    morrow_ticker = @props.morrows
+    morrow_ticker = @state.data.timestamp
     timestamp_components = []
 
     elephants = Math.floor(morrow_ticker / @elephant_duration)

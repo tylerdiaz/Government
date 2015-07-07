@@ -54,17 +54,8 @@ var firebaseData = {
       morale: 60,
       name: "Karolann",
       max_population: 5,
-      timestamp: 0,
-      state_data: { user_active: true, tick_counter: 0 },
-      resources: { glowstones: 600, meal: 120, rice: 10000, beef: 20000, fish: 20000 },
       current_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' },
       proposed_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' },
-      units: [
-        merge_options(default_unit_json, { name: 'Jupiter', title: 'Resourceful', profession: 'scout', img: 'units/jupiter.png' }),
-        merge_options(default_unit_json, { name: 'Mendel', title: 'Builder', profession: 'builder', img: 'units/builder.png' }),
-        merge_options(default_unit_json, { name: 'Tybalt', title: 'Spearman', profession: 'spearman', img: 'units/spearman.png' }),
-        merge_options(default_unit_json, { name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/villager.png' }),
-      ],
     },
   },
   users: {
@@ -72,8 +63,21 @@ var firebaseData = {
       name: "Tyler",
       addressment: "Lord"
     }
-  }
+  },
+  state_data: {
+    "simplelogin:1": { user_active: true, tick_counter: 0, timestamp: 0 },
+  },
+  resources: {
+    "simplelogin:1": { glowstones: 600, meal: 120, rice: 10000, beef: 20000, fish: 20000 }
+  },
+  units: {
+    "simplelogin:1": [
+      merge_options(default_unit_json, { name: 'Jupiter', title: 'Resourceful', profession: 'scout', img: 'units/jupiter.png' }),
+      merge_options(default_unit_json, { name: 'Mendel', title: 'Builder', profession: 'builder', img: 'units/builder.png' }),
+      merge_options(default_unit_json, { name: 'Tybalt', title: 'Spearman', profession: 'spearman', img: 'units/spearman.png' }),
+      merge_options(default_unit_json, { name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/villager.png' }),
+    ]
+  },
 };
 
 new FirebaseServer(5111, 'local.firebaseio.com', firebaseData);
-

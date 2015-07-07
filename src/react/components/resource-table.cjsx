@@ -1,4 +1,4 @@
-ResourceTable = React.createClass
+Table = React.createClass
   render: ->
     <table className="resource_table">
       <thead>
@@ -13,15 +13,38 @@ ResourceTable = React.createClass
       </tbody>
     </table>
 
+ResourceTable = React.createClass
+  mixins: [ReactFireMixin],
+  componentWillMount: ->
+    @bindAsObject(Global.firebaseRef.child("resources/#{Global.userId}"), "resources");
+  getInitialState: ->
+    resources: {}
+  render: ->
+    <Table number_row="Quantity" title_row="Resource" text_row="Description">
+      {
+        Object.keys(@state.resources).map (key, i) =>
+          <ResourceRow
+            resource={key}
+            amount={@state.resources[key]}
+            description={'description implementation pending...'}
+            key={i}
+          />
+      }
+    </Table>
+
 ResourceRow = React.createClass
+  tickerTimeout: null
   propTypes: {
     amount: React.PropTypes.number,
     resource: React.PropTypes.string,
   },
   resource_descriptions: CONFIG.resource_descriptions
-  getInitialState: () ->
+  getInitialState: ->
     { progress: null }
   componentWillReceiveProps: (nextProps) ->
+    @tickerTimeout = setTimeout( =>
+      @setState({ progress: null, difference: 0 })
+    ,1200)
     if nextProps.amount > @props.amount
       @setState({ progress: 'up', difference: "+"+(nextProps.amount-@props.amount) })
     else if nextProps.amount < @props.amount

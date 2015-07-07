@@ -2,13 +2,13 @@ class GameTick
   constructor: (@clan_data) ->
     @resource_calc = new ResourceCalculator(@clan_data.resources)
     @clan_data.state_data.tick_counter = @clan_data.state_data.tick_counter + 1
-    @clan_data.timestamp = @morrowTick(@clan_data.state_data.tick_counter, @clan_data.timestamp)
+    @clan_data.state_data.timestamp = @morrowTick(@clan_data.state_data.tick_counter, @clan_data.state_data.timestamp)
 
-    if @isNewRabbit(@clan_data.timestamp)
+    if @isNewRabbit(@clan_data.state_data.timestamp)
       @clan_data.current_policies = @clan_data.proposed_policies
 
     if @isNewMorrow(@clan_data.state_data.tick_counter)
-      @clan_data.units = @tickUnits(@clan_data.units, @isNewRabbit(@clan_data.timestamp))
+      @clan_data.units = @tickUnits(@clan_data.units, @isNewRabbit(@clan_data.state_data.timestamp))
 
     # run building stuff here, which may add to formulas in real-time
 

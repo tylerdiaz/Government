@@ -2,6 +2,7 @@ var CONFIG;
 
 CONFIG = {
   scouting_focus_options: ['food', 'weapons', 'looting'],
+  denormalized_tables: ['units', 'resources', 'state_data'],
   resource_descriptions: {
     meal: 'Meals are used to feed your population',
     sophisticated_meal: 'Sophisticated meals are used to feed your population and increase morale',
@@ -101,12 +102,12 @@ GameTick = (function() {
     this.clan_data = clan_data;
     this.resource_calc = new ResourceCalculator(this.clan_data.resources);
     this.clan_data.state_data.tick_counter = this.clan_data.state_data.tick_counter + 1;
-    this.clan_data.timestamp = this.morrowTick(this.clan_data.state_data.tick_counter, this.clan_data.timestamp);
-    if (this.isNewRabbit(this.clan_data.timestamp)) {
+    this.clan_data.state_data.timestamp = this.morrowTick(this.clan_data.state_data.tick_counter, this.clan_data.state_data.timestamp);
+    if (this.isNewRabbit(this.clan_data.state_data.timestamp)) {
       this.clan_data.current_policies = this.clan_data.proposed_policies;
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
-      this.clan_data.units = this.tickUnits(this.clan_data.units, this.isNewRabbit(this.clan_data.timestamp));
+      this.clan_data.units = this.tickUnits(this.clan_data.units, this.isNewRabbit(this.clan_data.state_data.timestamp));
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
       this.resource_calc.runFormulas(CONFIG.formulas);
@@ -237,7 +238,8 @@ ResourceCalculator = (function() {
 
 })();
 
-var Firebase, GameState, Global, _;
+var Firebase, GameState, Global, joinPaths, _,
+  __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 Firebase = require('firebase');
 
@@ -251,12 +253,34 @@ Global = {
 
 GameState = {
   mainCycle: null,
-  activeClans: []
+  activeClans: [],
+  clanDataStructureKeys: []
+};
+
+joinPaths = function(id, paths, fn) {
+  var expectedCount, mergedObject, returnCount;
+  returnCount = 0;
+  expectedCount = paths.length;
+  mergedObject = {};
+  return paths.forEach(function(p) {
+    return Global.firebaseRef.child(p + '/' + id).once('value', function(snap) {
+      if (__indexOf.call(CONFIG.denormalized_tables, p) >= 0) {
+        mergedObject[p] = snap.val();
+      } else {
+        _.extend(mergedObject, snap.val());
+      }
+      if (++returnCount === expectedCount) {
+        return fn(null, mergedObject);
+      }
+    }, function(error) {
+      returnCount = expectedCount + 1;
+      return fn(error, null);
+    });
+  });
 };
 
 Global.firebaseRef.child("clans").on("child_added", function(snapshot) {
-  var clan_data;
-  clan_data = snapshot.val();
+  GameState.clanDataStructureKeys = Object.keys(snapshot.val());
   return GameState.activeClans.push(snapshot.key());
 });
 
@@ -266,8 +290,23 @@ GameState.mainCycle = setInterval(function() {
   _results = [];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     clanKey = _ref[_i];
-    _results.push(Global.firebaseRef.child("clans/" + clanKey).once("value", function(snapshot) {
-      return Global.firebaseRef.child("clans/" + clanKey).set(new GameTick(snapshot.val()).clan_data);
+    _results.push(joinPaths(clanKey, CONFIG.denormalized_tables.concat(['clans']), function(err, combined_value) {
+      var actuated_clan_data, game_tick, k, key, _j, _k, _len1, _len2, _ref1, _ref2, _results1;
+      game_tick = new GameTick(combined_value);
+      actuated_clan_data = {};
+      _ref1 = GameState.clanDataStructureKeys;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        k = _ref1[_j];
+        actuated_clan_data[k] = game_tick.clan_data[k];
+      }
+      Global.firebaseRef.child("clans/" + clanKey).set(actuated_clan_data);
+      _ref2 = CONFIG.denormalized_tables;
+      _results1 = [];
+      for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+        key = _ref2[_k];
+        _results1.push(Global.firebaseRef.child("" + key + "/" + clanKey).set(game_tick.clan_data[key]));
+      }
+      return _results1;
     }));
   }
   return _results;
