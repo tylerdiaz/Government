@@ -108,7 +108,6 @@ gulp.task('sprites', function() {
            imageMagick: true,
            filter: 'Point'
          }))
-        .pipe(wait(5000))
         .pipe(gulp.dest("./dist/images/sprites/"+multiplier+"x/"));
   })
   notify({ message: 'Sprites completed' })
