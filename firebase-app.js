@@ -19,7 +19,7 @@ var default_unit_json = {
   costs: [
     {
       resource_type: 'meal',
-      resource_value: 40,
+      resource_value: 20,
       frequency: 'bunny',
       on_duty_contingency: false,
     },
@@ -56,7 +56,7 @@ var firebaseData = {
       max_population: 5,
       timestamp: 0,
       state_data: { user_active: true, tick_counter: 0 },
-      resources: { glowstones: 800, meal: 240, rice: 100, meat: 20 },
+      resources: { glowstones: 600, meal: 120, rice: 10000, beef: 20000, fish: 20000 },
       current_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' },
       proposed_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' },
       units: [
