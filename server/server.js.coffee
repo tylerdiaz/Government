@@ -3,8 +3,8 @@ _ = require('underscore')
 
 Global =
   firebaseRef: new Firebase("ws://local.firebaseio.com:5111")
-  tickRate: 200
-  ticks_per_morrow: 10
+  tickRate: 1000
+  ticks_per_morrow: 2
 
 GameState =
   mainCycle: null

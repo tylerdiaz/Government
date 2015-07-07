@@ -5,7 +5,7 @@ CONFIG = {
   resource_descriptions: {
     meal: 'Meals are used to feed your population',
     sophisticated_meal: 'Sophisticated meals are used to feed your population and increase morale',
-    meat: 'Second half a part of a well-rounded meal',
+    beef: 'Second half a part of a well-rounded meal',
     fish: 'Second half a part of a well-rounded meal',
     rice: 'First half a part of a well-rounded meal. It\'s slow to work with.',
     bread: 'First half a part of a well-rounded meal',
@@ -33,7 +33,7 @@ CONFIG = {
       },
       cost: {
         bread: 1,
-        meat: 1
+        beef: 1
       },
       greedy: true
     }, {
@@ -60,7 +60,7 @@ CONFIG = {
       },
       cost: {
         rice: 1,
-        meat: 1
+        beef: 1
       },
       greedy: false
     }, {
@@ -218,7 +218,6 @@ ResourceCalculator = (function() {
         var _results1;
         _results1 = [];
         while (this.canAfford(formula['cost'])) {
-          console.log('making ' + JSON.stringify(formula['value']));
           if (this.deplete(formula['cost'])) {
             this.grant(formula['value']);
           }
@@ -246,8 +245,8 @@ _ = require('underscore');
 
 Global = {
   firebaseRef: new Firebase("ws://local.firebaseio.com:5111"),
-  tickRate: 200,
-  ticks_per_morrow: 10
+  tickRate: 1000,
+  ticks_per_morrow: 2
 };
 
 GameState = {
