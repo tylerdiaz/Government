@@ -22,6 +22,5 @@ class ResourceCalculator
   runFormulas: (formulas) ->
     for formula in formulas
       while @canAfford(formula['cost'])
-        console.log 'making '+JSON.stringify(formula['value'])
         @grant(formula['value']) if @deplete(formula['cost'])
         break unless formula['greedy']
