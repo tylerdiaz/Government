@@ -3,6 +3,7 @@ Authentication = React.createClass
     { authError: null, errorClassSet: React.addons.classSet({ 'notifier': true }) }
 
   handleSignIn: (e) ->
+    e.preventDefault()
     email = React.findDOMNode(@refs.email.refs.input).value.trim()
     password = React.findDOMNode(@refs.password.refs.input).value.trim()
     @setState({ authError: 'Signing in...' })
@@ -32,7 +33,7 @@ Authentication = React.createClass
         location.reload()
     )
 
-    e.preventDefault()
+
   render: ->
     <div className="landing-auth">
       <img src="/images/full-map-blur.png" id="image-bg" />
