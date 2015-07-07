@@ -4,7 +4,7 @@ CONFIG =
     # culinary ingredients
     meal: 'Meals are used to feed your population'
     sophisticated_meal: 'Sophisticated meals are used to feed your population and increase morale'
-    meat: 'Second half a part of a well-rounded meal'
+    beef: 'Second half a part of a well-rounded meal'
     fish: 'Second half a part of a well-rounded meal'
     rice: 'First half a part of a well-rounded meal. It\'s slow to work with.'
     bread: 'First half a part of a well-rounded meal'
@@ -30,12 +30,13 @@ CONFIG =
     morrows_per_rabbit: 30
     morrows_per_lion: 119 # minus one offset
     morrows_per_elephant: 659 # minus one offset
+
   formulas: [
     # meals
-    { value: { meal: 1 }, cost: { bread: 1, meat: 1 }, greedy: true },
+    { value: { meal: 1 }, cost: { bread: 1, beef: 1 }, greedy: true },
     { value: { meal: 1 }, cost: { rice: 1, fish: 1 }, greedy: false },
     { value: { meal: 1 }, cost: { bread: 1, fish: 1 }, greedy: true },
-    { value: { meal: 1 }, cost: { rice: 1, meat: 1 }, greedy: false },
+    { value: { meal: 1 }, cost: { rice: 1, beef: 1 }, greedy: false },
     { value: { sophisticated_meal: 1 }, cost: { wine: 1, cheese: 1, grapes: 1 }, greedy: true },
 
     # drinks
