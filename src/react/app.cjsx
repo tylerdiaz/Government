@@ -64,7 +64,7 @@ App = React.createClass
 
    componentWillMount: ->
      if Global.userId
-       Global.firebaseRef.child("users/#{Global.userId}").on 'value', (snapshot) =>
+       Global.firebaseRef.child("users/#{Global.userId}").once 'value', (snapshot) =>
          @setState({ user: snapshot.val() })
 
      window.addEventListener 'hashchange', =>
