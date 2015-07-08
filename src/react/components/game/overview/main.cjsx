@@ -1,7 +1,7 @@
 Overview = React.createClass
   render: ->
     <div className="overview daytime">
-      <img src="/images/full-map.png" id="user_map" />
+      <OverviewMap />
       <div className="date_stats">
         <CalendarFormatter />
       </div>
@@ -32,3 +32,28 @@ OverviewStats = React.createClass
         />
       </ul>
     </div>
+
+OverviewMap = React.createClass
+  mixins: [ReactFireMixin],
+  getInitialState: ->
+    maps: { stage: 1 }
+  componentWillMount: ->
+    @bindAsObject(Global.firebaseRef.child("maps/#{Global.userId}"), "maps")
+  render: ->
+    <div id="user_map">
+      { CONFIG.stages[@state.maps.stage]['underlay'].map (img, i) -> <img src="/images/map-parts/#{img}.png" /> }
+      <MapBuilding buildingType="cabin" locationIndex="1" />
+      { CONFIG.stages[@state.maps.stage]['overlay'].map (img, i) -> <img src="/images/map-parts/#{img}.png" /> }
+      <img src="/images/map-parts/map-polish.png" />
+    </div>
+
+MapBuilding = React.createClass
+  locationPlots:
+    1: { top: 178, left: 430, backgroundPosition: 'right bottom' }
+    2: { top: 155, left: 480, backgroundPosition: 'right bottom' }
+    3: { top: 155, left: 480, backgroundPosition: 'right bottom' }
+    4: { top: 170, left: 557, backgroundPosition: 'left bottom' }
+  render: ->
+    styles = @locationPlots[@props.locationIndex]
+    styles['backgroundImage'] = "url(/images/buildings/#{@props.buildingType}.png)"
+    <div className='map_building' style={styles}></div>

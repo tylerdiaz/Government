@@ -78,6 +78,22 @@ var firebaseData = {
       merge_options(default_unit_json, { name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/villager.png' }),
     ]
   },
+  buildings: {
+    "simplelogin:1": {
+      1: 'building data structure here',
+      2: 'locked',
+      3: 'locked',
+      4: 'locked',
+      5: 'locked',
+      6: 'locked',
+      7: 'locked',
+    }
+  },
+  maps: {
+    "simplelogin:1": {
+      stage: 1
+    }
+  },
 };
 
 new FirebaseServer(5111, 'local.firebaseio.com', firebaseData);

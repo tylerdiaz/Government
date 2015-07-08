@@ -126,19 +126,29 @@ input.form-control { padding:0 10px; }
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fef0b4', endColorstr='#fffef7',GradientType=0 ); /* IE6-9 */
     }
     #user_map {
+      width: 900px;
+      height: 600px;
       position:absolute;
-      top:-140px;
-      left:-230px;
-      -webkit-animation-duration: 60s;
-      animation-duration: 60s;
-      -webkit-animation-fill-mode: both;
-      animation-fill-mode: both;
-      -webkit-animation-timing-function: ease-in-out;
-      animation-timing-function: ease-in-out;
-      animation-iteration-count:infinite;
-      -webkit-animation-iteration-count:infinite;
-      -webkit-animation-name: slowReveal;
-      animation-name: slowReveal;
+      top:-170px;
+      left:-260px;
+      &.panAnimation {
+        -webkit-animation-duration: 30s;
+        animation-duration: 30s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        -webkit-animation-timing-function: ease-in-out;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count:infinite;
+        -webkit-animation-iteration-count:infinite;
+        -webkit-animation-name: slowReveal;
+        animation-name: slowReveal;
+      }
+      img, .map_building { position:absolute; left:0; top:0; }
+      .map_building {
+        width:70px;
+        height: 140px;
+        background:transparent url()no-repeat left bottom;
+      }
     }
     .date_stats {
       position:absolute;
@@ -215,13 +225,13 @@ ul.game_tabs {
 }
 
 @-webkit-keyframes slowReveal {
-  20% { top:-110px; left:-220px; }
+  20% { top:-130px; left:-220px; }
   35% { top:-210px; left:-190px; }
   45% { top:-210px; left:-240px; }
   60% { top:-140px; left:-230px; }
 }
 @keyframes slowReveal {
-  20% { top:-110px; left:-220px; }
+  20% { top:-130px; left:-220px; }
   35% { top:-210px; left:-190px; }
   45% { top:-210px; left:-240px; }
   60% { top:-140px; left:-230px; }

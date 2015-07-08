@@ -44,3 +44,26 @@ CONFIG =
     { value: { beer: 1 }, cost: { hops: 1, yeast: 1 }, greedy: false },
     { value: { wine: 1 }, cost: { grapes: 5 }, greedy: false },
   ]
+
+  stages:
+    1:
+      overlay: ['map-frontyard-forest']
+      underlay: ['map-start-greenland']
+    2:
+      overlay: []
+      underlay: ['map-start-greenland']
+    3:
+      overlay: ['map-backyard-forest']
+      underlay: ['map-greenland']
+    4:
+      overlay: []
+      underlay: ['map-greenland']
+    5:
+      overlay: ['map-backyard-forest']
+      underlay: ['map-greenland', 'map-desert']
+    6:
+      overlay: []
+      underlay: ['map-greenland', 'map-desert']
+    7:
+      overlay: []
+      underlay: ['map-water', 'map-greenland', 'map-desert']
