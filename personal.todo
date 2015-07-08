@@ -4,13 +4,13 @@ Things to do:
    [ ] Add 1s animation for new events
  [ ] Create building design
  [ ] Wireframe expand and explore tab
- [ ] Create basic firebase example to start basing data off and affecting changes
- [ ] Design dynamic map/building placement
+ [x] Create basic firebase example to start basing data off and affecting changes @done (15-07-08 12:58)
+ [x] Design dynamic map/building placement @done (15-07-08 12:58)
  [ ] Think of data structure for event graphs
  [ ] Design event "investigate" panel
  [ ] Design assign unit panel
  [x] Authentication @done (15-06-28 15:55)
- [ ] Research js object diffing for policy changes
+ [x] Research js object diffing for policy changes @done (15-07-08 12:58)
  [ ] Add design for tab notifications
  [ ] Progress bars for buildings, land prepping, unit level, teaching progress,
  [ ] Starting storyline
@@ -32,77 +32,3 @@ Logs vs Actionable Events vs Storylines ?
 Groups of people work together to do things. Should there be "UnitParties" ?
 "Overtime working" gets things done at x1.5 speed, but minus 1%/morrow/on-duty unit.
 Survival based - Can you build a village that survives longer than {x time frame}?
-
-DATA STRUCTURE
-{
-  name: "Karaden",
-  type: "village",
-  population: 3,
-  morale: 10.3,
-  timestamp: 93932,
-  resources: [
-    { resource: 'glowstones', amount: 1200, description: 'what a description would go here......' },
-    { resource: 'timber', amount: 25, description: 'what a description would go here......' },
-    { resource: 'rice', amount: 90, description: 'what a description would go here......' },
-    { resource: 'meat', amount: 100, description: 'what a description would go here......' },
-  ],
-  units: [
-    {
-     id: 103901,
-     name: "Walter",
-     title: "builder",
-     profession: "builder",
-     current_hp: 10,
-     max_hp: 10,
-     lvl: 2,
-     current_exp: 32,
-     max_exp: 150,
-     states: {},
-     on_duty: true,
-     duty_description: 'On Blacksmith#1',
-     costs: [
-       {
-         resource_type: 'meal',
-         resource_amount: 2,
-         frequency: 'morrow',
-         on_duty_contingency: false,
-       },
-       {
-         resource_type: 'glowstones',
-         resource_amount: 4,
-         frequency: 'morrow',
-         on_duty_contingency: true,
-       },
-     ],
-     perks: [
-       {
-         resource_type: 'construction',
-         resource_amount: 3,
-         frequency: 'moon',
-         on_duty_contingency: true,
-       },
-     ],
-    },
-    {}
-  ],
-  events: [
-    {},
-    {}
-  ],
-  buildings: [
-    {},
-    {}
-  ],
-  chances: [
-    {},
-    {}
-  ],
-  technologies: [
-    {},
-    {}
-  ],
-  relationships: [
-    {},
-    {}
-  ]
-}
