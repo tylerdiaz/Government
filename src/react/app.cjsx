@@ -93,10 +93,13 @@ App = React.createClass
       <Header user={@state.user} />
       <Child route={@state.route} user={@state.user} />
       <div className="footer">
-        A project by <a target="_blank" href="http://tylerdiaz.com/">Tyler Diaz</a> { new Date().getFullYear() }&nbsp;
-        &bull;&nbsp;Music by <a target="_blank" href="http://www.amiina.com">amiina</a>&nbsp;
-        &bull;&nbsp;Art by <a target="_blank" href="http://quale-art.blogspot.jp">svh440</a>&nbsp;
-        & <a target="_blank" href="http://www.kenney.nl">Kenney</a>
+        A project by <a target="_blank" href="http://tylerdiaz.com/">Tyler Diaz</a> { new Date().getFullYear() }
+        { " \u2022 " }
+        Music by <a target="_blank" href="http://www.amiina.com">amiina</a>
+        { " \u2022 " }
+        Art by <a target="_blank" href="http://quale-art.blogspot.jp">svh440</a>
+        { " & " }
+        <a target="_blank" href="http://www.kenney.nl">Kenney</a>
       </div>
     </div>
 
