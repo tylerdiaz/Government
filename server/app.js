@@ -36,7 +36,8 @@ CONFIG = {
         bread: 1,
         beef: 1
       },
-      greedy: true
+      greedy: true,
+      enabled: true
     }, {
       value: {
         meal: 1
@@ -45,7 +46,8 @@ CONFIG = {
         rice: 1,
         fish: 1
       },
-      greedy: false
+      greedy: false,
+      enabled: true
     }, {
       value: {
         meal: 1
@@ -54,7 +56,8 @@ CONFIG = {
         bread: 1,
         fish: 1
       },
-      greedy: true
+      greedy: true,
+      enabled: true
     }, {
       value: {
         meal: 1
@@ -63,7 +66,8 @@ CONFIG = {
         rice: 1,
         beef: 1
       },
-      greedy: false
+      greedy: false,
+      enabled: true
     }, {
       value: {
         sophisticated_meal: 1
@@ -73,7 +77,8 @@ CONFIG = {
         cheese: 1,
         grapes: 1
       },
-      greedy: true
+      greedy: true,
+      enabled: true
     }, {
       value: {
         beer: 1
@@ -82,7 +87,8 @@ CONFIG = {
         hops: 1,
         yeast: 1
       },
-      greedy: false
+      greedy: false,
+      enabled: true
     }, {
       value: {
         wine: 1
@@ -90,9 +96,40 @@ CONFIG = {
       cost: {
         grapes: 5
       },
-      greedy: false
+      greedy: false,
+      enabled: true
     }
-  ]
+  ],
+  stages: {
+    1: {
+      overlay: ['map-frontyard-forest'],
+      underlay: ['map-start-greenland']
+    },
+    2: {
+      overlay: [],
+      underlay: ['map-start-greenland']
+    },
+    3: {
+      overlay: ['map-backyard-forest'],
+      underlay: ['map-greenland']
+    },
+    4: {
+      overlay: [],
+      underlay: ['map-greenland']
+    },
+    5: {
+      overlay: ['map-backyard-forest'],
+      underlay: ['map-greenland', 'map-desert']
+    },
+    6: {
+      overlay: [],
+      underlay: ['map-greenland', 'map-desert']
+    },
+    7: {
+      overlay: [],
+      underlay: ['map-water', 'map-greenland', 'map-desert']
+    }
+  }
 };
 
 var GameTick;
@@ -110,6 +147,7 @@ GameTick = (function() {
       this.clan_data.units = this.tickUnits(this.clan_data.units, this.isNewRabbit(this.clan_data.state_data.timestamp));
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
+      this.clan_data.morale = parseFloat(this.clan_data.morale) + this.unitMoraleOffset(this.clan_data.units);
       this.resource_calc.runFormulas(CONFIG.formulas);
     }
     this.clan_data.resources = this.resource_calc.resources;
@@ -129,6 +167,14 @@ GameTick = (function() {
     } else {
       return timestamp;
     }
+  };
+
+  GameTick.prototype.unitMoraleOffset = function(units) {
+    return parseFloat(Object.keys(units).reduce((function(_this) {
+      return function(memo, key) {
+        return memo + units[key].morale_rate;
+      };
+    })(this), 0));
   };
 
   GameTick.prototype.tickUnits = function(units, isNewRabbit) {
@@ -291,7 +337,8 @@ GameState.mainCycle = setInterval(function() {
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     clanKey = _ref[_i];
     _results.push(joinPaths(clanKey, CONFIG.denormalized_tables.concat(['clans']), function(err, combined_value) {
-      var actuated_clan_data, game_tick, k, key, _j, _k, _len1, _len2, _ref1, _ref2, _results1;
+      var actuated_clan_data, frozen_start_value, game_tick, k, key, _j, _k, _len1, _len2, _ref1, _ref2, _results1;
+      frozen_start_value = JSON.parse(JSON.stringify(combined_value));
       game_tick = new GameTick(combined_value);
       actuated_clan_data = {};
       _ref1 = GameState.clanDataStructureKeys;
@@ -304,7 +351,11 @@ GameState.mainCycle = setInterval(function() {
       _results1 = [];
       for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
         key = _ref2[_k];
-        _results1.push(Global.firebaseRef.child("" + key + "/" + clanKey).set(game_tick.clan_data[key]));
+        if (!_.isEqual(frozen_start_value[key], game_tick.clan_data[key])) {
+          _results1.push(Global.firebaseRef.child("" + key + "/" + clanKey).set(game_tick.clan_data[key]));
+        } else {
+          _results1.push(void 0);
+        }
       }
       return _results1;
     }));

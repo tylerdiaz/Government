@@ -16,6 +16,8 @@ var default_unit_json = {
   on_duty: false,
   states: {},
   duty_description: 'Off duty',
+  population_space: 1,
+  morale_rate: 0,
   costs: [
     {
       resource_type: 'meal',
@@ -51,7 +53,7 @@ var firebaseData = {
   clans: {
     "simplelogin:1": {
       clan_size: "village",
-      morale: 60,
+      morale: 60.0,
       name: "Karolann",
       max_population: 5,
       current_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' },
@@ -59,10 +61,7 @@ var firebaseData = {
     },
   },
   users: {
-    "simplelogin:1": {
-      name: "Tyler",
-      addressment: "Lord"
-    }
+    "simplelogin:1": { name: "Tyler", addressment: "Lord" }
   },
   state_data: {
     "simplelogin:1": { user_active: true, tick_counter: 0, timestamp: 0 },

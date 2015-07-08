@@ -10,25 +10,37 @@ Overview = React.createClass
 
 OverviewStats = React.createClass
   mixins: [ReactFireMixin],
+  totalUnitOccupancy: ->
+    Object.keys(@state.units).reduce((memo, key) =>
+      memo + @state.units[key].population_space
+    , 0)
   getInitialState: ->
     clan: { name: 'untitled', clan_size: 'village', max_population: 10, morale: 0 },
+    resources: { glowstones: 0, meals: 0 },
     units: []
   componentWillMount: ->
     @bindAsObject(Global.firebaseRef.child("clans/#{Global.userId}"), "clan");
-    @bindAsArray(Global.firebaseRef.child("clans/#{Global.userId}"), "units");
+    @bindAsArray(Global.firebaseRef.child("units/#{Global.userId}"), "units");
     @bindAsObject(Global.firebaseRef.child("resources/#{Global.userId}"), "resources");
-
   render: ->
     <div className="overview_stats">
       <h4 className="village_name"><b>{@state.clan.name} {@state.clan.clan_size}</b> overview:</h4>
       <ul className="stats_list">
         <OverviewStat
           label="Population"
-          value={@state.units.length+"/"+@state.clan.max_population}
+          value={@totalUnitOccupancy()+"/"+@state.clan.max_population}
         />
         <OverviewStat
-          label="Morale"
-          value={Math.floor(@state.clan.morale)+"%"}
+          label="#{@state.clan.clan_size} Morale"
+          value={(@state.clan.morale.toFixed(1))+"%"}
+        />
+        <OverviewStat
+          label="Glowstones"
+          value={Math.floor(@state.resources.glowstones)}
+        />
+        <OverviewStat
+          label="Meals"
+          value={Math.floor(@state.resources.meal)}
         />
       </ul>
     </div>

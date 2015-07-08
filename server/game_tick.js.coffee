@@ -11,10 +11,12 @@ class GameTick
       @clan_data.units = @tickUnits(@clan_data.units, @isNewRabbit(@clan_data.state_data.timestamp))
 
     # run building stuff here, which may add to formulas in real-time
-
     if @isNewMorrow(@clan_data.state_data.tick_counter)
-      @resource_calc.runFormulas(CONFIG.formulas)
+      @clan_data.morale = (
+        parseFloat(@clan_data.morale) + @unitMoraleOffset(@clan_data.units)
+      )
 
+      @resource_calc.runFormulas(CONFIG.formulas)
 
     @clan_data.resources = @resource_calc.resources
 
@@ -29,6 +31,13 @@ class GameTick
       timestamp + 1
     else
       timestamp
+
+  unitMoraleOffset: (units) ->
+    parseFloat(
+      Object.keys(units).reduce((memo, key) =>
+        memo + units[key].morale_rate
+      , 0)
+    )
 
   tickUnits: (units, isNewRabbit) ->
     for unit, unitIndex in units
