@@ -36,6 +36,7 @@ Global.firebaseRef.child("clans").on "child_added", (snapshot) ->
 GameState.mainCycle = setInterval( ->
   for clanKey in GameState.activeClans
     joinPaths clanKey, CONFIG.denormalized_tables.concat(['clans']), (err, combined_value) ->
+      frozen_start_value = JSON.parse(JSON.stringify(combined_value))
       game_tick = new GameTick(combined_value)
 
       # What's with all this weirdness? It's a hack for
@@ -47,7 +48,7 @@ GameState.mainCycle = setInterval( ->
 
       # branches
       for key in CONFIG.denormalized_tables
-        # unless _.isEqual(combined_value[key], game_tick.clan_data[key])
-        Global.firebaseRef.child("#{key}/#{clanKey}").set(game_tick.clan_data[key])
+        unless _.isEqual(frozen_start_value[key], game_tick.clan_data[key])
+          Global.firebaseRef.child("#{key}/#{clanKey}").set(game_tick.clan_data[key])
 
 , Global.tickRate)
