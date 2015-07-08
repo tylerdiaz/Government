@@ -93,6 +93,20 @@ var firebaseData = {
       stage: 1
     }
   },
+  formulas: {
+    "simplelogin:1": [
+      // meals
+      { value: { meal: 1 }, cost: { bread: 1, beef: 1 }, greedy: true, enabled: true },
+      { value: { meal: 2 }, cost: { rice: 2, fish: 2 }, greedy: false, enabled: true },
+      { value: { meal: 1 }, cost: { bread: 1, fish: 1 }, greedy: true, enabled: true },
+      { value: { meal: 2 }, cost: { rice: 2, beef: 2 }, greedy: false, enabled: true },
+      { value: { sophisticated_meal: 1 }, cost: { wine: 1, cheese: 1, grapes: 1 }, greedy: true, enabled: true },
+
+      // drinks
+      { value: { beer: 1 }, cost: { hops: 1, yeast: 1 }, greedy: false, enabled: true },
+      { value: { wine: 1 }, cost: { grapes: 5 }, greedy: false, enabled: true },
+    ]
+  },
 };
 
 new FirebaseServer(5111, 'local.firebaseio.com', firebaseData);

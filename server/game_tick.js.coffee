@@ -3,6 +3,7 @@ class GameTick
     @resource_calc = new ResourceCalculator(@clan_data.resources)
     @clan_data.state_data.tick_counter = @clan_data.state_data.tick_counter + 1
     @clan_data.state_data.timestamp = @morrowTick(@clan_data.state_data.tick_counter, @clan_data.state_data.timestamp)
+    runtime_formulas = @clan_data.formulas
 
     if @isNewRabbit(@clan_data.state_data.timestamp)
       @clan_data.current_policies = @clan_data.proposed_policies
@@ -16,7 +17,7 @@ class GameTick
         parseFloat(@clan_data.morale) + @unitMoraleOffset(@clan_data.units)
       )
 
-      @resource_calc.runFormulas(CONFIG.formulas)
+      @resource_calc.runFormulas(runtime_formulas)
 
     @clan_data.resources = @resource_calc.resources
 

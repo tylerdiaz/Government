@@ -2,7 +2,7 @@ var CONFIG;
 
 CONFIG = {
   scouting_focus_options: ['food', 'weapons', 'looting'],
-  denormalized_tables: ['units', 'resources', 'state_data'],
+  denormalized_tables: ['units', 'resources', 'state_data', 'formulas'],
   resource_descriptions: {
     meal: 'Meals are used to feed your population',
     sophisticated_meal: 'Sophisticated meals are used to feed your population and increase morale',
@@ -27,79 +27,6 @@ CONFIG = {
     morrows_per_lion: 119,
     morrows_per_elephant: 659
   },
-  formulas: [
-    {
-      value: {
-        meal: 1
-      },
-      cost: {
-        bread: 1,
-        beef: 1
-      },
-      greedy: true,
-      enabled: true
-    }, {
-      value: {
-        meal: 1
-      },
-      cost: {
-        rice: 1,
-        fish: 1
-      },
-      greedy: false,
-      enabled: true
-    }, {
-      value: {
-        meal: 1
-      },
-      cost: {
-        bread: 1,
-        fish: 1
-      },
-      greedy: true,
-      enabled: true
-    }, {
-      value: {
-        meal: 1
-      },
-      cost: {
-        rice: 1,
-        beef: 1
-      },
-      greedy: false,
-      enabled: true
-    }, {
-      value: {
-        sophisticated_meal: 1
-      },
-      cost: {
-        wine: 1,
-        cheese: 1,
-        grapes: 1
-      },
-      greedy: true,
-      enabled: true
-    }, {
-      value: {
-        beer: 1
-      },
-      cost: {
-        hops: 1,
-        yeast: 1
-      },
-      greedy: false,
-      enabled: true
-    }, {
-      value: {
-        wine: 1
-      },
-      cost: {
-        grapes: 5
-      },
-      greedy: false,
-      enabled: true
-    }
-  ],
   stages: {
     1: {
       overlay: ['map-frontyard-forest'],
@@ -136,10 +63,12 @@ var GameTick;
 
 GameTick = (function() {
   function GameTick(clan_data) {
+    var runtime_formulas;
     this.clan_data = clan_data;
     this.resource_calc = new ResourceCalculator(this.clan_data.resources);
     this.clan_data.state_data.tick_counter = this.clan_data.state_data.tick_counter + 1;
     this.clan_data.state_data.timestamp = this.morrowTick(this.clan_data.state_data.tick_counter, this.clan_data.state_data.timestamp);
+    runtime_formulas = this.clan_data.formulas;
     if (this.isNewRabbit(this.clan_data.state_data.timestamp)) {
       this.clan_data.current_policies = this.clan_data.proposed_policies;
     }
@@ -148,7 +77,7 @@ GameTick = (function() {
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
       this.clan_data.morale = parseFloat(this.clan_data.morale) + this.unitMoraleOffset(this.clan_data.units);
-      this.resource_calc.runFormulas(CONFIG.formulas);
+      this.resource_calc.runFormulas(runtime_formulas);
     }
     this.clan_data.resources = this.resource_calc.resources;
   }
@@ -261,6 +190,9 @@ ResourceCalculator = (function() {
     _results = [];
     for (_i = 0, _len = formulas.length; _i < _len; _i++) {
       formula = formulas[_i];
+      if (!formula['enabled']) {
+        continue;
+      }
       _results.push((function() {
         var _results1;
         _results1 = [];
