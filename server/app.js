@@ -108,8 +108,14 @@ GameTick = (function() {
 
   GameTick.prototype.tickUnits = function(units, isNewRabbit) {
     var unit, unitIndex, unit_costs, unit_tick, _i, _len;
+    if (units === null) {
+      return [];
+    }
     for (unitIndex = _i = 0, _len = units.length; _i < _len; unitIndex = ++_i) {
       unit = units[unitIndex];
+      if (unit === void 0) {
+        continue;
+      }
       unit_tick = new UnitTick(unit, this.clan_data.current_policies.wages, isNewRabbit);
       unit_costs = unit_tick.costs();
       if (this.resource_calc.canAfford(unit_costs)) {
@@ -121,7 +127,11 @@ GameTick = (function() {
           unit_tick.starvationPenalty();
         }
       }
-      units[unitIndex] = unit_tick.unit;
+      if (unit_tick.isDead()) {
+        units.splice(unitIndex, 1);
+      } else {
+        units[unitIndex] = unit_tick.unit;
+      }
     }
     return units;
   };
@@ -314,6 +324,10 @@ UnitTick = (function() {
 
   UnitTick.prototype.starvationPenalty = function() {
     return this.unit.current_hp = this.unit.current_hp - 4;
+  };
+
+  UnitTick.prototype.isDead = function() {
+    return this.unit.current_hp <= 0;
   };
 
   UnitTick.prototype.costs = function() {

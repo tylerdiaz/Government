@@ -41,7 +41,11 @@ class GameTick
     )
 
   tickUnits: (units, isNewRabbit) ->
+    return [] if units is null # no units
+
     for unit, unitIndex in units
+      continue if unit is undefined
+
       unit_tick = new UnitTick(unit, @clan_data.current_policies.wages, isNewRabbit)
       unit_costs = unit_tick.costs()
 
@@ -53,7 +57,10 @@ class GameTick
         else
           unit_tick.starvationPenalty()
 
-      units[unitIndex] = unit_tick.unit
+      if unit_tick.isDead()
+        units.splice(unitIndex, 1)
+      else
+        units[unitIndex] = unit_tick.unit
 
     units
 

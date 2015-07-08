@@ -6,6 +6,8 @@ class UnitTick
     @unit.on_duty = false
   starvationPenalty: ->
     @unit.current_hp = (@unit.current_hp - 4)
+  isDead: ->
+    @unit.current_hp <= 0
   costs: ->
     total_unit_costs = {}
     for cost in @unit['costs']
