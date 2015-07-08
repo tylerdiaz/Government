@@ -44,6 +44,7 @@ Index = React.createClass
       switch (@props.route)
         when 'community' then CommunityTab
         when 'explore' then ExploreTab
+        when 'recipes' then RecipesTab
         else OversightTab
 
     if @state.clan.name

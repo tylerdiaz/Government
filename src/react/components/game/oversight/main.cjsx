@@ -28,7 +28,7 @@ OversightTab = React.createClass
         </div>
       </div>
       <hr />
-      <h5>Table of Resources</h5>
+      <h5>Table of Resources &mdash; (<a href="#recipes">Configure recipes</a>)</h5>
       <ResourceTable />
       <br />
     </div>

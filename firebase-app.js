@@ -67,7 +67,7 @@ var firebaseData = {
     "simplelogin:1": { user_active: true, tick_counter: 0, timestamp: 0 },
   },
   resources: {
-    "simplelogin:1": { glowstones: 600, meal: 120, rice: 10000, beef: 20000, fish: 20000 }
+    "simplelogin:1": { glowstones: 640, meal: 300, rice: 800, beef: 400 }
   },
   units: {
     "simplelogin:1": [
@@ -96,15 +96,15 @@ var firebaseData = {
   formulas: {
     "simplelogin:1": [
       // meals
-      { value: { meal: 1 }, cost: { bread: 1, beef: 1 }, greedy: true, enabled: true },
-      { value: { meal: 2 }, cost: { rice: 2, fish: 2 }, greedy: false, enabled: true },
-      { value: { meal: 1 }, cost: { bread: 1, fish: 1 }, greedy: true, enabled: true },
-      { value: { meal: 2 }, cost: { rice: 2, beef: 2 }, greedy: false, enabled: true },
-      { value: { sophisticated_meal: 1 }, cost: { wine: 1, cheese: 1, grapes: 1 }, greedy: true, enabled: true },
+      { name: 'Beef sandwhich', value: { meal: 1 }, cost: { bread: 1, beef: 1 }, greedy: true, enabled: true },
+      { name: 'Rice with fish', value: { meal: 2 }, cost: { rice: 2, fish: 2 }, greedy: false, enabled: true },
+      { name: 'Fish sandwhich', value: { meal: 1 }, cost: { bread: 1, fish: 1 }, greedy: true, enabled: true },
+      { name: 'Rice with beef', value: { meal: 2 }, cost: { rice: 2, beef: 2 }, greedy: false, enabled: true },
+      { name: 'Sophisticated meal', value: { sophisticated_meal: 1 }, cost: { wine: 1, cheese: 1, grapes: 1 }, greedy: true, enabled: true },
 
       // drinks
-      { value: { beer: 1 }, cost: { hops: 1, yeast: 1 }, greedy: false, enabled: true },
-      { value: { wine: 1 }, cost: { grapes: 5 }, greedy: false, enabled: true },
+      { name: 'Beer', value: { beer: 1 }, cost: { hops: 1, yeast: 1 }, greedy: false, enabled: true },
+      { name: 'Wine', value: { wine: 1 }, cost: { grapes: 5 }, greedy: false, enabled: true },
     ]
   },
 };
