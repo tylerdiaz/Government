@@ -46,9 +46,9 @@ ResourceRow = React.createClass
       @setState({ progress: null, difference: 0 })
     ,1200)
     if nextProps.amount > @props.amount
-      @setState({ progress: 'up', difference: "+"+(nextProps.amount-@props.amount).toFixed(1) })
+      @setState({ progress: 'up', difference: "+"+(nextProps.amount-@props.amount) })
     else if nextProps.amount < @props.amount
-      @setState({ progress: 'down', difference: nextProps.amount-@props.amount.toFixed(1) })
+      @setState({ progress: 'down', difference: nextProps.amount-@props.amount })
     else
       @setState({ progress: null, difference: 0 })
 
