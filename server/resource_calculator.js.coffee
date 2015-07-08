@@ -21,6 +21,7 @@ class ResourceCalculator
 
   runFormulas: (formulas) ->
     for formula in formulas
+      continue if not formula['enabled']
       while @canAfford(formula['cost'])
         @grant(formula['value']) if @deplete(formula['cost'])
         break unless formula['greedy']
