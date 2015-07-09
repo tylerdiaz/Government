@@ -11,6 +11,13 @@ class GameTick
     if @isNewMorrow(@clan_data.state_data.tick_counter)
       @clan_data.units = @tickUnits(@clan_data.units, @isNewRabbit(@clan_data.state_data.timestamp))
 
+    for clan_event, event_index in @clan_data.events
+      if clan_event.dismissed
+        @clan_data.events[event_index]['dismissed_countdown'] = @clan_data.events[event_index]['dismissed_countdown'] - 1
+        if @clan_data.events[event_index]['dismissed_countdown'] <= 0
+          @clan_data.events[event_index]['hidden'] = true
+
+
     # run building stuff here, which may add to formulas in real-time
     if @isNewMorrow(@clan_data.state_data.tick_counter)
       @clan_data.morale = (

@@ -102,8 +102,10 @@ var firebaseData = {
         category: 'event',
         timestamp: 3020,
         progression_countdown: 201,
+        dismissed_countdown: 5,
         description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias facere dolorem molestiae repellendus.',
-        dismissed: false
+        dismissed: false,
+        hidden: false,
       },
       {
         storyline_id: 'f2jq0fj291',
@@ -111,9 +113,11 @@ var firebaseData = {
         img: 'sprites/3x/wildlife/bear.png',
         category: 'battle',
         timestamp: 3020,
+        dismissed_countdown: 5,
         progression_countdown: 201,
         description: 'Jupiter was ambushed by a wild bear.',
-        dismissed: false
+        dismissed: false,
+        hidden: false,
       },
     ]
   },
