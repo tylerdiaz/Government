@@ -96,7 +96,7 @@ var firebaseData = {
   events: {
     "simplelogin:1": [
       {
-        storylineID: 'abcdefg',
+        storyline_id: 'abcdefg',
         title: 'This is strange',
         img: 'boot.png',
         category: 'event',
@@ -106,7 +106,7 @@ var firebaseData = {
         dismissed: false
       },
       {
-        storylineID: 'abcdefg',
+        storyline_id: 'f2jq0fj291',
         title: 'Jupiter is in combat!',
         img: 'sprites/3x/wildlife/bear.png',
         category: 'battle',
