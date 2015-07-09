@@ -45,6 +45,8 @@ Index = React.createClass
         when 'community' then CommunityTab
         when 'explore' then ExploreTab
         when 'recipes' then RecipesTab
+        when 'battle' then BattleView
+        when 'investigate' then InvestigationView
         else OversightTab
 
     if @state.clan.name
@@ -57,7 +59,7 @@ Index = React.createClass
             <WorldTab label="Expand & Explore" hash="explore" current={@props.route} />
           </ul>
           <div>
-            <WorldTabChild data={@state} />
+            <WorldTabChild data={@state} params={@props.params} />
           </div>
         </div>
       </div>

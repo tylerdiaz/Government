@@ -10,7 +10,7 @@ EventStream = React.createClass
     <div>
       <h5>Event Stream</h5>
       <ul className="event_stream">
-        { @eventList().map (event, i) -> <EventCard key={i} event={event} /> }
+        { @eventList().map (event, i) -> <EventCard key={i} index={i} event={event} /> }
       </ul>
     </div>
 
@@ -25,11 +25,11 @@ EventCard = React.createClass
           {
             if @props.event.category is 'event'
               <span>
-                (<a href="#">investigate</a> &bull; <a href="#">dismiss</a>)
+                (<a href="#investigate-#{@props.event.storyline_id}-#{@props.index}">investigate</a> &bull; <a href="#">dismiss</a>)
               </span>
             else if @props.event.category is 'battle'
               <span>
-                (<a href="#">view battle</a>)
+                (<a href="#battle-#{@props.event.storyline_id}">view battle</a>)
               </span>
           }
         </p>
