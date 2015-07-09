@@ -16,7 +16,7 @@ Table = React.createClass
 ResourceTable = React.createClass
   mixins: [ReactFireMixin],
   componentWillMount: ->
-    @bindAsObject(Global.firebaseRef.child("resources/#{Global.userId}"), "resources");
+    @bindAsObject(Global.firebaseRef.child("resources/#{Global.userId}"), "resources")
   getInitialState: ->
     resources: {}
   render: ->
