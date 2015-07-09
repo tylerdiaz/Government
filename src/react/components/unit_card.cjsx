@@ -91,6 +91,7 @@ UnitCard = React.createClass
       <div className="unit_tiny_card">
         <img src={"/images/sprites/3x/#{@props.obj.img}"} width="66" height="66" className="unit_image" /><br />
         <span className="unit_level">LVL. {@props.obj.lvl}</span>
+        <LevelBar min={@props.obj.current_exp} max={@props.obj.max_exp} color="#18BDA3" />
       </div>
       <div className="unit_info">
         <span className="unit_name">{@props.obj.name} the {@props.obj.title}</span> <br />

@@ -253,6 +253,22 @@ table.resource_table {
   }
 }
 
+.level_bar {
+  margin:1px 0;
+  display: inline-block;
+  width:100%;
+  height:16px;
+  padding:1px;
+  border:1px solid rgba(255,255,255,0.2);
+  background:rgba(0, 0, 0, 0.3);
+  border-radius:3px;
+  .level_progress {
+    border-radius:3px;
+    height:14px;
+    background:#18BDA3;
+  }
+}
+
 .unit_card {
   overflow: hidden;
   width:265px;
@@ -266,12 +282,27 @@ table.resource_table {
   &.active_unit { box-shadow:inset 0 0 0 4px rgba(0, 180, 200, 0.2); }
   &.useless_unit { box-shadow:inset 0 0 0 4px rgba(255, 0, 0, 0.2); }
 
+  .level_bar {
+    height:6px;
+    padding:1px;
+    border:1px solid rgba(255,255,255,0.15);
+    background:rgba(0, 0, 0, 0.3);
+    border-radius:1px;
+    .level_progress {
+      border-radius:1px;
+      height:2px;
+    }
+  }
+
   .unit_tiny_card {
+    word-spacing: -1;
+    font-size:0px; // hack for the weird display-inline margin
     float:left;
     width:66px;
     text-align: center;
     .unit_level {
       font-size:10px;
+      line-height: 2;
     }
   }
   .unit_info {
