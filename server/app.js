@@ -2,7 +2,7 @@ var CONFIG;
 
 CONFIG = {
   scouting_focus_options: ['food', 'weapons', 'looting'],
-  denormalized_tables: ['units', 'resources', 'state_data', 'formulas'],
+  denormalized_tables: ['units', 'resources', 'state_data', 'formulas', 'events', 'battles'],
   resource_descriptions: {
     meal: 'Meals are used to feed your population',
     sophisticated_meal: 'Sophisticated meals are used to feed your population and increase morale',
@@ -59,11 +59,41 @@ CONFIG = {
   }
 };
 
+var DATA;
+
+if (DATA === void 0) {
+  DATA = {};
+}
+
+DATA['buildings'] = {
+  hut: 'test'
+};
+
+var DATA;
+
+if (DATA === void 0) {
+  DATA = {};
+}
+
+DATA['events'] = {
+  infestation: 'test'
+};
+
+var DATA;
+
+if (DATA === void 0) {
+  DATA = {};
+}
+
+DATA['units'] = {
+  scout: 'test'
+};
+
 var GameTick;
 
 GameTick = (function() {
   function GameTick(clan_data) {
-    var runtime_formulas;
+    var clan_event, event_index, runtime_formulas, _i, _len, _ref;
     this.clan_data = clan_data;
     this.resource_calc = new ResourceCalculator(this.clan_data.resources);
     this.clan_data.state_data.tick_counter = this.clan_data.state_data.tick_counter + 1;
@@ -74,6 +104,16 @@ GameTick = (function() {
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
       this.clan_data.units = this.tickUnits(this.clan_data.units, this.isNewRabbit(this.clan_data.state_data.timestamp));
+    }
+    _ref = this.clan_data.events;
+    for (event_index = _i = 0, _len = _ref.length; _i < _len; event_index = ++_i) {
+      clan_event = _ref[event_index];
+      if (clan_event.dismissed) {
+        this.clan_data.events[event_index]['dismissed_countdown'] = this.clan_data.events[event_index]['dismissed_countdown'] - 1;
+        if (this.clan_data.events[event_index]['dismissed_countdown'] <= 0) {
+          this.clan_data.events[event_index]['hidden'] = true;
+        }
+      }
     }
     if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
       this.clan_data.morale = parseFloat(this.clan_data.morale) + this.unitMoraleOffset(this.clan_data.units);
@@ -226,12 +266,14 @@ ResourceCalculator = (function() {
 
 })();
 
-var Firebase, GameState, Global, joinPaths, _,
+var Firebase, GameState, Global, joinPaths, seedrandom, _,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 Firebase = require('firebase');
 
 _ = require('underscore');
+
+seedrandom = require('seedrandom');
 
 Global = {
   firebaseRef: new Firebase("ws://local.firebaseio.com:5111"),

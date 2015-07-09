@@ -20,7 +20,7 @@ var gulp = require('gulp'),
 gulp.task('default', function () {
   gulp.watch(['./src/sass/**/*.scss', './src/**/*.css'], ['stylesheet']);
   gulp.watch('./src/react/**/*.cjsx', ['javascript:react']);
-  gulp.watch('./server/*.coffee', ['game-server']);
+  gulp.watch('./server/**/*.coffee', ['game-server']);
 });
 
 // Javascript stuff
@@ -29,6 +29,7 @@ gulp.task('game-server', function() {
       .pipe(gulpif(/[.]coffee$/, coffeex({ bare: true }).on('error', gutil.log)))
       .pipe(order([
         "config.js",
+        "server/data/*.js",
         "server/*.js",
         "server/server.js"
       ], { base: '.' }))
