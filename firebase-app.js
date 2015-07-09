@@ -93,6 +93,30 @@ var firebaseData = {
       stage: 1
     }
   },
+  events: {
+    "simplelogin:1": [
+      {
+        storylineID: 'abcdefg',
+        title: 'This is strange',
+        img: 'boot.png',
+        category: 'event',
+        timestamp: 3020,
+        progression_countdown: 201,
+        description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias facere dolorem molestiae repellendus.',
+        dismissed: false
+      },
+      {
+        storylineID: 'abcdefg',
+        title: 'Jupiter is in combat!',
+        img: 'sprites/3x/wildlife/bear.png',
+        category: 'battle',
+        timestamp: 3020,
+        progression_countdown: 201,
+        description: 'Jupiter was ambushed by a wild bear.',
+        dismissed: false
+      },
+    ]
+  },
   formulas: {
     "simplelogin:1": [
       // meals

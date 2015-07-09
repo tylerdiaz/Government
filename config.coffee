@@ -1,6 +1,6 @@
 CONFIG =
   scouting_focus_options: ['food', 'weapons', 'looting']
-  denormalized_tables: ['units', 'resources', 'state_data', 'formulas']
+  denormalized_tables: ['units', 'resources', 'state_data', 'formulas', 'events']
   resource_descriptions:
     # culinary ingredients
     meal: 'Meals are used to feed your population'

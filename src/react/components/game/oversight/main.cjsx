@@ -12,19 +12,7 @@ OversightTab = React.createClass
           }
         </div>
         <div className="col s9">
-          <h5>Event Stream</h5>
-          <ul className="event_stream">
-            {
-              [1..30].map (obj, i) ->
-                <li>
-                  <img src="/images/boot.png" width="66" height="66" alt="" className="event_image" />
-                  <div className="event_information">
-                    <span className="title">"A rat's dream" <span className="event_label">side-quest</span></span>
-                    <p>A rat has been seen outside the buildings, some villagers reported fear of losing their meals. (<a href="#">investigate</a> &bull; <a href="#">dismiss</a>)</p>
-                  </div>
-                </li>
-            }
-          </ul>
+          <EventStream />
         </div>
       </div>
       <hr />
