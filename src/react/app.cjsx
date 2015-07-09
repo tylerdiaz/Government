@@ -72,7 +72,7 @@ Index = React.createClass
 
 App = React.createClass
   getInitialState: ->
-     { route: window.location.hash.substr(1), user: null }
+     { route: @routeHash().main, params: @routeHash().params, user: null }
 
    componentWillMount: ->
      if Global.userId
@@ -80,7 +80,11 @@ App = React.createClass
          @setState({ user: snapshot.val() })
 
      window.addEventListener 'hashchange', =>
-       @setState({ route: window.location.hash.substr(1) })
+       @setState({ route: @routeHash().main, params: @routeHash().params })
+
+  routeHash: ->
+    route_array = window.location.hash.substr(1).split('-')
+    { main: route_array[0], params: route_array.splice(1) }
 
   render: ->
     if Global.userId
@@ -92,7 +96,7 @@ App = React.createClass
 
     <div className="container">
       <Header user={@state.user} />
-      <Child route={@state.route} user={@state.user} />
+      <Child route={@state.route} params={@state.params} user={@state.user} />
       <div className="footer">
         A project by <a target="_blank" href="http://tylerdiaz.com/">Tyler Diaz</a> { new Date().getFullYear() }
         { " \u2022 " }
