@@ -7,7 +7,7 @@ InvestigationView = React.createClass
   render: ->
     console.log @state.event.storyline_id
     if @state.event.storyline_id is undefined
-      <div style={textAlign: "center", fontSize: 24, padding: 50, opacity: 0.8}>
+      <div className="loading_screen">
         <img src="/images/ajax.gif" /><br />
         Loading event details
       </div>

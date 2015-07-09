@@ -65,7 +65,7 @@ Index = React.createClass
       </div>
     else
       <div className="gameplay-container">
-        <div style={textAlign: "center", fontSize: 24, padding: 50, opacity: 0.8}>
+        <div className="loading_screen">
           <img src="/images/ajax.gif" /><br />
           Fetching kingdom details...
         </div>
