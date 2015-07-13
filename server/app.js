@@ -85,8 +85,131 @@ if (DATA === void 0) {
   DATA = {};
 }
 
+DATA['professions'] = {
+  scout: {
+    starting_stats: {
+      exp: 50,
+      damage: [1, 4],
+      accuracy: 0.35,
+      max_hp: 10
+    },
+    final_stats: {
+      exp: 25000,
+      damage: [30, 65],
+      accuracy: 0.90,
+      max_hp: 220
+    },
+    targets: ['discovered_territories']
+  },
+  lumberman: {
+    starting_stats: {
+      exp: 15,
+      damage: [1, 2],
+      accuracy: 0.2,
+      max_hp: 6
+    },
+    final_stats: {
+      exp: 900,
+      damage: [4, 12],
+      accuracy: 0.5,
+      max_hp: 40
+    },
+    targets: ['self', 'opponents', 'self_units', 'discovered_territories']
+  },
+  teacher: {
+    starting_stats: {
+      exp: 15,
+      damage: [1, 2],
+      accuracy: 0.2,
+      max_hp: 6
+    },
+    final_stats: {
+      exp: 900,
+      damage: [4, 12],
+      accuracy: 0.5,
+      max_hp: 40
+    },
+    targets: ['self_units']
+  },
+  drunk: {
+    starting_stats: {
+      exp: 50,
+      damage: [1, 2],
+      accuracy: 0.2,
+      max_hp: 6
+    },
+    final_stats: {
+      exp: 700,
+      damage: [4, 6],
+      accuracy: 0.5,
+      max_hp: 40
+    },
+    targets: []
+  },
+  spearman: {
+    starting_stats: {
+      exp: 100,
+      damage: [2, 8],
+      accuracy: 0.5,
+      max_hp: 18
+    },
+    final_stats: {
+      exp: 30000,
+      damage: [35, 90],
+      accuracy: 0.95,
+      max_hp: 320
+    },
+    targets: ['self', 'self_units']
+  }
+};
+
+var DATA;
+
+if (DATA === void 0) {
+  DATA = {};
+}
+
+DATA['starter'] = {
+  units: [],
+  resources: []
+};
+
+var DATA;
+
+if (DATA === void 0) {
+  DATA = {};
+}
+
 DATA['units'] = {
-  scout: 'test'
+  "default": {
+    id: null,
+    name: '',
+    title: 'villager',
+    profession: 'drunk',
+    img: 'units/drunkard.png',
+    current_hp: 10,
+    max_hp: 10,
+    damage: [1, 5],
+    accuracy: 0.5,
+    lvl: 1,
+    current_exp: 0,
+    max_exp: 50,
+    is_recovering: false,
+    on_duty: false,
+    duty_description: 'Off duty',
+    population_space: 1,
+    morale_rate: 0,
+    states: {},
+    costs: [
+      {
+        resource_type: 'meal',
+        resource_value: 20,
+        frequency: 'bunny',
+        on_duty_contingency: false
+      }
+    ],
+    perks: []
+  }
 };
 
 var GameTick;
@@ -181,6 +304,49 @@ GameTick = (function() {
   };
 
   return GameTick;
+
+})();
+
+var ProfessionCalculator;
+
+ProfessionCalculator = (function() {
+  ProfessionCalculator.prototype.max_level = 20;
+
+  function ProfessionCalculator(profession) {
+    this.profession = profession;
+  }
+
+  ProfessionCalculator.prototype.power_rule = function(min, max, offset, round) {
+    var A, B;
+    if (round == null) {
+      round = true;
+    }
+    B = Math.log(max / min) / (this.max_level - 1);
+    A = min / (Math.exp(B) - 1);
+    if (round) {
+      return Math.round(A * Math.exp(B * offset)) - Math.round(A * Math.exp(B * (offset - 1)));
+    } else {
+      return A * Math.exp(B * offset) - A * Math.exp(B * (offset - 1));
+    }
+  };
+
+  ProfessionCalculator.prototype.smoothing = function(lvl, profession) {
+    return {
+      exp: Math.round(this.power_rule(this.profession.starting_stats.exp, this.profession.final_stats.exp, lvl) / 5) * 5,
+      damage: [this.power_rule(this.profession.starting_stats.damage[0], this.profession.final_stats.damage[0], lvl), this.power_rule(this.profession.starting_stats.damage[1], this.profession.final_stats.damage[1], lvl)],
+      accuracy: this.power_rule(this.profession.starting_stats.accuracy, this.profession.final_stats.accuracy, lvl, false).toFixed(2),
+      max_hp: this.power_rule(this.profession.starting_stats.max_hp, this.profession.final_stats.max_hp, lvl)
+    };
+  };
+
+  ProfessionCalculator.prototype.stats = function(lvl) {
+    if (lvl == null) {
+      lvl = 1;
+    }
+    return this.smoothing(lvl, this.profession);
+  };
+
+  return ProfessionCalculator;
 
 })();
 

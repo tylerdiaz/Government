@@ -11,13 +11,13 @@ class ProfessionCalculator
 
   smoothing: (lvl, profession) ->
     {
-      exp: (Math.round(@power_rule(@profession.start.exp, @profession.end.exp, lvl) / 5) * 5),
+      exp: (Math.round(@power_rule(@profession.starting_stats.exp, @profession.final_stats.exp, lvl) / 5) * 5),
       damage: [
-        @power_rule(@profession.start.damage[0], @profession.end.damage[0], lvl)
-        @power_rule(@profession.start.damage[1], @profession.end.damage[1], lvl)
+        @power_rule(@profession.starting_stats.damage[0], @profession.final_stats.damage[0], lvl)
+        @power_rule(@profession.starting_stats.damage[1], @profession.final_stats.damage[1], lvl)
       ],
-      accuracy: @power_rule(@profession.start.accuracy, @profession.end.accuracy, lvl, false).toFixed(2),
-      max_hp: @power_rule(@profession.start.max_hp, @profession.end.max_hp, lvl),
+      accuracy: @power_rule(@profession.starting_stats.accuracy, @profession.final_stats.accuracy, lvl, false).toFixed(2),
+      max_hp: @power_rule(@profession.starting_stats.max_hp, @profession.final_stats.max_hp, lvl),
     }
 
   stats: (lvl=1) ->
