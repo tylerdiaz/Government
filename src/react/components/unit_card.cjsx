@@ -64,18 +64,6 @@ UnitCostRow = React.createClass
       <br />
     </div>
 
-DutyStatus = React.createClass
-  propTypes: {
-  },
-  render: ->
-    <div>
-      <em className="unit_status">
-        {@props.obj.duty_description}
-      </em>
-      &mdash;
-      <a href="#">unassign</a>
-    </div>
-
 UnitCard = React.createClass
   getDefaultProps: ->
     # placeholder
@@ -96,7 +84,13 @@ UnitCard = React.createClass
       <div className="unit_info">
         <span className="unit_name">{@props.obj.name} the {@props.obj.title}</span> <br />
         <InjuredBar hp={@props.obj.current_hp} max_hp={@props.obj.max_hp} isHealing={@props.obj.is_recovering} />
-        <DutyStatus obj={@props.obj} />
+        <div>
+          <em className="unit_status">
+            {@props.obj.duty_description}
+          </em>
+          { " \u2022 " }
+          <a href="#unit-#{@props.index}">(info)</a>
+        </div>
         {
           @props.obj.costs.map (obj, i) =>
             <UnitCostRow

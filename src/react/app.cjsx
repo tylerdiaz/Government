@@ -45,6 +45,7 @@ Index = React.createClass
         when 'community' then CommunityTab
         when 'explore' then ExploreTab
         when 'recipes' then RecipesTab
+        when 'unit' then UnitView
         when 'battle' then BattleView
         when 'investigate' then InvestigationView
         else OversightTab

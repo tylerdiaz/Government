@@ -384,6 +384,60 @@ ul.event_stream {
   padding:15px;
 }
 
+.unit_container {
+  background:rgba(0, 0, 0, 0.3);
+  padding:40px 110px 70px;
+  min-height: 300px;
+  .unit_card_boat {
+    background:rgba(0, 0, 0, 0.2) url(/images/shine.png)no-repeat 32px 122px;
+    box-shadow:0 0 10px 5px rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding:30px;
+    overflow: hidden;
+    ul li {
+      margin-left: 15px;
+      list-style: disc;
+      ul li {
+        list-style: circle;
+      }
+    }
+    .select-wrapper {
+      .mdi-navigation-arrow-drop-down { color:white; margin-top:5px;}
+      background:#333;
+      border-radius:3px;
+      padding:0 10px;
+      input.select-dropdown { border-bottom:none; font-size:13px; }
+      ul li {
+        list-style:none;
+        background:#444;
+        margin:0;
+        &:hover {
+          background:#555;
+        }
+        span { color:white; font-size:12px; }
+      }
+    }
+    .unit_image {
+      float:left;
+    }
+    .unit_content {
+      float:left;
+      width:440px;
+      margin-left:10px;
+      .unit_name {
+        font-size:18px;
+      }
+    }
+  }
+}
+
+.select-wrapper {
+  background:orange;
+  li {
+    list-style:none
+  }
+}
+
 .footer {
   text-align: center;
   font-size:12px;
