@@ -5,7 +5,6 @@ InvestigationView = React.createClass
   componentWillMount: ->
     @bindAsObject(Global.firebaseRef.child("events/#{Global.userId}/#{@props.params[1]}"), "event")
   render: ->
-    console.log @state.event.storyline_id
     if @state.event.storyline_id is undefined
       <div className="loading_screen">
         <img src="/images/ajax.gif" /><br />
