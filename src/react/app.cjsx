@@ -1,6 +1,7 @@
 # if navigator.onLine
 #   firebaseUrl = ""
 # else
+
 firebaseUrl = "ws://local.firebaseio.com:5111"
 joinPaths = (id, paths, fn) ->
   returnCount = 0
@@ -78,12 +79,12 @@ App = React.createClass
      { route: @routeHash().main, params: @routeHash().params, user: null }
 
    componentWillMount: ->
-     if Global.userId
-       Global.firebaseRef.child("users/#{Global.userId}").once 'value', (snapshot) =>
-         @setState({ user: snapshot.val() })
+    if Global.userId
+      Global.firebaseRef.child("users/#{Global.userId}").once 'value', (snapshot) =>
+        @setState({ user: snapshot.val() })
 
-     window.addEventListener 'hashchange', =>
-       @setState({ route: @routeHash().main, params: @routeHash().params })
+    window.addEventListener 'hashchange', =>
+      @setState({ route: @routeHash().main, params: @routeHash().params })
 
   routeHash: ->
     route_array = window.location.hash.substr(1).split('-')
