@@ -93,6 +93,13 @@ gulp.task('images', function() {
   notify({ message: 'Images task complete' })
 });
 
+gulp.task('sounds', function() {
+  gulp.src('./src/sounds/**/*')
+      .pipe(gulp.dest('dist/sounds'));
+
+  notify({ message: 'Sounds task complete' })
+});
+
 // Fonts
 gulp.task('fonts', function() {
   gulp.src('./src/fonts/**/*').pipe(gulp.dest('dist/fonts'));

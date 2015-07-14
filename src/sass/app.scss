@@ -52,6 +52,13 @@ input.form-control { padding:0 10px; }
     border-left:2px solid #432C18;
     &:last-child { border-right:none }
     &:first-child { border-left:none }
+    a#volume_control {
+      color:white;
+      &:hover {
+        color:#1297FF;
+        text-decoration: underline;
+      }
+    }
   }
 }
 
