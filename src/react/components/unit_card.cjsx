@@ -55,7 +55,7 @@ UnitCostRow = React.createClass
       else
         '+'
 
-    <div class="unit_cost_row">
+    <div className="unit_cost_row">
       <span className={classes}>
         {CostSign}
         {@props.amount if @props.amount > 0} {@props.resource}
