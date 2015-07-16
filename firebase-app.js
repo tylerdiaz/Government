@@ -75,7 +75,7 @@ var firebaseData = {
       merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Jupiter', title: 'Resourceful', profession: 'scout', img: 'units/jupiter.png' }),
       merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Mendel', title: 'Builder', profession: 'builder', img: 'units/builder.png' }),
       merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Tybalt', title: 'Spearman', profession: 'spearman', img: 'units/spearman.png' }),
-      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/villager.png' }),
+      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/lumberman.png' }),
     ]
   },
   buildings: {
