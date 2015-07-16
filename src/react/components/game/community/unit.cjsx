@@ -156,7 +156,9 @@ UnitAssignment = React.createClass
         <option value="off">None</option>
         {
           @state.options.map (option, index) ->
-            <option value={option.value} subject={option.description} key={index}>{option.label}</option>
+            <option value={option.value} subject={option.description} key={index}>
+              {option.label}
+            </option>
         }
       </select>
     </form>
