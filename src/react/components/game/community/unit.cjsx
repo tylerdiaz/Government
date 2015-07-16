@@ -51,7 +51,7 @@ UnitView = React.createClass
             </li>
           </ul>
           <hr />
-          { <UnitAssignment unit={@state.unit} /> if CONFIG['professions'][@state.unit.profession] }
+          { <UnitAssignment unit={@state.unit} index={@state.id} /> if CONFIG['professions'][@state.unit.profession] }
           <div style={margin: '0 0 0 -15px'}>
             <table className="resource_table">
               <thead>
@@ -75,10 +75,21 @@ UnitView = React.createClass
 UnitAssignment = React.createClass
   getInitialState: ->
     { options: [] }
+
   componentWillMount: ->
     @loadOptions( =>
       $('#assignment_select').material_select()
     )
+
+  verb: ->
+    CONFIG['professions'][@props.unit.profession]['verb_module']
+
+  currentDuty: ->
+    if @props.unit.on_duty
+      "#{@props.unit.duty_target_type}::#{@props.unit.duty_target_id}"
+    else
+      'off'
+
   loadOptions: (fn) ->
     target_types = CONFIG['professions'][@props.unit.profession]['targets']
     total_loading_options = target_types.length
@@ -93,37 +104,59 @@ UnitAssignment = React.createClass
       if options_type is 'discovered_territories'
         Global.firebaseRef.child('territories/' + Global.userId).once 'value', (snap) =>
           for k, v of snap.val()
-            options.push({ label: k.humanize(), value: "territories:#{k}", selected: false })
+            options.push({
+              label: k.humanize(),
+              value: "territories::#{k}",
+              subject: k.humanize()
+            })
 
           runPromise()
       else if options_type is 'self_player'
-        options.push({ label: "Main village", value: "player", selected: false })
+        options.push({
+          label: "Main village",
+          value: "player::#{Global.userId}",
+          subject: "the Village",
+        })
         runPromise()
 
       else if options_type is 'self_units'
         Global.firebaseRef.child('units/' + Global.userId).once 'value', (snap) =>
           for unit, index in snap.val()
             continue if unit.id == @props.unit.id
-            options.push({ label: "#{unit.name} the #{unit.title}", value: "unit:#{unit.index}", selected: false })
+            options.push({
+              label: "#{unit.name} the #{unit.title}",
+              value: "unit::#{index}",
+              subject: unit.name
+            })
 
           runPromise()
+
+  updateUnitProfession: (data = { on_duty: false, duty_target_type: '', duty_description: 'Off Duty', duty_target_id: 0 }) ->
+    for k, v of data
+      Global.firebaseRef.child("units/#{Global.userId}/#{@props.index}/#{k}").set(v)
 
   changeOption: (e) ->
     e.preventDefault()
     assignment = e.target.value
     if assignment is 'off'
-      console.log 'removing of duties'
+      @updateUnitProfession()
     else
-      console.log "assigning: #{assignment}"
+      assignment_array = assignment.split('::')
+      @updateUnitProfession(
+        on_duty: true,
+        duty_description: CONFIG['professions'][@props.unit.profession]['verb_description'].format(assignment_array[1]),
+        duty_target_type: assignment_array[0],
+        duty_target_id: assignment_array[1],
+      )
 
   render: ->
     <form>
-      <label>Assign a target to {CONFIG['professions'][@props.unit.profession]['verb_module']}:</label>
-      <select className="browser-default" id="assignment_select" onChange={@changeOption}>
-        <option value="off">(Off Duty) Nothing</option>
+      <label>Assign a target to {@verb()}:</label>
+      <select className="browser-default" id="assignment_select" onChange={@changeOption} value={@currentDuty()}>
+        <option value="off">None</option>
         {
           @state.options.map (option, index) ->
-            <option value={option.value} key={index} defaultValue={option.selected}>{option.label}</option>
+            <option value={option.value} subject={option.description} key={index}>{option.label}</option>
         }
       </select>
     </form>

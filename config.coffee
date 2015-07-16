@@ -89,9 +89,12 @@ CONFIG =
     scout:
       targets: ['discovered_territories']
       verb_module: 'explore'
+      verb_description: 'Exploring {0}'
     lumberman:
       targets: ['discovered_territories']
-      verb_module: 'harvest for lumber'
+      verb_module: 'harvest for timber'
+      verb_description: 'Harvesting {0} for timber'
     spearman:
       targets: ['self_player', 'self_units']
       verb_module: 'defend'
+      verb_description: 'Defending {0}'

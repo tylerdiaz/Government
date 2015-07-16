@@ -9,6 +9,8 @@ var default_unit_json = {
   img: 'units/drunkard.png',
   current_hp: 12,
   max_hp: 12,
+  damage: [2, 4],
+  accuracy: 0.5,
   is_recovering: false,
   lvl: 1,
   current_exp: 0,
@@ -17,6 +19,7 @@ var default_unit_json = {
   duty_target_type: '',
   duty_target_id: 0,
   duty_description: 'Off duty',
+  states: {},
   population_space: 1,
   morale_rate: 0,
   costs: [
@@ -33,14 +36,7 @@ var default_unit_json = {
       on_duty_contingency: true,
     },
   ],
-  perks: [
-    {
-      resource_type: 'glowstones',
-      resource_value: 2,
-      frequency: 'morrow',
-      on_duty_contingency: true,
-    },
-  ],
+  perks: []
 }
 
 function merge_options(obj1,obj2){
@@ -121,6 +117,20 @@ var firebaseData = {
         hidden: false,
       },
     ]
+  },
+  battles: {
+    "simplelogin:1": {
+      'f2jq0fj291': {
+        title: 'A fierce battle',
+        logs: [],
+      }
+    }
+  },
+  territories: {
+    "simplelogin:1": {
+      'meadows': { exploration_progress: 0 },
+      'swampland': { exploration_progress: 0 },
+    }
   },
   formulas: {
     "simplelogin:1": [
