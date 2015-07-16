@@ -27,6 +27,38 @@ CONFIG = {
     morrows_per_lion: 119,
     morrows_per_elephant: 659
   },
+  territories: {
+    'meadows': {
+      exploration_score: 625,
+      description: 'land description',
+      min_level: 1
+    },
+    'forest': {
+      exploration_score: 3125,
+      description: 'land description',
+      min_level: 2
+    },
+    'seaside': {
+      exploration_score: 15625,
+      description: 'land description',
+      min_level: 4
+    },
+    'swampland': {
+      exploration_score: 78125,
+      description: 'land description',
+      min_level: 8
+    },
+    'desert': {
+      exploration_score: 150000,
+      description: 'land description',
+      min_level: 10
+    },
+    'snowcap-peak': {
+      exploration_score: 500000,
+      description: 'land description',
+      min_level: 15
+    }
+  },
   stages: {
     1: {
       overlay: ['map-frontyard-forest'],
