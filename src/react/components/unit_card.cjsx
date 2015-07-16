@@ -92,7 +92,7 @@ UnitCard = React.createClass
           <a href="#unit-#{@props.index}">(info)</a>
         </div>
         {
-          @props.obj.costs.map (obj, i) =>
+          (@props.obj.costs || []).map (obj, i) =>
             <UnitCostRow
               isCost={true}
               amount={obj.resource_value}
@@ -102,7 +102,7 @@ UnitCard = React.createClass
             /> if !obj.on_duty_contingency or (obj.on_duty_contingency is true and @props.obj.on_duty is true)
         }
         {
-          @props.obj.perks.map (obj, i) =>
+          (@props.obj.perks || []).map (obj, i) =>
             <UnitCostRow
               isCost={false}
               amount={obj.resource_value}

@@ -17,7 +17,7 @@ UnitView = React.createClass
               Current perks:
               <ul>
                   {
-                    @state.unit.perks.map (obj, i) =>
+                    (@state.unit.perks || []).map (obj, i) =>
                       if !obj.on_duty_contingency or (obj.on_duty_contingency is true and @state.unit.on_duty is true)
                         <li key={i}>
                           <UnitCostRow
@@ -35,7 +35,7 @@ UnitView = React.createClass
               Current costs:
               <ul>
                 {
-                  @state.unit.costs.map (obj, i) =>
+                  (@state.unit.costs || []).map (obj, i) =>
                     if !obj.on_duty_contingency or (obj.on_duty_contingency is true and @state.unit.on_duty is true)
                       <li key={i}>
                         <UnitCostRow
