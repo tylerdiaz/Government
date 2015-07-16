@@ -56,6 +56,24 @@ CONFIG = {
       overlay: [],
       underlay: ['map-water', 'map-greenland', 'map-desert']
     }
+  },
+  professions: {
+    scout: {
+      targets: ['discovered_territories'],
+      verb_module: 'explore'
+    },
+    lumberman: {
+      targets: ['discovered_territories'],
+      verb_module: 'explore'
+    },
+    drunk: {
+      targets: [],
+      verb_module: 'explore'
+    },
+    spearman: {
+      targets: ['self_player', 'self_units'],
+      verb_module: 'explore'
+    }
   }
 };
 
@@ -98,8 +116,7 @@ DATA['professions'] = {
       damage: [30, 65],
       accuracy: 0.90,
       max_hp: 220
-    },
-    targets: ['discovered_territories']
+    }
   },
   lumberman: {
     starting_stats: {
@@ -113,38 +130,7 @@ DATA['professions'] = {
       damage: [4, 12],
       accuracy: 0.5,
       max_hp: 40
-    },
-    targets: ['self', 'opponents', 'self_units', 'discovered_territories']
-  },
-  teacher: {
-    starting_stats: {
-      exp: 15,
-      damage: [1, 2],
-      accuracy: 0.2,
-      max_hp: 6
-    },
-    final_stats: {
-      exp: 900,
-      damage: [4, 12],
-      accuracy: 0.5,
-      max_hp: 40
-    },
-    targets: ['self_units']
-  },
-  drunk: {
-    starting_stats: {
-      exp: 50,
-      damage: [1, 2],
-      accuracy: 0.2,
-      max_hp: 6
-    },
-    final_stats: {
-      exp: 700,
-      damage: [4, 6],
-      accuracy: 0.5,
-      max_hp: 40
-    },
-    targets: []
+    }
   },
   spearman: {
     starting_stats: {
@@ -158,8 +144,7 @@ DATA['professions'] = {
       damage: [35, 90],
       accuracy: 0.95,
       max_hp: 320
-    },
-    targets: ['self', 'self_units']
+    }
   }
 };
 

@@ -4,8 +4,6 @@ UnitView = React.createClass
     { id: @props.params[0], unit: { profession: '', damage: [], costs: [], perks: [] } }
   componentWillMount: ->
     @bindAsObject(Global.firebaseRef.child("units/#{Global.userId}/#{@props.params[0]}"), "unit")
-  componentDidMount: ->
-    $('select').material_select();
   render: ->
     <div className="unit_container">
       <div className="unit_card_boat">
@@ -21,7 +19,7 @@ UnitView = React.createClass
                   {
                     @state.unit.perks.map (obj, i) =>
                       if !obj.on_duty_contingency or (obj.on_duty_contingency is true and @state.unit.on_duty is true)
-                        <li>
+                        <li key={i}>
                           <UnitCostRow
                             isCost={false}
                             amount={obj.resource_value}
@@ -39,7 +37,7 @@ UnitView = React.createClass
                 {
                   @state.unit.costs.map (obj, i) =>
                     if !obj.on_duty_contingency or (obj.on_duty_contingency is true and @state.unit.on_duty is true)
-                      <li>
+                      <li key={i}>
                         <UnitCostRow
                           isCost={true}
                           amount={obj.resource_value}
@@ -53,16 +51,7 @@ UnitView = React.createClass
             </li>
           </ul>
           <hr />
-          <p>(or unassign) Assign to [protect,scout,mill]: (dynamic options: units, kingdom, opponents, locations)</p>
-          <form>
-          <label>Choose a thing to assign this to:</label>
-            <select>
-              <option value="" selected="selected">Unassigned</option>
-              <option value="1">Option 1</option>
-              <option value="2">Option 2</option>
-              <option value="3">Option 3</option>
-            </select>
-          </form>
+          { <UnitAssignment unit={@state.unit} /> if CONFIG['professions'][@state.unit.profession] }
           <div style={margin: '0 0 0 -15px'}>
             <table className="resource_table">
               <thead>
@@ -79,7 +68,62 @@ UnitView = React.createClass
               </tbody>
             </table>
           </div>
-
         </div>
       </div>
     </div>
+
+UnitAssignment = React.createClass
+  getInitialState: ->
+    { options: [] }
+  componentWillMount: ->
+    @loadOptions( =>
+      $('#assignment_select').material_select()
+    )
+  loadOptions: (fn) ->
+    target_types = CONFIG['professions'][@props.unit.profession]['targets']
+    total_loading_options = target_types.length
+    options = []
+    runPromise = =>
+      total_loading_options = total_loading_options - 1
+      if total_loading_options is 0
+        @setState({ options: options })
+        fn()
+
+    for options_type in target_types
+      if options_type is 'discovered_territories'
+        Global.firebaseRef.child('territories/' + Global.userId).once 'value', (snap) =>
+          for k, v of snap.val()
+            options.push({ label: k.humanize(), value: "territories:#{k}", selected: false })
+
+          runPromise()
+      else if options_type is 'self_player'
+        options.push({ label: "Main village", value: "player", selected: false })
+        runPromise()
+
+      else if options_type is 'self_units'
+        Global.firebaseRef.child('units/' + Global.userId).once 'value', (snap) =>
+          for unit, index in snap.val()
+            continue if unit.id == @props.unit.id
+            options.push({ label: "#{unit.name} the #{unit.title}", value: "unit:#{unit.index}", selected: false })
+
+          runPromise()
+
+  changeOption: (e) ->
+    e.preventDefault()
+    assignment = e.target.value
+    if assignment is 'off'
+      console.log 'removing of duties'
+    else
+      console.log "assigning: #{assignment}"
+
+  render: ->
+    <form>
+      <label>Assign a target to {CONFIG['professions'][@props.unit.profession]['verb_module']}:</label>
+      <select className="browser-default" id="assignment_select" onChange={@changeOption}>
+        <option value="off">(Off Duty) Nothing</option>
+        {
+          @state.options.map (option, index) ->
+            <option value={option.value} key={index} defaultValue={option.selected}>{option.label}</option>
+        }
+      </select>
+    </form>

@@ -54,3 +54,13 @@ CONFIG =
     7:
       overlay: []
       underlay: ['map-water', 'map-greenland', 'map-desert']
+  professions:
+    scout:
+      targets: ['discovered_territories']
+      verb_module: 'explore'
+    lumberman:
+      targets: ['discovered_territories']
+      verb_module: 'harvest for lumber'
+    spearman:
+      targets: ['self_player', 'self_units']
+      verb_module: 'defend'

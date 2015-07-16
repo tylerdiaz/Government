@@ -14,7 +14,8 @@ var default_unit_json = {
   current_exp: 0,
   max_exp: 50,
   on_duty: false,
-  states: {},
+  duty_target_type: '',
+  duty_target_id: 0,
   duty_description: 'Off duty',
   population_space: 1,
   morale_rate: 0,
@@ -71,10 +72,10 @@ var firebaseData = {
   },
   units: {
     "simplelogin:1": [
-      merge_options(default_unit_json, { name: 'Jupiter', title: 'Resourceful', profession: 'scout', img: 'units/jupiter.png' }),
-      merge_options(default_unit_json, { name: 'Mendel', title: 'Builder', profession: 'builder', img: 'units/builder.png' }),
-      merge_options(default_unit_json, { name: 'Tybalt', title: 'Spearman', profession: 'spearman', img: 'units/spearman.png' }),
-      merge_options(default_unit_json, { name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/villager.png' }),
+      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Jupiter', title: 'Resourceful', profession: 'scout', img: 'units/jupiter.png' }),
+      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Mendel', title: 'Builder', profession: 'builder', img: 'units/builder.png' }),
+      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Tybalt', title: 'Spearman', profession: 'spearman', img: 'units/spearman.png' }),
+      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/villager.png' }),
     ]
   },
   buildings: {
