@@ -21,13 +21,13 @@
 # },
 
 InjuredBar = React.createClass
-  propTypes: {
-    hp: React.PropTypes.number,
-    max_hp: React.PropTypes.number,
-    isHealing: React.PropTypes.bool,
-  },
+  propTypes:
+    hp: React.PropTypes.number
+    max_hp: React.PropTypes.number
+    isHealing: React.PropTypes.bool
+
   damage_percent: ->
-    Math.round(100-(@props.hp/@props.max_hp)*100)
+    Math.round(100 - (@props.hp/@props.max_hp) * 100)
   render: ->
     if @props.max_hp != @props.hp
       if @props.isHealing is true
@@ -49,7 +49,7 @@ UnitCostRow = React.createClass
       negative_cost: @props.isCost,
       positive_cost: !@props.isCost
     )
-    CostSign =
+    cost_sign =
       if @props.isCost
         '-'
       else
@@ -57,7 +57,7 @@ UnitCostRow = React.createClass
 
     <div className="unit_cost_row">
       <span className={classes}>
-        {CostSign}
+        {cost_sign}
         {@props.amount if @props.amount > 0} {@props.resource}
         {'/'+@props.frequency if @props.frequency}
       </span>
@@ -65,15 +65,13 @@ UnitCostRow = React.createClass
     </div>
 
 UnitCard = React.createClass
-  getDefaultProps: ->
-    # placeholder
   render: ->
-    classes = React.addons.classSet({
+    classes = React.addons.classSet(
       unit_card: true,
       active_unit: @props.obj.on_duty
       idle_unit: !@props.obj.on_duty
       useless_unit: false
-    })
+    )
 
     <div className={classes}>
       <div className="unit_tiny_card">
