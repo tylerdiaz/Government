@@ -144,7 +144,7 @@ UnitAssignment = React.createClass
       assignment_array = assignment.split('::')
       @updateUnitProfession(
         on_duty: true,
-        duty_description: CONFIG['professions'][@props.unit.profession]['verb_description'].format(assignment_array[1]),
+        duty_description: CONFIG['professions'][@props.unit.profession]['verb_description'].format($(e.target).find('option:selected').attr('data-subject')),
         duty_target_type: assignment_array[0],
         duty_target_id: assignment_array[1],
       )
@@ -156,7 +156,7 @@ UnitAssignment = React.createClass
         <option value="off">None</option>
         {
           @state.options.map (option, index) ->
-            <option value={option.value} subject={option.description} key={index}>
+            <option value={option.value} data-subject={option.subject} key={index}>
               {option.label}
             </option>
         }
