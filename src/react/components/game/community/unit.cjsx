@@ -81,8 +81,8 @@ UnitAssignment = React.createClass
       $('#assignment_select').material_select()
     )
 
-  verb: ->
-    CONFIG['professions'][@props.unit.profession]['verb_module']
+  profession_attr: (attr) ->
+    CONFIG['professions'][@props.unit.profession][attr]
 
   currentDuty: ->
     if @props.unit.on_duty
@@ -91,7 +91,7 @@ UnitAssignment = React.createClass
       'off'
 
   loadOptions: (fn) ->
-    target_types = CONFIG['professions'][@props.unit.profession]['targets']
+    target_types = @profession_attr('targets')
     total_loading_options = target_types.length
     options = []
     runPromise = =>
@@ -144,14 +144,14 @@ UnitAssignment = React.createClass
       assignment_array = assignment.split('::')
       @updateUnitProfession(
         on_duty: true,
-        duty_description: CONFIG['professions'][@props.unit.profession]['verb_description'].format($(e.target).find('option:selected').attr('data-subject')),
+        duty_description: @profession_attr('verb_description').format($(e.target).find('option:selected').attr('data-subject')),
         duty_target_type: assignment_array[0],
         duty_target_id: assignment_array[1],
       )
 
   render: ->
     <form>
-      <label>Assign a target to {@verb()}:</label>
+      <label>Assign a target to {@profession_attr('verb')}:</label>
       <select className="browser-default" id="assignment_select" onChange={@changeOption} value={@currentDuty()}>
         <option value="off">None</option>
         {
