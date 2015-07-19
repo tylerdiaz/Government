@@ -3,7 +3,7 @@ var _ = require('underscore');
 
 var default_unit_json = {
   id: Math.floor((Math.random() * 10000) + 1000),
-  name: 'No one',
+  name: 'No one', // writable
   title: 'villager',
   profession: 'drunk',
   img: 'units/drunkard.png',
@@ -15,10 +15,10 @@ var default_unit_json = {
   lvl: 1,
   current_exp: 0,
   max_exp: 50,
-  on_duty: false,
-  duty_target_type: '',
-  duty_target_id: 0,
-  duty_description: 'Off duty',
+  on_duty: false, // writable
+  duty_target_type: '', // writable
+  duty_target_id: 0, // writable
+  duty_description: 'Off duty', // writable
   states: {},
   population_space: 1,
   morale_rate: 0,
@@ -51,10 +51,10 @@ var firebaseData = {
     "simplelogin:1": {
       clan_size: "village",
       morale: 60.0,
-      name: "Karolann",
+      name: "Karolann", // writable
       max_population: 5,
       current_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' },
-      proposed_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' },
+      proposed_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' }, // writable
     },
   },
   users: {
