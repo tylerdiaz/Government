@@ -92,19 +92,18 @@ CONFIG = {
   professions: {
     scout: {
       targets: ['discovered_territories'],
-      verb_module: 'explore'
+      verb_module: 'explore',
+      verb_description: 'Exploring {0}'
     },
     lumberman: {
       targets: ['discovered_territories'],
-      verb_module: 'explore'
-    },
-    drunk: {
-      targets: [],
-      verb_module: 'explore'
+      verb_module: 'harvest for timber',
+      verb_description: 'Harvesting {0} for timber'
     },
     spearman: {
       targets: ['self_player', 'self_units'],
-      verb_module: 'explore'
+      verb_module: 'defend',
+      verb_description: 'Defending {0}'
     }
   }
 };
@@ -232,34 +231,34 @@ DATA['units'] = {
 var GameTick;
 
 GameTick = (function() {
-  function GameTick(clan_data) {
+  function GameTick(clan) {
     var clan_event, event_index, runtime_formulas, _i, _len, _ref;
-    this.clan_data = clan_data;
-    this.resource_calc = new ResourceCalculator(this.clan_data.resources);
-    this.clan_data.state_data.tick_counter = this.clan_data.state_data.tick_counter + 1;
-    this.clan_data.state_data.timestamp = this.morrowTick(this.clan_data.state_data.tick_counter, this.clan_data.state_data.timestamp);
-    runtime_formulas = this.clan_data.formulas;
-    if (this.isNewRabbit(this.clan_data.state_data.timestamp)) {
-      this.clan_data.current_policies = this.clan_data.proposed_policies;
+    this.clan = clan;
+    this.resource_calc = new ResourceCalculator(this.clan.resources);
+    this.clan.state_data.tick_counter = this.clan.state_data.tick_counter + 1;
+    this.clan.state_data.timestamp = this.morrowTick(this.clan.state_data.tick_counter, this.clan.state_data.timestamp);
+    runtime_formulas = this.clan.formulas;
+    if (this.isNewRabbit(this.clan.state_data.timestamp)) {
+      this.clan.current_policies = this.clan.proposed_policies;
     }
-    if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
-      this.clan_data.units = this.tickUnits(this.clan_data.units, this.isNewRabbit(this.clan_data.state_data.timestamp));
+    if (this.isNewMorrow(this.clan.state_data.tick_counter)) {
+      this.clan.units = this.tickUnits(this.clan.units, this.isNewRabbit(this.clan.state_data.timestamp));
     }
-    _ref = this.clan_data.events;
+    _ref = this.clan.events;
     for (event_index = _i = 0, _len = _ref.length; _i < _len; event_index = ++_i) {
       clan_event = _ref[event_index];
       if (clan_event.dismissed) {
-        this.clan_data.events[event_index]['dismissed_countdown'] = this.clan_data.events[event_index]['dismissed_countdown'] - 1;
-        if (this.clan_data.events[event_index]['dismissed_countdown'] <= 0) {
-          this.clan_data.events[event_index]['hidden'] = true;
+        this.clan.events[event_index]['dismissed_countdown'] = this.clan.events[event_index]['dismissed_countdown'] - 1;
+        if (this.clan.events[event_index]['dismissed_countdown'] <= 0) {
+          this.clan.events[event_index]['hidden'] = true;
         }
       }
     }
-    if (this.isNewMorrow(this.clan_data.state_data.tick_counter)) {
-      this.clan_data.morale = parseFloat(this.clan_data.morale) + this.unitMoraleOffset(this.clan_data.units);
+    if (this.isNewMorrow(this.clan.state_data.tick_counter)) {
+      this.clan.morale = parseFloat(this.clan.morale) + this.unitMoraleOffset(this.clan.units);
       this.resource_calc.runFormulas(runtime_formulas);
     }
-    this.clan_data.resources = this.resource_calc.resources;
+    this.clan.resources = this.resource_calc.resources;
   }
 
   GameTick.prototype.isNewRabbit = function(timestamp) {
@@ -296,7 +295,7 @@ GameTick = (function() {
       if (unit === void 0) {
         continue;
       }
-      unit_tick = new UnitTick(unit, this.clan_data.current_policies.wages, isNewRabbit);
+      unit_tick = new UnitTick(unit, this.clan.current_policies.wages, isNewRabbit);
       unit_costs = unit_tick.costs();
       if (this.resource_calc.canAfford(unit_costs)) {
         this.resource_calc.deplete(unit_costs);
@@ -449,14 +448,12 @@ ResourceCalculator = (function() {
 
 })();
 
-var Firebase, GameState, Global, joinPaths, seedrandom, _,
+var Firebase, GameState, Global, joinPaths, _,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 Firebase = require('firebase');
 
 _ = require('underscore');
-
-seedrandom = require('seedrandom');
 
 Global = {
   firebaseRef: new Firebase("ws://local.firebaseio.com:5111"),
