@@ -43,12 +43,12 @@ GameState.mainCycle = setInterval( ->
       # re-constructing a denormalized data structure
       # to keep things convinient for development.
       actuated_clan_data = {}
-      actuated_clan_data[k] = game_tick.clan_data[k] for k in GameState.clanDataStructureKeys
+      actuated_clan_data[k] = game_tick.clan[k] for k in GameState.clanDataStructureKeys
       Global.firebaseRef.child("clans/#{clanKey}").set(actuated_clan_data)
 
       # branches
       for key in CONFIG.denormalized_tables
-        unless _.isEqual(frozen_start_value[key], game_tick.clan_data[key])
-          Global.firebaseRef.child("#{key}/#{clanKey}").set(game_tick.clan_data[key])
+        unless _.isEqual(frozen_start_value[key], game_tick.clan[key])
+          Global.firebaseRef.child("#{key}/#{clanKey}").set(game_tick.clan[key])
 
 , Global.tickRate)
