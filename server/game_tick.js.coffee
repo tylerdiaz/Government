@@ -1,32 +1,31 @@
 class GameTick
-  constructor: (@clan_data) ->
-    @resource_calc = new ResourceCalculator(@clan_data.resources)
-    @clan_data.state_data.tick_counter = @clan_data.state_data.tick_counter + 1
-    @clan_data.state_data.timestamp = @morrowTick(@clan_data.state_data.tick_counter, @clan_data.state_data.timestamp)
-    runtime_formulas = @clan_data.formulas
+  constructor: (@clan) ->
+    @resource_calc = new ResourceCalculator(@clan.resources)
+    @clan.state_data.tick_counter = @clan.state_data.tick_counter + 1
+    @clan.state_data.timestamp = @morrowTick(@clan.state_data.tick_counter, @clan.state_data.timestamp)
+    runtime_formulas = @clan.formulas
 
-    if @isNewRabbit(@clan_data.state_data.timestamp)
-      @clan_data.current_policies = @clan_data.proposed_policies
+    if @isNewRabbit(@clan.state_data.timestamp)
+      @clan.current_policies = @clan.proposed_policies
 
-    if @isNewMorrow(@clan_data.state_data.tick_counter)
-      @clan_data.units = @tickUnits(@clan_data.units, @isNewRabbit(@clan_data.state_data.timestamp))
+    if @isNewMorrow(@clan.state_data.tick_counter)
+      @clan.units = @tickUnits(@clan.units, @isNewRabbit(@clan.state_data.timestamp))
 
-    for clan_event, event_index in @clan_data.events
+    for clan_event, event_index in @clan.events
       if clan_event.dismissed
-        @clan_data.events[event_index]['dismissed_countdown'] = @clan_data.events[event_index]['dismissed_countdown'] - 1
-        if @clan_data.events[event_index]['dismissed_countdown'] <= 0
-          @clan_data.events[event_index]['hidden'] = true
-
+        @clan.events[event_index]['dismissed_countdown'] = @clan.events[event_index]['dismissed_countdown'] - 1
+        if @clan.events[event_index]['dismissed_countdown'] <= 0
+          @clan.events[event_index]['hidden'] = true
 
     # run building stuff here, which may add to formulas in real-time
-    if @isNewMorrow(@clan_data.state_data.tick_counter)
-      @clan_data.morale = (
-        parseFloat(@clan_data.morale) + @unitMoraleOffset(@clan_data.units)
+    if @isNewMorrow(@clan.state_data.tick_counter)
+      @clan.morale = (
+        parseFloat(@clan.morale) + @unitMoraleOffset(@clan.units)
       )
 
       @resource_calc.runFormulas(runtime_formulas)
 
-    @clan_data.resources = @resource_calc.resources
+    @clan.resources = @resource_calc.resources
 
   isNewRabbit: (timestamp) ->
     (timestamp % CONFIG.calendar.morrows_per_rabbit) == 0
@@ -53,7 +52,7 @@ class GameTick
     for unit, unitIndex in units
       continue if unit is undefined
 
-      unit_tick = new UnitTick(unit, @clan_data.current_policies.wages, isNewRabbit)
+      unit_tick = new UnitTick(unit, @clan.current_policies.wages, isNewRabbit)
       unit_costs = unit_tick.costs()
 
       if @resource_calc.canAfford(unit_costs)
