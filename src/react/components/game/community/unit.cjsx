@@ -125,7 +125,7 @@ UnitAssignment = React.createClass
             continue if unit.id == @props.unit.id
             options.push({
               label: "#{unit.name} the #{unit.title}",
-              value: "unit::#{index}",
+              value: "units::#{index}",
               subject: unit.name
             })
 
