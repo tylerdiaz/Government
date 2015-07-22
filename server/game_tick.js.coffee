@@ -11,6 +11,24 @@ class GameTick
     if @isNewMorrow(@clan.state_data.tick_counter)
       @clan.units = @tickUnits(@clan.units, @isNewRabbit(@clan.state_data.timestamp))
 
+      # Loop through the units' perks and assigned
+      # targets, and see if there's anything that can
+      # be done to exercise the duty they're assigned.
+      # Some duties are reactive, others are proactive.
+
+      for unit, unitIndex in @clan.units
+        if unit.perks is undefined or unit.on_duty is false # grr... firebase...
+          continue
+
+        for perk, perkIndex in unit.perks
+          perk.proactive = (if unit.duty_target_type is 'player' then false else true) # invalid, also needs to include stuff like "defending"
+          console.log perk.proactive, unit.duty_target_type
+          if perk.proactive is true
+            console.log @clan[unit.duty_target_type], unit.duty_target_type
+            perk_target = @clan[unit.duty_target_type][unit.duty_target_id]
+            duty_tick = new UnitDutyHandler(perk, perk_target, unit)
+            @clan[unit.duty_target_type][unit.duty_target_id] = duty_tick.perk_target
+
     for clan_event, event_index in @clan.events
       if clan_event.dismissed
         @clan.events[event_index]['dismissed_countdown'] = @clan.events[event_index]['dismissed_countdown'] - 1
