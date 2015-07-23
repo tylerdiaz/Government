@@ -42,7 +42,6 @@ class GameTick
 
   runPerk: (unit, perk, target) ->
     mechanics = DATA['perk_mechanics'][perk.resource_type]
-    console.log perk.resource_type, mechanics['perk_type']
     if mechanics.proactive is true
       if mechanics['perk_type'] is 'territory_harvest'
         @clan.resources[perk.resource_type] =
