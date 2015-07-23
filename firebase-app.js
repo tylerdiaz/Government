@@ -64,30 +64,36 @@ var firebaseData = {
     "simplelogin:1": { user_active: true, tick_counter: 0, timestamp: 0 },
   },
   resources: {
-    "simplelogin:1": { glowstones: 640, meal: 300, rice: 800, beef: 400 }
-  },
-  units: {
-    "simplelogin:1": [
-        merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Jupiter', title: 'Resourceful', profession: 'scout', img: 'units/jupiter.png', perks: [
-            {
-              resource_type: 'exploration',
+      "simplelogin:1": {
+        glowstones: 640,
+        lumber: 25,
+        meal: 300,
+        rice: 500,
+        beef: 400
+    }
+},
+units: {
+  "simplelogin:1": [
+      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Jupiter', title: 'Resourceful', profession: 'scout', img: 'units/jupiter.png', perks: [
+          {
+            resource_type: 'exploration',
+            resource_value: 1,
+            frequency: 'morrow',
+            on_duty_contingency: true,
+          }
+      ] }),
+    merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Mendel', title: 'Builder', profession: 'builder', img: 'units/builder.png' }),
+    merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Tybalt', title: 'Spearman', profession: 'spearman', img: 'units/spearman.png' }),
+      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/lumberman.png', perks: [
+          {
+              resource_type: 'lumber',
               resource_value: 1,
               frequency: 'morrow',
               on_duty_contingency: true,
-            }
-        ] }),
-      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Mendel', title: 'Builder', profession: 'builder', img: 'units/builder.png' }),
-      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Tybalt', title: 'Spearman', profession: 'spearman', img: 'units/spearman.png' }),
-        merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/lumberman.png', perks: [
-            {
-                resource_type: 'lumber',
-                resource_value: 1,
-                frequency: 'morrow',
-                on_duty_contingency: true,
-            }
-        ]}),
-    ]
-  },
+          }
+      ]}),
+  ]
+},
   buildings: {
     "simplelogin:1": {
       1: 'building data structure here',
