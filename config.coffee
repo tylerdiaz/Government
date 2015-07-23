@@ -22,7 +22,7 @@ CONFIG =
     spear: 'A frail weapon used for combat'
 
     # expansion
-    timber: 'Used to create wooden buildings'
+    lumber: 'Used to create wooden buildings'
 
     # economic
     glowstones: 'Main currency used'
@@ -92,8 +92,8 @@ CONFIG =
       verb_description: 'Exploring {0}'
     lumberman:
       targets: ['discovered_territories']
-      verb_module: 'harvest for timber'
-      verb_description: 'Harvesting {0} for timber'
+      verb_module: 'harvest for lumber'
+      verb_description: 'Harvesting {0} for lumber'
     spearman:
       targets: ['self_player', 'self_units']
       verb_module: 'defend'
