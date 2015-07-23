@@ -22,12 +22,14 @@ class GameTick
 
         for perk, perkIndex in unit.perks
           perk.proactive = (if unit.duty_target_type is 'player' then false else true) # invalid, also needs to include stuff like "defending"
-          console.log perk.proactive, unit.duty_target_type
           if perk.proactive is true
-            console.log @clan[unit.duty_target_type], unit.duty_target_type
-            perk_target = @clan[unit.duty_target_type][unit.duty_target_id]
-            duty_tick = new UnitDutyHandler(perk, perk_target, unit)
-            @clan[unit.duty_target_type][unit.duty_target_id] = duty_tick.perk_target
+            duty_handler = new UnitDutyHandler(
+              perk,
+              @clan[unit.duty_target_type][unit.duty_target_id],
+              unit
+            )
+
+            @clan[unit.duty_target_type][unit.duty_target_id] = duty_handler.perk_target
 
     for clan_event, event_index in @clan.events
       if clan_event.dismissed
