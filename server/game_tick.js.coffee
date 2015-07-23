@@ -21,15 +21,8 @@ class GameTick
           continue
 
         for perk, perkIndex in unit.perks
-          perk.proactive = (if unit.duty_target_type is 'player' then false else true) # invalid, also needs to include stuff like "defending"
-          if perk.proactive is true
-            duty_handler = new UnitDutyHandler(
-              perk,
-              @clan[unit.duty_target_type][unit.duty_target_id],
-              unit
-            )
-
-            @clan[unit.duty_target_type][unit.duty_target_id] = duty_handler.perk_target
+          @clan[unit.duty_target_type][unit.duty_target_id] =
+            @runPerk(unit, perk, @clan[unit.duty_target_type][unit.duty_target_id])
 
     for clan_event, event_index in @clan.events
       if clan_event.dismissed
@@ -46,6 +39,19 @@ class GameTick
       @resource_calc.runFormulas(runtime_formulas)
 
     @clan.resources = @resource_calc.resources
+
+  runPerk: (unit, perk, target) ->
+    mechanics = DATA['perk_mechanics'][perk.resource_type]
+    console.log perk.resource_type, mechanics['perk_type']
+    if mechanics.proactive is true
+      if mechanics['perk_type'] is 'territory_harvest'
+        @clan.resources[perk.resource_type] =
+          @runPerk(unit, {
+            resource_type: 'collect',
+            resource_value: perk.resource_value
+          }, (@clan.resources[perk.resource_type] || 0))
+
+      new UnitDutyHandler(perk, target, unit).perk_target
 
   isNewRabbit: (timestamp) ->
     (timestamp % CONFIG.calendar.morrows_per_rabbit) == 0

@@ -78,7 +78,14 @@ var firebaseData = {
         ] }),
       merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Mendel', title: 'Builder', profession: 'builder', img: 'units/builder.png' }),
       merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Tybalt', title: 'Spearman', profession: 'spearman', img: 'units/spearman.png' }),
-      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/lumberman.png' }),
+        merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/lumberman.png', perks: [
+            {
+                resource_type: 'lumber',
+                resource_value: 1,
+                frequency: 'morrow',
+                on_duty_contingency: true,
+            }
+        ]}),
     ]
   },
   buildings: {
@@ -135,8 +142,8 @@ var firebaseData = {
   },
   territories: {
     "simplelogin:1": {
-      'meadows': { exploration_progress: 0 },
-      'swampland': { exploration_progress: 0 },
+      'meadows': { exploration_progress: 0, resources: { lumber: 1000, rice: 50000 } },
+      'swampland': { exploration_progress: 0, resources: { lumber: 500, rice: 2000 } },
     }
   },
   formulas: {
