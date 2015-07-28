@@ -71,32 +71,70 @@ var firebaseData = {
         rice: 500,
         beef: 400
     }
-},
-units: {
-  "simplelogin:1": [
-      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Jupiter', title: 'Resourceful', profession: 'scout', img: 'units/jupiter.png', perks: [
-          {
-            resource_type: 'exploration',
-            resource_value: 1,
-            frequency: 'morrow',
-            on_duty_contingency: true,
-          }
-      ] }),
-    merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Mendel', title: 'Builder', profession: 'builder', img: 'units/builder.png' }),
-    merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Tybalt', title: 'Spearman', profession: 'spearman', img: 'units/spearman.png' }),
-      merge_options(default_unit_json, { id: Math.floor((Math.random() * 10000) + 1000), name: 'Quentin', title: 'Lumberman', profession: 'lumberman', img: 'units/lumberman.png', perks: [
-          {
+  },
+  units: {
+    "simplelogin:1": [
+      merge_options(
+        default_unit_json, {
+          id: Math.floor((Math.random() * 10000) + 1000),
+          name: 'Jupiter',
+          title: 'Resourceful',
+          profession: 'scout',
+          img: 'units/jupiter.png',
+          perks: [
+            {
+              resource_type: 'exploration',
+              resource_value: 1,
+              frequency: 'morrow',
+              on_duty_contingency: true,
+            }
+          ]
+        }
+      ),
+      merge_options(
+        default_unit_json, {
+          id: Math.floor((Math.random() * 10000) + 1000),
+          name: 'Mendel',
+          title: 'Builder',
+          profession: 'builder',
+          img: 'units/builder.png'
+        }
+      ),
+      merge_options(
+        default_unit_json, {
+          id: Math.floor((Math.random() * 10000) + 1000),
+          name: 'Tybalt',
+          title: 'Spearman',
+          profession: 'spearman',
+          img: 'units/spearman.png'
+        }
+      ),
+      merge_options(
+        default_unit_json, {
+          id: Math.floor((Math.random() * 10000) + 1000),
+          name: 'Quentive',
+          title: 'Lumberman',
+          profession: 'lumberman',
+          img: 'units/lumberman.png',
+          perks: [
+            {
               resource_type: 'lumber',
               resource_value: 1,
               frequency: 'morrow',
               on_duty_contingency: true,
-          }
-      ]}),
-  ]
-},
+            }
+          ]
+        }
+      )
+    ]
+  },
   buildings: {
     "simplelogin:1": {
-      1: 'building data structure here',
+      1: {
+        building_type: 'cabin',
+        heath: 100,
+        construction: 100
+      },
       2: 'locked',
       3: 'locked',
       4: 'locked',
