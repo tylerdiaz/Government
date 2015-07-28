@@ -32,7 +32,6 @@ OptionSwitch = React.createClass
       </label>
     </div>
 
-
 PolicyConfiguration = React.createClass
   mixins: [React.addons.LinkedStateMixin]
   getInitialState: ->

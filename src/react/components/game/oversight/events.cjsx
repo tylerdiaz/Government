@@ -57,4 +57,3 @@ EventCard = React.createClass
         </p>
       </div>
     </li>
-

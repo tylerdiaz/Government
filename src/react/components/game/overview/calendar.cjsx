@@ -37,4 +37,3 @@ CalendarFormatter = React.createClass
     timestamp_components.push(<CalendarDateType count={morrows} label="Morrow" />)
 
     <span>{timestamp_components}</span>
-
