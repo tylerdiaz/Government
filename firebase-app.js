@@ -53,23 +53,40 @@ var firebaseData = {
       morale: 60.0,
       name: "Karolann", // writable
       max_population: 5,
-      current_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' },
-      proposed_policies: { wages: "1", overtime: false, religion: false, scoutingFocus: 'food' }, // writable
+      current_policies: {
+        wages: "1",
+        overtime: false,
+        religion: false,
+        scoutingFocus: 'food'
+      },
+      proposed_policies: {
+        wages: "1",
+        overtime: false,
+        religion: false,
+        scoutingFocus: 'food'
+      }, // writable
     },
   },
   users: {
-    "simplelogin:1": { name: "Tyler", addressment: "Lord" }
+    "simplelogin:1": {
+      name: "Tyler",
+      addressment: "Lord"
+    }
   },
   state_data: {
-    "simplelogin:1": { user_active: true, tick_counter: 0, timestamp: 0 },
+    "simplelogin:1": {
+      user_active: true,
+      tick_counter: 0,
+      timestamp: 0
+    },
   },
   resources: {
-      "simplelogin:1": {
-        glowstones: 640,
-        lumber: 25,
-        meal: 300,
-        rice: 500,
-        beef: 400
+    "simplelogin:1": {
+      glowstones: 640,
+      lumber: 25,
+      meal: 300,
+      rice: 500,
+      beef: 400
     }
   },
   units: {
