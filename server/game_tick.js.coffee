@@ -22,7 +22,11 @@ class GameTick
 
         for perk, perkIndex in unit.perks
           @clan[unit.duty_target_type][unit.duty_target_id] =
-            @runPerk(unit, perk, @clan[unit.duty_target_type][unit.duty_target_id])
+            @runPerk(
+              unit,
+              perk,
+              @clan[unit.duty_target_type][unit.duty_target_id]
+            ).perk_target
 
     for clan_event, event_index in @clan.events
       if clan_event.dismissed
@@ -48,9 +52,9 @@ class GameTick
           @runPerk(unit, {
             resource_type: 'collect',
             resource_value: perk.resource_value
-          }, (@clan.resources[perk.resource_type] || 0))
+          }, (@clan.resources[perk.resource_type] || 0)).perk_target
 
-      new UnitDutyHandler(perk, target, unit).perk_target
+      new UnitDutyHandler(perk, target, unit)
 
   isNewRabbit: (timestamp) ->
     (timestamp % CONFIG.calendar.morrows_per_rabbit) == 0
