@@ -146,23 +146,24 @@ var firebaseData = {
     ]
   },
   buildings: {
-    "simplelogin:1": {
-      1: {
+    "simplelogin:1": [
+      {
         building_type: 'cabin',
         heath: 100,
-        construction: 100
+        construction: 500,
+        required_construction: 500,
       },
-      2: 'locked',
-      3: 'locked',
-      4: 'locked',
-      5: 'locked',
-      6: 'locked',
-      7: 'locked',
-    }
+      {
+        building_type: 'cabin',
+        heath: 100,
+        construction: 300,
+        required_construction: 500,
+      },
+    ]
   },
   maps: {
     "simplelogin:1": {
-      stage: 1
+      stage: 3
     }
   },
   events: {
