@@ -149,13 +149,11 @@ var firebaseData = {
     "simplelogin:1": [
       {
         building_type: 'cabin',
-        heath: 100,
         construction: 500,
         required_construction: 500,
       },
       {
         building_type: 'cabin',
-        heath: 100,
         construction: 300,
         required_construction: 500,
       },
