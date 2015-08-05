@@ -83,4 +83,9 @@ MapBuilding = React.createClass
     else
       styles['backgroundImage'] = "url(/images/buildings/#{@props.buildingType}.png)"
 
-    <div className='map_building' style={styles}></div>
+    <div className='map_building' style={styles}>
+      {
+        if @props.buildingCondition < 100
+          <div className='building_health'>{@props.buildingCondition}%</div>
+      }
+    </div>

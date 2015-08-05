@@ -131,6 +131,22 @@ UnitAssignment = React.createClass
 
           runPromise()
 
+      else if options_type is 'unfinished_buildings'
+        Global.firebaseRef.child('buildings/' + Global.userId).once 'value', (snap) =>
+          for building, index in snap.val()
+            continue if building.construction >= building.required_construction
+            construction_percent = Math.floor(
+              (building.construction / building.required_construction) * 100
+            )
+
+            options.push({
+              label: "(#{construction_percent}%) #{building.building_type}",
+              value: "buildings::#{index}",
+              subject: building.building_type
+            })
+
+          runPromise()
+
   updateUnitProfession: (data = { on_duty: false, duty_target_type: '', duty_description: 'Off Duty', duty_target_id: 0 }) ->
     for k, v of data
       Global.firebaseRef.child("units/#{Global.userId}/#{@props.index}/#{k}").set(v)

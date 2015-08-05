@@ -50,9 +50,25 @@ class GameTick
       if mechanics['perk_type'] is 'territory_harvest'
         @clan.resources[perk.resource_type] =
           @runPerk(unit, {
-            resource_type: 'collect',
+            resource_type: 'resource_modify',
             resource_value: perk.resource_value
           }, (@clan.resources[perk.resource_type] || 0)).perk_target
+      else if mechanics['perk_type'] is 'building_construction'
+        total_costs = @calculateBuildingCosts(target, perk.resource_value)
+        can_afford_building_construction = true
+        for resource, cost of total_costs
+          if (total_costs[resource] && total_costs[resource] <= @clan.resources[resource])
+            @clan.resources[resource] =
+              @runPerk(unit, {
+                resource_type: 'resource_modify',
+                resource_value: -cost
+              }, @clan.resources[resource]).perk_target
+          else
+            can_afford_building_construction = false
+
+        # short circuiting here doesn't seem like the best solution, will
+        # consider alternative architecture later.
+        return false unless can_afford_building_construction
 
       new UnitDutyHandler(perk, target, unit)
 
@@ -99,5 +115,11 @@ class GameTick
 
     units
 
-  calculateBuildingCosts: (buildings) ->
-    console.log 'building'
+  calculateBuildingCosts: (building, construction_progress) ->
+    max_costs = DATA['buildings'][building.building_type]['costs']
+    costs = {}
+    for resource, cost of max_costs
+      costs[resource] =
+        (construction_progress / cost) * building.required_construction
+
+    costs

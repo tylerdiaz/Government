@@ -1,6 +1,6 @@
 CONFIG =
   scouting_focus_options: ['food', 'weapons', 'looting']
-  denormalized_tables: ['units', 'resources', 'state_data', 'formulas', 'events', 'battles', 'territories']
+  denormalized_tables: ['units', 'resources', 'state_data', 'formulas', 'events', 'battles', 'territories', 'buildings']
   resource_descriptions:
     # culinary ingredients
     meal: 'Meals are used to feed your population'
@@ -94,6 +94,10 @@ CONFIG =
       targets: ['discovered_territories']
       verb_module: 'harvest for lumber'
       verb_description: 'Harvesting {0} for lumber'
+    builder:
+      targets: ['unfinished_buildings']
+      verb_module: 'build'
+      verb_description: 'Building {0}'
     spearman:
       targets: ['self_player', 'self_units']
       verb_module: 'defend'

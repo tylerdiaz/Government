@@ -114,7 +114,15 @@ var firebaseData = {
           name: 'Mendel',
           title: 'Builder',
           profession: 'builder',
-          img: 'units/builder.png'
+          img: 'units/builder.png',
+          perks: [
+            {
+                resource_type: 'construction',
+                resource_value: 1,
+                frequency: 'morrow',
+                on_duty_contingency: true,
+            }
+          ]
         }
       ),
       merge_options(
@@ -149,13 +157,13 @@ var firebaseData = {
     "simplelogin:1": [
       {
         building_type: 'cabin',
-        construction: 500,
-        required_construction: 500,
+        construction: 200,
+        required_construction: 200,
       },
       {
         building_type: 'cabin',
-        construction: 300,
-        required_construction: 500,
+        construction: 0,
+        required_construction: 200,
       },
     ]
   },
