@@ -21,12 +21,14 @@ class GameTick
           continue
 
         for perk, perkIndex in unit.perks
-          @clan[unit.duty_target_type][unit.duty_target_id] =
-            @runPerk(
-              unit,
-              perk,
-              @clan[unit.duty_target_type][unit.duty_target_id]
-            ).perk_target
+          perk_fn = @runPerk(
+            unit,
+            perk,
+            @clan[unit.duty_target_type][unit.duty_target_id]
+          )
+
+          if perk_fn.perk_target
+            @clan[unit.duty_target_type][unit.duty_target_id] = perk_fn.perk_target
 
     for clan_event, event_index in @clan.events
       if clan_event.dismissed
