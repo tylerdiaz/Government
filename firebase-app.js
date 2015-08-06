@@ -82,11 +82,12 @@ var firebaseData = {
   },
   resources: {
     "simplelogin:1": {
-      glowstones: 640,
-      lumber: 25,
-      meal: 300,
-      rice: 500,
-      beef: 400
+      glowstones: 1200,
+      lumber: 125,
+      meal: 1000,
+      rice: 1000,
+      beef: 250,
+      fish: 200,
     }
   },
   units: {
@@ -161,7 +162,7 @@ var firebaseData = {
         required_construction: 200,
       },
       {
-        building_type: 'cabin',
+        building_type: 'comedy-inn',
         construction: 0,
         required_construction: 200,
       },

@@ -15,3 +15,8 @@ DATA['buildings'] =
     required_construction: 200
     costs:
       lumber: 200
+  'comedy-inn':
+    capacity: 0
+    required_construction: 500
+    costs:
+      lumber: 500
