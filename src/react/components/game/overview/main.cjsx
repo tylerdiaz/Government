@@ -36,11 +36,11 @@ OverviewStats = React.createClass
         />
         <OverviewStat
           label="Glowstones"
-          value={Math.floor(@state.resources.glowstones)}
+          value={Math.floor(@state.resources.glowstones).format()}
         />
         <OverviewStat
           label="Meals"
-          value={Math.floor(@state.resources.meal)}
+          value={Math.floor(@state.resources.meal).format()}
         />
       </ul>
     </div>
