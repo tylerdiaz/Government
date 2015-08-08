@@ -122,6 +122,6 @@ class GameTick
     costs = {}
     for resource, cost of max_costs
       costs[resource] =
-        (construction_progress / cost) * building.required_construction
+        (construction_progress / building.required_construction) * cost
 
     costs
