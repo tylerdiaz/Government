@@ -73,7 +73,7 @@ MapBuilding = React.createClass
   locationPlots:
     1: { top: 155, left: 480, backgroundPosition: 'right bottom' }
     2: { top: 178, left: 430, backgroundPosition: 'right bottom' }
-    3: { top: 155, left: 480, backgroundPosition: 'right bottom' }
+    3: { top: 175, left: 555, backgroundPosition: 'left bottom' }
     4: { top: 170, left: 557, backgroundPosition: 'left bottom' }
   render: ->
     styles = @locationPlots[@props.locationIndex]

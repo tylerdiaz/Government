@@ -157,14 +157,19 @@ var firebaseData = {
   buildings: {
     "simplelogin:1": [
       {
+        building_type: false,
+        construction: 1,
+        required_construction: 1
+      },
+      {
         building_type: 'cabin',
         construction: 200,
         required_construction: 200,
       },
       {
-        building_type: 'comedy-inn',
-        construction: 0,
-        required_construction: 200,
+        building_type: false,
+        construction: 1,
+        required_construction: 1
       },
     ]
   },
