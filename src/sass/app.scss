@@ -325,6 +325,15 @@ table.resource_table {
       font-size:10px;
       line-height: 2;
     }
+    .building_image {
+      background:url('none')no-repeat right center;
+      opacity:0.8;
+      width:50px;
+      margin:0 5px;
+      height:66px;
+      background-size: cover;
+    }
+
   }
   .unit_info {
     float:left;
@@ -442,7 +451,7 @@ ul.event_stream {
         span { color:white; font-size:12px; }
       }
     }
-    .unit_image {
+    .unit_image, .building_image {
       float:left;
     }
     .unit_content {

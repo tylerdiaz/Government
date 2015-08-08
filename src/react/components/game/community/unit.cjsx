@@ -134,6 +134,7 @@ UnitAssignment = React.createClass
       else if options_type is 'unfinished_buildings'
         Global.firebaseRef.child('buildings/' + Global.userId).once 'value', (snap) =>
           for building, index in snap.val()
+            continue if building.building_type is null
             continue if building.construction >= building.required_construction
             construction_percent = Math.floor(
               (building.construction / building.required_construction) * 100

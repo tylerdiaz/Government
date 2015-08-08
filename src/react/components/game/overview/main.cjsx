@@ -82,6 +82,7 @@ MapBuilding = React.createClass
       styles['opacity'] = "0.5"
     else
       styles['backgroundImage'] = "url(/images/buildings/#{@props.buildingType}.png)"
+      styles['opacity'] = "1"
 
     <div className='map_building' style={styles}>
       {
