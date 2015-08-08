@@ -15,6 +15,7 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     server = require('gulp-server-livereload'),
     imageResize = require('gulp-image-resize'),
+    sourcemaps = require('gulp-sourcemaps'),
     minifyCss = require('gulp-minify-css');
 
 gulp.task('default', function () {
@@ -26,6 +27,7 @@ gulp.task('default', function () {
 // Javascript stuff
 gulp.task('game-server', function() {
   gulp.src(['./server/**/*.coffee', , './config.coffee'])
+      .pipe(sourcemaps.init())
       .pipe(gulpif(/[.]coffee$/, coffeex({ bare: true }).on('error', gutil.log)))
       .pipe(order([
         "config.js",
@@ -33,6 +35,7 @@ gulp.task('game-server', function() {
         "server/*.js",
         "server/server.js"
       ], { base: '.' }))
+      .pipe(sourcemaps.write())
       .pipe(concat('app.js'))
       .pipe(gulp.dest('./server/'))
 });
