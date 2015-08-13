@@ -36,6 +36,15 @@ class GameTick
         if @clan.events[event_index]['dismissed_countdown'] <= 0
           @clan.events[event_index]['hidden'] = true
 
+    for index, building_type of @clan.proposed_buildings
+      @clan.buildings[index] = {
+        building_type: building_type,
+        construction: 0,
+        required_construction: DATA['buildings'][building_type]['required_construction']
+      }
+
+    @clan.proposed_buildings = {}
+
     # run building stuff here, which may add to formulas in real-time
     if @isNewMorrow(@clan.state_data.tick_counter)
       @clan.morale = (

@@ -325,6 +325,7 @@ table.resource_table {
       font-size:10px;
       line-height: 2;
     }
+
     .building_image {
       background:url('none')no-repeat right center;
       opacity:0.8;
@@ -352,6 +353,13 @@ table.resource_table {
     span.negative_cost { color:#EB8F87; }
     span.positive_cost { color:#93DB42; }
   }
+}
+
+.tiny-select {
+  font-size:13px;
+  height:22px;
+  background:#000;
+  border:1px solid #666;
 }
 
 .tiny-alert {

@@ -65,6 +65,8 @@ var firebaseData = {
         religion: false,
         scoutingFocus: 'food'
       }, // writable
+
+      proposed_buildings: {},
     },
   },
   users: {
