@@ -1,15 +1,34 @@
+class GameClock
+  morrows: 0
+  rabbits: 0
+  constructor: (@tick_count) ->
+    @calculateTimes()
+  tick: (offset=1) ->
+    @tick_count = @tick_count + offset
+    @calculateTimes()
+  isNewRabbit: ->
+    (@morrows % CONFIG.calendar.morrows_per_rabbit) == 0
+  isNewMorrow: ->
+    (@tick_count % Global.ticks_per_morrow == 0)
+  calculateTimes: ->
+    @morrows = Math.floor(@tick_count / Global.ticks_per_morrow)
+    @rabbits = Math.floor(@morrows / CONFIG.calendar.morrows_per_rabbit)
+
 class GameTick
   constructor: (@clan) ->
+    @clock = new GameClock(@clan.state_data.tick_counter)
+    @clock.tick()
+    @clan.state_data.tick_counter = @clock.tick_count
+    @clan.state_data.timestamp = @clock.morrows
+
     @resource_calc = new ResourceCalculator(@clan.resources)
-    @clan.state_data.tick_counter = @clan.state_data.tick_counter + 1
-    @clan.state_data.timestamp = @morrowTick(@clan.state_data.tick_counter, @clan.state_data.timestamp)
     runtime_formulas = @clan.formulas
 
-    if @isNewRabbit(@clan.state_data.timestamp)
+    if @clock.isNewRabbit()
       @clan.current_policies = @clan.proposed_policies
 
-    if @isNewMorrow(@clan.state_data.tick_counter)
-      @clan.units = @tickUnits(@clan.units, @isNewRabbit(@clan.state_data.timestamp))
+    if @clock.isNewMorrow()
+      @clan.units = @tickUnits(@clan.units, @clock.isNewRabbit())
 
       # Loop through the units' perks and assigned
       # targets, and see if there's anything that can
@@ -50,7 +69,7 @@ class GameTick
 
     # run building perks here, which may add to formulas in real-time
 
-    if @isNewMorrow(@clan.state_data.tick_counter)
+    if @clock.isNewMorrow()
       @clan.morale = parseFloat(@clan.morale) + @unitMoraleOffset(@clan.units)
       @resource_calc.runFormulas(runtime_formulas)
 
@@ -93,18 +112,6 @@ class GameTick
         return false unless can_afford_building_construction
 
       new UnitDutyHandler(perk, target, unit)
-
-  isNewRabbit: (timestamp) ->
-    (timestamp % CONFIG.calendar.morrows_per_rabbit) == 0
-
-  isNewMorrow: (tickCount) ->
-    tickCount % Global.ticks_per_morrow == 0
-
-  morrowTick: (tickCount, timestamp) ->
-    if @isNewMorrow(tickCount)
-      timestamp + 1
-    else
-      timestamp
 
   unitMoraleOffset: (units) ->
     parseFloat(
