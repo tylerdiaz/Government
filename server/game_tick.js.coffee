@@ -36,12 +36,16 @@ class GameTick
         if @clan.events[event_index]['dismissed_countdown'] <= 0
           @clan.events[event_index]['hidden'] = true
 
+    # Convert proposed buildings into actual buildings (we can re-use this to dismantle)
     for index, building_type of @clan.proposed_buildings
-      @clan.buildings[index] = {
-        building_type: building_type,
-        construction: 0,
-        required_construction: DATA['buildings'][building_type]['required_construction']
-      }
+      if building_type != 'null'
+        @clan.buildings[index] = {
+          building_type: building_type,
+          construction: 0,
+          required_construction: DATA['buildings'][building_type]['required_construction']
+        }
+      else
+        @clan.buildings[index] = { building_type: false, construction: 1, required_construction: 1 }
 
     @clan.proposed_buildings = {}
 
