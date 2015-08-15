@@ -7,4 +7,5 @@ OverviewStat = React.createClass
     <li>
       <span className="label">{@props.label}:</span>&nbsp;
       {@props.value}
+      {<StatWarning label={@props.warning} /> if @props.warning}
     </li>

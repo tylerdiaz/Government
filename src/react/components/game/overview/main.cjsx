@@ -33,14 +33,17 @@ OverviewStats = React.createClass
         <OverviewStat
           label="#{@state.clan.clan_size} Morale"
           value={(@state.clan.morale.toFixed(1))+"%"}
+          warning={ 'Mutiny risk' if @state.clan.morale < 20 }
         />
         <OverviewStat
           label="Glowstones"
           value={Math.floor(@state.resources.glowstones).format()}
+          warning={ 'Bankruptcy' if @state.resources.glowstones < 10 }
         />
         <OverviewStat
           label="Meals"
           value={Math.floor(@state.resources.meal).format()}
+          warning={ 'Starvation' if @state.resources.meal < 30 }
         />
       </ul>
     </div>
