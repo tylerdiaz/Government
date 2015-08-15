@@ -23,6 +23,9 @@ class EventTick
     if @event.dismissed_countdown <= 0
       @event.hidden = true
 
+class UnitTick
+  constructor: (@unit) ->
+
 class GameTick
   constructor: (@clan) ->
     @clock = new GameClock(@clan.state_data.tick_counter)
@@ -39,10 +42,6 @@ class GameTick
     if @clock.isNewMorrow()
       @clan.units = @tickUnits(@clan.units, @clock.isNewRabbit())
 
-      # Loop through the units' perks and assigned
-      # targets, and see if there's anything that can
-      # be done to exercise the duty they're assigned.
-      # Some duties are reactive, others are proactive.
       for unit, unitIndex in @clan.units
         if unit.perks is undefined or unit.on_duty is false
           continue
