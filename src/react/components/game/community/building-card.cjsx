@@ -11,6 +11,7 @@ BuildingCard = React.createClass
       <div className="unit_info">
         <span className="unit_name">#{@props.index + 1} {@props.obj.building_type.humanize()}</span> <br />
         <div>
+          <div className="unit_injured" style={background: 'orange'}>Under construction</div>
           <em className="unit_status">
             Some stuff here
           </em>
