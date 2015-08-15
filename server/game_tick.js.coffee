@@ -14,6 +14,15 @@ class GameClock
     @morrows = Math.floor(@tick_count / Global.ticks_per_morrow)
     @rabbits = Math.floor(@morrows / CONFIG.calendar.morrows_per_rabbit)
 
+# @clan in EventTick is read-only
+class EventTick
+  constructor: (@event, @clan) ->
+    @dismissal_countdown() if @event.dismissed && @event.hidden is false
+  dismissal_countdown: ->
+    @event.dismissed_countdown = (@event.dismissed_countdown - 1)
+    if @event.dismissed_countdown <= 0
+      @event.hidden = true
+
 class GameTick
   constructor: (@clan) ->
     @clock = new GameClock(@clan.state_data.tick_counter)
@@ -46,13 +55,8 @@ class GameTick
             @clan[unit.duty_target_type][unit.duty_target_id] = perk_fn.perk_target
 
     # Time to progress event threads/handle event pool
-    for clan_event, event_index in @clan.events
-      if clan_event.dismissed
-        @clan.events[event_index]['dismissed_countdown'] =
-          (@clan.events[event_index]['dismissed_countdown'] - 1)
-
-        if @clan.events[event_index]['dismissed_countdown'] <= 0
-          @clan.events[event_index]['hidden'] = true
+    for @event, event_index in @clan.events
+      @clan.events[event_index] = new EventTick(@event, @clan).event
 
     # Convert proposed buildings into actual buildings (we can re-use this to dismantle)
     for index, building_type of @clan.proposed_buildings
