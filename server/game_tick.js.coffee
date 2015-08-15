@@ -15,24 +15,23 @@ class GameTick
       # targets, and see if there's anything that can
       # be done to exercise the duty they're assigned.
       # Some duties are reactive, others are proactive.
-
       for unit, unitIndex in @clan.units
-        if unit.perks is undefined or unit.on_duty is false # grr... firebase...
+        if unit.perks is undefined or unit.on_duty is false
           continue
 
-        for perk, perkIndex in unit.perks
-          perk_fn = @runPerk(
-            unit,
-            perk,
-            @clan[unit.duty_target_type][unit.duty_target_id]
-          )
+        console.log 'perk target:', unit.duty_target_type, unit.name, unit.duty_target_id
 
+        for perk, perkIndex in unit.perks
+          perk_fn = @runPerk(unit, perk, @clan[unit.duty_target_type][unit.duty_target_id])
           if perk_fn.perk_target
             @clan[unit.duty_target_type][unit.duty_target_id] = perk_fn.perk_target
 
+    # Time to progress event threads/handle event pool
     for clan_event, event_index in @clan.events
       if clan_event.dismissed
-        @clan.events[event_index]['dismissed_countdown'] = @clan.events[event_index]['dismissed_countdown'] - 1
+        @clan.events[event_index]['dismissed_countdown'] =
+          (@clan.events[event_index]['dismissed_countdown'] - 1)
+
         if @clan.events[event_index]['dismissed_countdown'] <= 0
           @clan.events[event_index]['hidden'] = true
 
@@ -49,14 +48,13 @@ class GameTick
 
     @clan.proposed_buildings = {}
 
-    # run building stuff here, which may add to formulas in real-time
-    if @isNewMorrow(@clan.state_data.tick_counter)
-      @clan.morale = (
-        parseFloat(@clan.morale) + @unitMoraleOffset(@clan.units)
-      )
+    # run building perks here, which may add to formulas in real-time
 
+    if @isNewMorrow(@clan.state_data.tick_counter)
+      @clan.morale = parseFloat(@clan.morale) + @unitMoraleOffset(@clan.units)
       @resource_calc.runFormulas(runtime_formulas)
 
+    # update affected resources
     @clan.resources = @resource_calc.resources
 
   runPerk: (unit, perk, target) ->
@@ -69,6 +67,15 @@ class GameTick
             resource_value: perk.resource_value
           }, (@clan.resources[perk.resource_type] || 0)).perk_target
       else if mechanics['perk_type'] is 'building_construction'
+        if (target.construction >= target.required_construction)
+          unitIndex = @clan.units.indexOf(unit)
+          @clan.units[unitIndex]['on_duty'] = false
+          @clan.units[unitIndex]['duty_target_type'] = false
+          @clan.units[unitIndex]['duty_target_id'] = false
+          @clan.units[unitIndex]['duty_description'] = "Relaxing after finishing #{target.building_type}"
+          # more short-circuit to prevent over-building
+          return false;
+
         total_costs = @calculateBuildingCosts(target, perk.resource_value)
         can_afford_building_construction = true
         for resource, cost of total_costs

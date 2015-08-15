@@ -6,5 +6,5 @@ BattleView = React.createClass
     @bindAsObject(Global.firebaseRef.child("battles/#{Global.userId}/#{@props.params[0]}"), "battle")
   render: ->
     <div>
-        Here goes a battle: {@state.id} / {@state.battle.title}
+      Here goes a battle: {@state.id} / {@state.battle.title}
     </div>
