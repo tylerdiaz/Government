@@ -26,7 +26,6 @@ ResourceTable = React.createClass
           <ResourceRow
             resource={key}
             amount={@state.resources[key]}
-            description={'description implementation pending...'}
             key={i}
           />
       }
@@ -50,7 +49,8 @@ ResourceRow = React.createClass
     else if nextProps.amount < @props.amount
       @setState({ progress: 'down', difference: nextProps.amount-@props.amount })
     else
-      @setState({ progress: null, difference: 0 })
+      # @setState({ progress: 'stable', difference: null })
+      @setState({ progress: false, difference: null })
 
   render: ->
     <tr>
@@ -62,4 +62,3 @@ ResourceRow = React.createClass
       </td>
       <td>{@resource_descriptions[@props.resource] || 'No description for this resource'}</td>
     </tr>
-
