@@ -49,7 +49,8 @@ class GameTick
         console.log 'perk target:', unit.duty_target_type, unit.name, unit.duty_target_id
 
         for perk, perkIndex in unit.perks
-          perk_fn = @runPerk(unit, perk, @clan[unit.duty_target_type][unit.duty_target_id])
+          target = @clan[unit.duty_target_type][unit.duty_target_id]
+          perk_fn = @runPerk(unit, perk, target)
           if perk_fn.perk_target
             @clan[unit.duty_target_type][unit.duty_target_id] = perk_fn.perk_target
 
