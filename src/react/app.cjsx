@@ -44,7 +44,7 @@ Index = React.createClass
     WorldTabChild =
       switch (@props.route)
         when 'community' then CommunityTab
-        when 'explore' then ExploreTab
+        when 'tavern' then TavernTab
         when 'recipes' then RecipesTab
         when 'unit' then UnitView
         when 'buildings' then BuildingView
@@ -58,8 +58,8 @@ Index = React.createClass
         <div className="sections">
           <ul className="game_tabs">
             <WorldTab label="Oversight" hash="oversight" current={@props.route} />
-            <WorldTab label="Community" hash="community" current={@props.route} />
-            <WorldTab label="Expand & Explore" hash="explore" current={@props.route} />
+            <WorldTab label="Your #{@state.clan.clan_size}" hash="community" current={@props.route} />
+            <WorldTab label="a dim tavern" hash="tavern" current={@props.route} />
           </ul>
           <div>
             <WorldTabChild data={@state} params={@props.params} />
