@@ -29,15 +29,6 @@ BuildingView = React.createClass
           </ul>
           <hr />
           <div style={margin: '0 0 0 -15px'}>
-            <table className="resource_table">
-              <thead>
-                <th>Cost</th>
-                <th>Amount</th>
-              </thead>
-              <tbody>
-                <tr><td>Construction required:</td><td>{@state.building.required_construction}</td></tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </div>
