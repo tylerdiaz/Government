@@ -21,7 +21,7 @@ BuildingCard = React.createClass
               <div className="unit_injured" style={background: 'orange'}>Under construction</div>
           }
           <em className="unit_status">
-            Some stuff here
+            { CONFIG.building_descriptions[@props.obj.building_type]}
           </em>
           { " \u2022 " }
           {

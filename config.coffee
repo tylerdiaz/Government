@@ -1,6 +1,9 @@
 CONFIG =
   scouting_focus_options: ['food', 'weapons', 'looting']
   denormalized_tables: ['units', 'resources', 'state_data', 'formulas', 'events', 'battles', 'territories', 'buildings']
+  building_descriptions:
+    cabin: 'A place for x2 extra villagers to reside'
+    'comedy-inn': 'Somewhere for villagers to unwind after work'
   resource_descriptions:
     # culinary ingredients
     meal: 'Meals are used to feed your population'
