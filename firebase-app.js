@@ -47,6 +47,9 @@ function merge_options(obj1,obj2){
 }
 
 var firebaseData = {
+  config: {
+    server_name: "Aave",
+  },
   clans: {
     "simplelogin:1": {
       clan_size: "village",
@@ -85,7 +88,7 @@ var firebaseData = {
   resources: {
     "simplelogin:1": {
       glowstones: 1200,
-      lumber: 125,
+      lumber: 500,
       meal: 1000,
       rice: 1000,
       beef: 250,
@@ -121,20 +124,11 @@ var firebaseData = {
           perks: [
             {
                 resource_type: 'construction',
-                resource_value: 1,
+                resource_value: 10,
                 frequency: 'morrow',
                 on_duty_contingency: true,
             }
           ]
-        }
-      ),
-      merge_options(
-        default_unit_json, {
-          id: Math.floor((Math.random() * 10000) + 1000),
-          name: 'Tybalt',
-          title: 'Spearman',
-          profession: 'spearman',
-          img: 'units/spearman.png'
         }
       ),
       merge_options(
@@ -167,12 +161,7 @@ var firebaseData = {
         building_type: 'cabin',
         construction: 200,
         required_construction: 200,
-      },
-      {
-        building_type: false,
-        construction: 1,
-        required_construction: 1
-      },
+      }
     ]
   },
   maps: {
