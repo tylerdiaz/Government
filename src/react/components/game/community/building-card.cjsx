@@ -1,4 +1,9 @@
 BuildingCard = React.createClass
+  destroyBuilding: (e) ->
+    e.preventDefault()
+    Global.firebaseRef.child("clans/#{Global.userId}/proposed_buildings/#{@props.index}")
+                      .set('null')
+
   render: ->
     building_condition = (@props.obj.construction / @props.obj.required_construction) * 100
 
@@ -11,12 +16,20 @@ BuildingCard = React.createClass
       <div className="unit_info">
         <span className="unit_name">#{@props.index + 1} {@props.obj.building_type.humanize()}</span> <br />
         <div>
-          <div className="unit_injured" style={background: 'orange'}>Under construction</div>
+          {
+            if @props.obj.construction != @props.obj.required_construction
+              <div className="unit_injured" style={background: 'orange'}>Under construction</div>
+          }
           <em className="unit_status">
             Some stuff here
           </em>
           { " \u2022 " }
-          <a href="#buildings-#{@props.index}">(info)</a>
+          {
+            if @props.obj.construction is @props.obj.required_construction
+              <a href="#" onClick={@destroyBuilding}>demolish</a>
+            else
+              <a href="#" onClick={@destroyBuilding}>cancel construction</a>
+          }
         </div>
       </div>
     </div>
