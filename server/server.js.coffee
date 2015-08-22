@@ -11,19 +11,24 @@ GameState =
   activeClans: []
   clanDataStructureKeys: []
 
+merge = (xs...) ->
+  if xs?.length > 0
+    tap {}, (m) -> m[k] = v for k, v of x for x in xs
+
+tap = (o, fn) -> fn(o); o
+
 joinPaths = (id, paths, fn) ->
   returnCount = 0
   expectedCount = paths.length
   mergedObject = {}
-
   paths.forEach (p) ->
     Global.firebaseRef.child(p + '/' + id).once 'value', (snap) ->
       if p in CONFIG.denormalized_tables
         mergedObject[p] = snap.val()
       else
-        _.extend(mergedObject, snap.val()) # root table
+        mergedObject = merge(mergedObject, snap.val()) # root table
 
-      fn(null, mergedObject) if (++returnCount is expectedCount)
+      fn(null, mergedObject, id) if (++returnCount is expectedCount)
     ,
       (error) ->
         returnCount = expectedCount + 1 # abort counters
@@ -35,7 +40,7 @@ Global.firebaseRef.child("clans").on "child_added", (snapshot) ->
 
 GameState.mainCycle = setInterval( ->
   for clanKey in GameState.activeClans
-    joinPaths clanKey, CONFIG.denormalized_tables.concat(['clans']), (err, combined_value) ->
+    joinPaths clanKey, CONFIG.denormalized_tables.concat(['clans']), (err, combined_value, newKey) ->
       frozen_start_value = JSON.parse(JSON.stringify(combined_value))
       game_tick = new GameTick(combined_value)
 
@@ -44,11 +49,10 @@ GameState.mainCycle = setInterval( ->
       # to keep things convinient for development.
       actuated_clan_data = {}
       actuated_clan_data[k] = game_tick.clan[k] for k in GameState.clanDataStructureKeys
-      Global.firebaseRef.child("clans/#{clanKey}").set(actuated_clan_data)
+      Global.firebaseRef.child("clans/#{newKey}").set(actuated_clan_data)
 
       # branches
       for key in CONFIG.denormalized_tables
         unless _.isEqual(frozen_start_value[key], game_tick.clan[key])
-          Global.firebaseRef.child("#{key}/#{clanKey}").set(game_tick.clan[key])
-
+          Global.firebaseRef.child("#{key}/#{newKey}").set(game_tick.clan[key])
 , Global.tickRate)
