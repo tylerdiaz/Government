@@ -486,3 +486,27 @@ ul.event_stream {
   opacity:0.6;
   padding:25px 10px 30px;
 }
+
+.chat_room {
+  display:block;
+  height:320px;
+  overflow-y:scroll;
+  li { margin-bottom:5px; }
+}
+.chat-textbox {
+  border:2px solid rgba(0, 0, 0, 0.3);
+  padding:10px;
+  border-radius:4px;
+  margin-bottom:20px;
+  &:focus { color:white; border-color:white; }
+}
+.status_online, .status_offline, .status_away {
+  display:inline-block;
+  width:8px;
+  height:8px;
+  background:lime;
+  border-radius:8px;
+  margin:2px 4px 0 0;
+}
+.status_offline { background:#aaa; }
+.status_away { background:#aa0; }

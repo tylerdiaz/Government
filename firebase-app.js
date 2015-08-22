@@ -50,6 +50,7 @@ var firebaseData = {
   config: {
     server_name: "Aave",
   },
+  chat: [],
   clans: {
     "simplelogin:1": {
       clan_size: "village",
