@@ -58,7 +58,7 @@ Index = React.createClass
             <WorldTab label="a dim tavern" hash="tavern" current={@props.route} />
           </ul>
           <div>
-            <WorldTabChild data={@state} params={@props.params} />
+            <WorldTabChild data={@state} params={@props.params} user={@props.user}/>
           </div>
         </div>
       </div>
@@ -109,9 +109,21 @@ App = React.createClass
       </div>
     </div>
 
+setStatusAs = (status) ->
+  Global.firebaseRef.child("presence/#{Global.userId}/presence").set(status)
+
 init = ->
   unless store.enabled
     alert('Local storage is not supported by your browser. Please disable "Private Mode", or upgrade to a modern browser.')
+
+  @setStatusAs('online')
+
+  $(document).idle
+    onIdle: ->
+      @setStatusAs('away')
+    onActive: ->
+      @setStatusAs('online')
+    idle: 60000
 
   React.render(<App />, document.body)
 

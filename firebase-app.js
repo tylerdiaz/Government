@@ -72,6 +72,7 @@ var firebaseData = {
       proposed_buildings: {},
     },
   },
+  presence: {},
   users: {
     "simplelogin:1": {
       name: "Tyler",
