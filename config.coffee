@@ -1,4 +1,5 @@
 CONFIG =
+  firebase_url: 'ws://local.firebaseio.com:5111'
   scouting_focus_options: ['food', 'weapons', 'looting']
   denormalized_tables: ['units', 'resources', 'state_data', 'formulas', 'events', 'battles', 'territories', 'buildings']
   building_descriptions:

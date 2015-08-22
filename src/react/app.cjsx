@@ -1,8 +1,4 @@
-# if navigator.onLine
-#   firebaseUrl = ""
-# else
-
-firebaseUrl = "ws://local.firebaseio.com:5111"
+firebaseUrl = CONFIG.firebase_url
 joinPaths = (id, paths, fn) ->
   returnCount = 0
   expectedCount = paths.length
