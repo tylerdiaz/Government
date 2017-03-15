@@ -75,16 +75,7 @@ randomPW = Math.random().toString(36).slice(-12)
 
 medievalVillages = ["Glassmount", "Fairfield", "Stonecastle", "Redwyvern", "Wintercoast", "Highbarrow", "Wildefort", "Ironbridge", "Bluehill", "Foxland", "Whitedell", "Summerelf", "Woodview", "Rosewall", "Oakcliff", "Brightbourne"]
 
-firebaseRef.createUser({
-  email    : argv.email,
-  password : randomPW,
-}, (error, userData) ->
-  if error
-    console.log("Error creating user:", error, userData)
-  else
-    new_uID = userData.uid
-    console.log("Successfully created user account with uid:", userData.uid)
-
+createNewVillage = (new_uID) ->
     clan = new Clan({ name: medievalVillages[Math.floor(Math.random()*medievalVillages.length)]})
     firebaseRef.child("clans/#{new_uID}").set(clan.data)
 
@@ -127,8 +118,21 @@ firebaseRef.createUser({
     firebaseRef.child("battles/#{new_uID}").set({
       'f2jq0fj291': {
         title: 'A fierce battle',
+        attackers: ["mobs/1"],
+        defenders: ["units/simplelogin:1/0", "units/simplelogin:1/2"],
         logs: [],
       }
+    })
+
+    # battle stub
+    firebaseRef.child("mobs/1").set({
+      name: 'Wild Bear',
+      img: 'wildlife/bear.png',
+      max_hp: 10,
+      current_hp: 10,
+      damage: [1, 3],
+      accuracy: 0.5,
+      lvl: 1
     })
 
     firebaseRef.child("events/#{new_uID}").set([
@@ -211,5 +215,20 @@ firebaseRef.createUser({
     # The actual user data.
     firebaseRef.child("units/#{new_uID}").set([scout.data, spearman.data, lumberman.data, builder.data])
 
-)
+if (firebase_url[0] is "h") # if it's an https url...
+  firebaseRef.createUser({
+    email    : argv.email,
+    password : randomPW,
+  }, (error, userData) ->
+    if error
+      console.log("Error creating user:", error, userData)
+    else
+      new_uID = userData.uid
+      console.log("Successfully created user account with uid:", userData.uid)
+      createNewVillage(new_uID)
+  )
+else
+  # have to do it this way since the firebase server doesn't support login
+  createNewVillage('simplelogin:1')
+
 console.log "Username: #{argv.email}, Password: #{randomPW}"
